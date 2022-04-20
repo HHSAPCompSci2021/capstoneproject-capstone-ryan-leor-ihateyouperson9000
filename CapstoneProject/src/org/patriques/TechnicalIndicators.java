@@ -1,6 +1,6 @@
 package org.patriques;
 
-import org.patriques.input.Function;
+import org.patriques.input.Function; 
 import org.patriques.input.Symbol;
 import org.patriques.input.technicalindicators.*;
 import org.patriques.output.technicalindicators.*;
