@@ -1,1 +1,10 @@
+gradle.properties
+howto-merge-PR.md
+build/
+target/
+out/
+.DS_Store
+.gradle/
+.idea
+*.iml
 /bin/
