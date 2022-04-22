@@ -1,6 +1,6 @@
-package org.patriques;
+package test;
 
-import org.junit.Test;
+//import org.junit.Test; 
 import org.patriques.input.timeseries.Interval;
 import org.patriques.input.timeseries.OutputSize;
 import org.patriques.output.AlphaVantageException;
@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+//import static org.hamcrest.CoreMatchers.equalTo;
+//import static org.hamcrest.CoreMatchers.is;
+//import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TimeSeriesTest {
   private TimeSeries timeSeries;
