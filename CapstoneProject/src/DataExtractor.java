@@ -4,8 +4,19 @@
  * Author: Ryan Xu
  * Version: 5/5/22
  */
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class DataExtractor {
 
@@ -37,11 +48,20 @@ public class DataExtractor {
 	 * 
 	 * @pre must import earnings data to folder and rename it "financials.txt"
 	 * @param name the filename
+	 * @throws FileNotFoundException 
 	 * @post docInfo is appended by the data in the file
 	 */
 	public void addFile() {
-//		FileReader r = new FileReader(DOC_NAME); //still have to add the file
+		/*
+		Path path = Paths.get("financials.txt");
+		try {
+			docInfo = Files.readString(path, StandardCharsets.ISO_8859_1);
+		} catch (IOException e) {
+			
+		}
+		*/
 		
+        
 	}
 	
 	/**
