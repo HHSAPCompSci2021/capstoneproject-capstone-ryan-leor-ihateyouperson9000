@@ -2,14 +2,14 @@ import rxu770.shapes.Rectangle;
 
 public class Button {
 
-	private Rectangle button;
+	private Rectangle border;
 	private boolean isPressed;
 	
 	/**
-	 * Creates a new Button that isn't pressed at 0,0
+	 * Creates a new Button that isn't pressed at (0,0)
 	 */
 	public Button() {
-		button = new Rectangle();
+		border = new Rectangle();
 		isPressed = false;
 	}
 	
@@ -21,31 +21,43 @@ public class Button {
 	 * @param height the height of the button
 	 */
 	public Button(double x, double y, double width, double height) {
-		button = new Rectangle(x, y, width, height);
+		border = new Rectangle(x, y, width, height);
 		isPressed = false;
 	}
+	
 	/**
 	 * Returns the Rectangle of the Button
 	 * @return rectangle Rectangle of button
 	 */
-	public Rectangle getButton() {
-		return button;
+	public Rectangle getBorder() {
+		return border;
+	}
+	
+	public void moveTo(double x, double y) {
+		border.setX(x);
+		border.setY(y);
 	}
 	
 	/**
 	 * Checks if the Button is Pressed or not
 	 * @return boolean stating whether this Button is pressed
 	 */
-	public boolean getPressed() {
+	public boolean isPressed() {
 		return isPressed;
 	}
 	
 	/**
-	 * Sets the button to pressed or not based on input
-	 * @param pressed 
+	 * Sets the button to pressed
 	 */
-	public void setPressed(boolean pressed) {
-		isPressed = pressed;
+	public void press() {
+		isPressed = true;
+	}
+	
+	/**
+	 * Sets the button to unpressed
+	 */
+	public void unpress() { 
+		isPressed = false;
 	}
 	
 }
