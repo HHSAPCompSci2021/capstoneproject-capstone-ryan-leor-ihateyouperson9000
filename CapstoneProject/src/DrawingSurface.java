@@ -33,8 +33,8 @@ public class DrawingSurface extends PApplet {
 	 */
 	public DrawingSurface() {
 		lineButton = new Button(0, 0, 50, 50);
-		eraserButton = new Button(0, 50, 100, 50);
-		pointerButton = new Button(0, 100, 150, 50);
+		eraserButton = new Button(0, 50, 50, 50);
+		pointerButton = new Button(0, 100, 50, 50);
 		chart = new ArrayList<Line>();
 	}
 	

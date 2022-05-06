@@ -6,11 +6,13 @@
  */
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import rxu770.shapes.Rectangle;
 
 public class Button {
 
 	private Rectangle border;
+	// private PImage img;
 	private boolean isPressed;
 	
 	/**
@@ -31,6 +33,7 @@ public class Button {
 	public Button(double x, double y, double width, double height) {
 		border = new Rectangle(x, y, width, height);
 		isPressed = false;
+		// img = new loadImage("eraser.png");
 	}
 	
 	/**
