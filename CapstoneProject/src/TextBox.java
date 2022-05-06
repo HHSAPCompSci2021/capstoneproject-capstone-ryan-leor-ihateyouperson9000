@@ -51,6 +51,15 @@ public class TextBox {
 	}
 	
 	/**
+	 * Returns the last inputted text
+	 * 
+	 * @return input
+	 */
+	public String getInput() {
+		return input;
+	}
+	
+	/**
 	 * Moves the TextBox to a given location
 	 * @param x x coordinate to move to
 	 * @param y y coordinate to move to
@@ -67,7 +76,7 @@ public class TextBox {
 	 * 
 	 * @post input is set equal to str
 	 */
-	public void typed(String str) {
+	public void input(String str) {
 		input = str;
 	}
 	
