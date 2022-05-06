@@ -5,6 +5,7 @@
  * Version: 5/6/22
  */
 
+import processing.core.PApplet;
 import rxu770.shapes.Rectangle;
 
 public class Button {
@@ -50,6 +51,16 @@ public class Button {
 	public void moveTo(double x, double y) {
 		border.setX(x);
 		border.setY(y);
+	}
+	
+	
+	/**
+	 * Draws this button to the PApplet drawer
+	 * @param drawer the surface the button is being drawn on
+	 */
+	public void draw(PApplet drawer) {
+		drawer.rect((float)border.getX(), (float)border.getY(), (float)border.getWidth(), (float)border.getHeight());
+		
 	}
 	
 	/**

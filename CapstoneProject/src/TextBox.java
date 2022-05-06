@@ -1,9 +1,10 @@
 /**
  * Represents a rectangular box that can display text and be typed into
  * 
- * Author: Ryan Xu
+ * Author: Ryan Xu, Leor Porat
  * Version: 5/6/22
  */
+import processing.core.PApplet;
 import rxu770.shapes.Rectangle;
 
 public class TextBox {
@@ -31,6 +32,16 @@ public class TextBox {
 	public TextBox(double x, double y, double width, double height, String str) {
 		border = new Rectangle(x, y, width, height);
 		text = str;
+	}
+	
+	/**
+	 * Draws the button at the current parameters
+	 * @param marker
+	 */
+	public void draw(PApplet marker) {
+		border.draw(marker);
+		marker.text(text, (float) border.getX(), (float)border.getY());
+		
 	}
 	
 	/**

@@ -7,18 +7,35 @@
 import java.awt.Point; 
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import processing.core.PApplet;
+import rxu770.shapes.Line;
 
 
-
+/**
+ * Represents the surface that the Program is run on
+ * @author Leor Porat, Ryan Xu
+ *
+ */
 public class DrawingSurface extends PApplet {
 
+	
+	private Button lineButton;
+	private Button eraserButton;
+	private Button pointerButton;
+	private Button calculateDCF;
+	private TextBox ticker;
+	private ArrayList<Line> chart;
+	
 	/**
 	 * Creates a DrawingSurface object
 	 */
 	public DrawingSurface() {
-		
+		lineButton = new Button(0, 0, 50, 50);
+		eraserButton = new Button(0, 50, 100, 50);
+		pointerButton = new Button(0, 100, 150, 50);
+		chart = new ArrayList<Line>();
 	}
 	
 	/**
@@ -35,7 +52,9 @@ public class DrawingSurface extends PApplet {
 		fill(0);
 		textAlign(LEFT);
 		textSize(12);
-		
+		lineButton.draw(this);
+		eraserButton.draw(this);
+		pointerButton.draw(this);
 		
 	}
 	

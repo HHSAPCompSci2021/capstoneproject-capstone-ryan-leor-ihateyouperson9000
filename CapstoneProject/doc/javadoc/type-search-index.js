@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"Button"},{"p":"<Unnamed>","l":"DataExtractor"},{"p":"<Unnamed>","l":"DcfCalculator"},{"p":"<Unnamed>","l":"DrawingSurface"},{"p":"<Unnamed>","l":"StockVisualizer"},{"p":"<Unnamed>","l":"TextBox"}];updateSearchResults();
