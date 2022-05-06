@@ -4,7 +4,7 @@
  * Author: Ryan Xu
  * Version: 5/5/22
  */
-import java.io.File;
+import java.io.File; 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -52,14 +52,14 @@ public class DataExtractor {
 	 * @post docInfo is appended by the data in the file
 	 */
 	public void addFile() {
-		/*
+		
 		Path path = Paths.get("financials.txt");
 		try {
 			docInfo = Files.readString(path, StandardCharsets.ISO_8859_1);
 		} catch (IOException e) {
 			
 		}
-		*/
+		
 		
         
 	}
