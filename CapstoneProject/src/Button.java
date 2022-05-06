@@ -1,3 +1,10 @@
+/**
+ * Represents a rectangular button that can be pressed
+ * 
+ * Author: Leor Porat, Ryan Xu
+ * Version: 5/6/22
+ */
+
 import rxu770.shapes.Rectangle;
 
 public class Button {
