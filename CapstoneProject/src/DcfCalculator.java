@@ -12,7 +12,7 @@ public class DcfCalculator {
 	private double wacc;
 	private final int YEARS = 5;
 	private ArrayList<String> data;
-	private final String[] neededData = {"EAG", "WACC"};
+	private final String[] NEEDED_DATA = {"EAG", "WACC"};
 	
 	/**
 	 * Creates a DcfCalculator that instantiates data (field) to the desired data 
@@ -23,7 +23,7 @@ public class DcfCalculator {
 	public DcfCalculator() {
 		DataExtractor e = new DataExtractor();
 		e.addFile();
-		e.addWords(neededData);
+		e.addWords(NEEDED_DATA);
 		data = e.extractData();
 	}
 

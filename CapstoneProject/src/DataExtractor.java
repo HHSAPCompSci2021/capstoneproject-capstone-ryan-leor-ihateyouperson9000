@@ -13,6 +13,9 @@ public class DataExtractor {
 	private final String DOC_NAME = "financials.txt";
 	private String docInfo;
 	
+	/**
+	 * Creates a DataExtractor object
+	 */
 	public DataExtractor() {
 		
 	}
