@@ -11,25 +11,14 @@ import processing.core.PApplet;
 
 public class DrawingSurface extends PApplet {
 
-	private Life board;
-	private int runCount;
-	private int speed;
-	private Point prevToggle;
-	
-	private final int MAX_SPEED = 480, MIN_SPEED = 15;
-	
 	
 	public DrawingSurface() {
-		board = new Life("testinputs/text100.txt");
-		runCount = -1;
-		speed = 120;
-		prevToggle = null;
+		
 	}
 	
 	// The statements in the setup() function 
 	// execute once when the program begins
 	public void setup() {
-		//size(0,0,PApplet.P3D);
 	}
 	
 	// The statements in draw() are executed until the 
@@ -44,19 +33,35 @@ public class DrawingSurface extends PApplet {
 		
 		text("Enter: Run 1 step\nSpace: Start/Stop\nUp arrow: Increase speed\nDown arrow: Decrease speed\n\nSpeed: " + (60.0/speed) + " per sec", height+20, 30);
 		
-		if (runCount == 0) {
-			board.step();
-			runCount = speed;
-		} else if (runCount > 0) {
-			runCount--;
-		}
-		
-		if (board != null) {
-			board.draw(this, 0, 0, height, height);
-		}
+	
 		
 	}
 	
+	/**
+	 * (Graphical UI)
+	 * Determines which element of the grid matches with a particular pixel coordinate.
+	 * This supports interaction with the grid using mouse clicks in the window.
+	 * 
+	 * @param p A Point object containing a graphical pixel coordinate.
+	 * @param x The x pixel coordinate of the upper left corner of the grid drawing. 
+	 * @param y The y pixel coordinate of the upper left corner of the grid drawing.
+	 * @param width The pixel width of the grid drawing.
+	 * @param height The pixel height of the grid drawing.
+	 * @return A Point object representing a coordinate within the game of life grid.
+	 */
+	public Point clickToIndex(Point p, float x, float y, float width, float height) {
+
+		int j = 0;
+		int i = 0;
+		
+		if (!(p.x > x + width || p.y > y+height || p.x < x || p.y < y)) { //range check
+			j = (int) (p.y * grid.length / height);
+			i = (int) (p.x * grid[0].length / width);
+		}
+		
+		Point result = new Point(i, j);
+		return result;
+	}
 	
 	public void mousePressed() {
 		if (mouseButton == LEFT) {
