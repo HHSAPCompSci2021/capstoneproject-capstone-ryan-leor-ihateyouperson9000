@@ -26,21 +26,28 @@ public class Button {
 	}
 	
 	/**
-	 * Returns the Rectangle of the Button
-	 * @return rectangle Rectangle of button
+	 * Returns the Rectangle that is the border of the Button
+	 * @return border
 	 */
 	public Rectangle getBorder() {
 		return border;
 	}
 	
+	/**
+	 * Moves the button to a given location
+	 * @param x x coordinate to move to
+	 * @param y y coordinate to move to
+	 * @post sets x coordinate to given x
+	 * @post sets y coordinate to given y
+	 */
 	public void moveTo(double x, double y) {
 		border.setX(x);
 		border.setY(y);
 	}
 	
 	/**
-	 * Checks if the Button is Pressed or not
-	 * @return boolean stating whether this Button is pressed
+	 * Checks if the Button is pressed or not
+	 * @return true if pressed, false if not
 	 */
 	public boolean isPressed() {
 		return isPressed;
