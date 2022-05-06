@@ -1,6 +1,4 @@
 
-
-
 import java.awt.Point; 
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
@@ -32,8 +30,6 @@ public class DrawingSurface extends PApplet {
 		textSize(12);
 		
 		text("Enter: Run 1 step\nSpace: Start/Stop\nUp arrow: Increase speed\nDown arrow: Decrease speed\n\nSpeed: " + (60.0/speed) + " per sec", height+20, 30);
-		
-	
 		
 	}
 	
