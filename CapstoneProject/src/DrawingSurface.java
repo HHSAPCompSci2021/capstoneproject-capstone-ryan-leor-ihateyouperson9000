@@ -55,7 +55,6 @@ public class DrawingSurface extends PApplet {
 		lineButton.draw(this);
 		eraserButton.draw(this);
 		pointerButton.draw(this);
-		
 	}
 	
 	/**

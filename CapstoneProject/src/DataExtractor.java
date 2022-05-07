@@ -47,20 +47,16 @@ public class DataExtractor {
 	 * Adds file data with given name to docInfo, can add multiple files just replace the data file each time and call
 	 * 
 	 * @pre must import earnings data to folder and rename it "financials.txt"
-	 * @param name the filename
-	 * @throws FileNotFoundException 
 	 * @post docInfo is appended by the data in the file
 	 */
 	public void addFile() {
 		
-		Path path = Paths.get("financials.txt");
+		Path path = Paths.get("DOC_NAME");
 		try {
-			docInfo = Files.readString(path, StandardCharsets.ISO_8859_1);
+			docInfo += Files.readString(path, StandardCharsets.ISO_8859_1);
 		} catch (IOException e) {
-			
+			System.out.println(DOC_NAME + " not found");
 		}
-		
-		
         
 	}
 	
@@ -86,7 +82,10 @@ public class DataExtractor {
 			if (docInfo.indexOf(word) != 0) {
 				int index = docInfo.indexOf(word) + word.length();
 				String str = docInfo.substring(index);
-				data.add(word + ": " + docInfo.substring(index, str.indexOf(" ")) + "\n");
+				data.add(word + ": " + docInfo.substring(index, str.indexOf(" ")));
+			}
+			else {
+				data.add("0"); //0 might not be appropriate if some values can reasonably exist as 0
 			}
 		}
 		

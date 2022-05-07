@@ -8,11 +8,9 @@ import java.util.ArrayList;
 
 public class DcfCalculator {
 
-	private double eag;
-	private double wacc;
 	private final int YEARS = 5;
-	private ArrayList<String> data;
-	private final String[] NEEDED_DATA = {"EAG", "WACC"};
+	private ArrayList<Double> data;
+	private final String[] NEEDED_DATA = {"Expected Annual Growth", "Weighted Average"};
 	
 	/**
 	 * Creates a DcfCalculator that instantiates data (field) to the desired data 
@@ -24,17 +22,9 @@ public class DcfCalculator {
 		DataExtractor e = new DataExtractor();
 		e.addFile();
 		e.addWords(NEEDED_DATA);
-		data = e.extractData();
-	}
-
-	/**
-	 * Sets each respective field of needed data to their correct values
-	 * 
-	 * @post eag is set to the eag
-	 * @post wacc is set to the wacc
-	 */
-	private void setData() {
-		
+		for (String s : e.extractData()) {
+			data.add(Double.parseDouble(s));
+		}
 	}
 	
 	/**
@@ -43,6 +33,9 @@ public class DcfCalculator {
 	 * @return target price
 	 */
 	public double calcPriceTarget() {
+		double eag = data.get(0); //expected 
+		double wacc = data.get(1);
+		
 		return 0.0;
 	}
 	
