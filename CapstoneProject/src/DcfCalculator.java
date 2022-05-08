@@ -8,9 +8,12 @@ import java.util.ArrayList;
 
 public class DcfCalculator {
 
-	private final int YEARS = 5;
+	
 	private ArrayList<Double> data;
 	private final String[] NEEDED_DATA = {"Expected Annual Growth", "Weighted Average"};
+	
+	private final double MARKET_RATE = 0.08;
+	private final int YEARS = 5;
 	
 	/**
 	 * Creates a DcfCalculator that instantiates data (field) to the desired data 
