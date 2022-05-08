@@ -13,7 +13,9 @@ public class DcfCalculator {
 	private final String[] NEEDED_DATA = {"Expected Annual Growth", "Weighted Average"};
 	
 	private final double MARKET_RATE = 0.08;
-	private final int YEARS = 5;
+	private final int YEARS = 5; //depends on the mkt cap (intraday) [current] , statistics
+	private double dilutedeps; //(ttm) , statistics
+	private double averagegrossprofit; //Gross Profit , financials
 	
 	/**
 	 * Creates a DcfCalculator that instantiates data (field) to the desired data 
