@@ -8,6 +8,7 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import processing.core.PApplet;
 import rxu770.shapes.Line;
@@ -24,6 +25,7 @@ public class DrawingSurface extends PApplet {
 	private Button lineButton;
 	private Button eraserButton;
 	private Button pointerButton;
+	private Button boxButton;
 	private Button calculateDCF;
 	private TextBox ticker;
 	private ArrayList<Line> chart;
@@ -32,9 +34,10 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface object
 	 */
 	public DrawingSurface() {
-		lineButton = new Button(0, 0, 50, 50);
-		eraserButton = new Button(0, 50, 50, 50);
-		pointerButton = new Button(0, 100, 50, 50);
+		lineButton = new Button(0, 0, 50, 50, "line.png", this);
+		boxButton = new Button(0, 150, 50, 50, "rectangle.png", this);
+		eraserButton = new Button(0, 50, 50, 50, "eraser.png", this);
+		pointerButton = new Button(0, 100, 50, 50, "cursor.png", this);
 		chart = new ArrayList<Line>();
 	}
 	
@@ -85,15 +88,41 @@ public class DrawingSurface extends PApplet {
 	 * Saves the coordinate that was clicked by the mouse
 	 */
 	public void mousePressed() {
-//		if (mouseButton == LEFT) {
-//			Point click = new Point(mouseX,mouseY);
-//			float dimension = height;
-//			Point cellCoord = board.clickToIndex(click,0,0,dimension,dimension);
-//			if (cellCoord != null) {
-//				board.toggleCell(cellCoord.x, cellCoord.y);
-//				prevToggle = cellCoord;
-//			}
-//		} 
+		if (mouseButton == LEFT) {
+			if (lineButton.getBorder().isPointInside(mouseX, mouseY)) {
+				if (lineButton.isPressed()) {
+					lineButton.unpress();
+				} else {
+					lineButton.press();
+				}
+			}
+			if (eraserButton.getBorder().isPointInside(mouseX, mouseY)) {
+				if (eraserButton.isPressed()) {
+					eraserButton.unpress();
+				} else {
+					eraserButton.press();
+				}
+			}
+			if (pointerButton.getBorder().isPointInside(mouseX, mouseY)) {
+				if (pointerButton.isPressed()) {
+					pointerButton.unpress();
+				} else {
+					pointerButton.press();
+				}
+			}
+			if (boxButton.getBorder().isPointInside(mouseX, mouseY)) {
+				if (boxButton.isPressed()) {
+					boxButton.unpress();
+				} else {
+					boxButton.press();
+				}
+			}
+			if (ticker.getBorder().isPointInside(mouseX, mouseY)) {
+				Scanner reader = new Scanner(System.in);
+				String n = reader.next();
+				ticker.setString(n);
+			}
+		} 
 	}
 	
 	/**

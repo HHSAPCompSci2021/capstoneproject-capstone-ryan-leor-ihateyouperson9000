@@ -12,7 +12,7 @@ import rxu770.shapes.Rectangle;
 public class Button {
 
 	private Rectangle border;
-	// private PImage img;
+	private PImage img;
 	private boolean isPressed;
 	
 	/**
@@ -21,6 +21,7 @@ public class Button {
 	public Button() {
 		border = new Rectangle();
 		isPressed = false;
+		img = null;
 	}
 	
 	/**
@@ -30,10 +31,10 @@ public class Button {
 	 * @param width the width of the button
 	 * @param height the height of the button
 	 */
-	public Button(double x, double y, double width, double height) {
+	public Button(double x, double y, double width, double height, String imageName, PApplet drawer) {
 		border = new Rectangle(x, y, width, height);
 		isPressed = false;
-		// img = new loadImage("eraser.png");
+		img = drawer.loadImage(imageName);
 	}
 	
 	/**
@@ -63,7 +64,7 @@ public class Button {
 	 */
 	public void draw(PApplet drawer) {
 		drawer.rect((float)border.getX(), (float)border.getY(), (float)border.getWidth(), (float)border.getHeight());
-		
+		drawer.image(img, (float)border.getX(), (float)border.getY());
 	}
 	
 	/**

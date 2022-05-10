@@ -87,7 +87,7 @@ public class TextBox {
 	 * 
 	 * @post input is set equal to str
 	 */
-	public void input(String str) {
+	public void setString(String str) {
 		input = str;
 	}
 	
