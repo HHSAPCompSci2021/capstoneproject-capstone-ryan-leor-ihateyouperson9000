@@ -23,6 +23,7 @@ public class TextBox {
 	
 	/**
 	 * Creates a new TextBox with the inputted values
+	 * 
 	 * @param x the x coordinate for the TextBox to be created at
 	 * @param y the y coordinate for the TextBox to be created at
 	 * @param width the width of the TextBox
@@ -36,7 +37,8 @@ public class TextBox {
 	
 	/**
 	 * Draws the button at the current parameters
-	 * @param marker
+	 * 
+	 * @param marker PApplet to draw on
 	 */
 	public void draw(PApplet marker) {
 		border.draw(marker);
@@ -85,6 +87,7 @@ public class TextBox {
 	/**
 	 * Sets input (field) to a given string that was typed in the textbox
 	 * 
+	 * @param str given string
 	 * @post input is set equal to str
 	 */
 	public void setString(String str) {
