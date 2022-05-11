@@ -66,6 +66,8 @@ public class DrawingSurface extends PApplet {
 		lineButton.draw(this);
 		eraserButton.draw(this);
 		pointerButton.draw(this);
+		boxButton.draw(this);
+		calculateDCF.draw(this);
 	}
 	
 	/**
@@ -132,9 +134,20 @@ public class DrawingSurface extends PApplet {
 	 * Saves the string that was typed
 	 */
 	public void keyPressed() {
-
 		
 	}
+	
+	public void mouseDragged() {
+		if (eraserButton.isPressed()) {
+			this.stroke(255);
+			this.circle(mouseX, mouseY, 5);
+		} else if (lineButton.isPressed()) {
+			Point first = new Point(mouseX, mouseY);
+			
+		}
+	}
+	
+	
 
 	
 }

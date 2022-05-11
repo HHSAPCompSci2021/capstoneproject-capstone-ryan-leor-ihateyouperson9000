@@ -58,7 +58,6 @@ public class DataExtractor {
 		} catch (IOException e) {
 			System.out.println(DOC_NAME + " not found");
 		}
-        
 	}
 	
 	/**
