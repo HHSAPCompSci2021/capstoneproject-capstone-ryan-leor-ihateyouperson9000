@@ -61,6 +61,15 @@ public class DataExtractor {
 	}
 	
 	/**
+	 * Returns the parsed String version of the file
+	 * 
+	 * @return docInfo
+	 */
+	public String getFile() {
+		return docInfo;
+	}
+	
+	/**
 	 * Clears the data
 	 * 
 	 * @post docInfo is set to ""
@@ -80,9 +89,13 @@ public class DataExtractor {
 		
 		for (String word : keywords) {
 			if (docInfo.indexOf(word) != 0) {
-				int index = docInfo.indexOf(word) + word.length();
-				String str = docInfo.substring(index);
-				data.add(word + ": " + docInfo.substring(index, str.indexOf(" ")));
+				
+				if (word.indexOf("\t") != 0) {
+					addLineData(data, word);
+				}
+				else {
+					addData(data, word);
+				}
 			}
 			else {
 				data.add("0"); //0 might not be appropriate if some values can reasonably exist as 0
@@ -90,5 +103,51 @@ public class DataExtractor {
 		}
 		
 		return data;
+	}
+	
+	/**
+	 * Adds a singular desired data value to data in extractData()
+	 * 
+	 * @param data the ArrayList of Strings from extractData()
+	 * @param word the desired word
+	 * @post the desired data is added to data
+	 */
+	private void addData(ArrayList<String> data, String word) {
+		int index = docInfo.indexOf(word) + word.length();
+		String str = docInfo.substring(index);
+		if (str.indexOf("\t") != 0) //if there's more data further 
+			data.add(word + ": " + docInfo.substring(index, str.indexOf("\t")));
+		else if (str.indexOf("\n") != 0) //if the data is the last of the row
+			data.add(word + ": " + docInfo.substring(index, str.indexOf("\n")));
+		else { //if data is at the end of the file
+			data.add(word + ": " + docInfo.substring(index, str.length()));
+		}
+	}
+	
+	/**
+	 * Adds all data in the row containing desired data to data in extractData()
+	 * 
+	 * @param data the ArrayList of Strings from extractData()
+	 * @param word the desired word
+	 * @post the row of desired data is added to data
+	 */
+	private void addLineData(ArrayList<String> data, String word) {
+		
+		int index = docInfo.indexOf(word) + word.length();
+		String str = docInfo.substring(index);
+			
+			while (str.indexOf("\t") != 0) { //if there's more data further (separated by tab)
+	
+				String temp = docInfo.substring(index, str.indexOf("\t"));
+				data.add(word + ": " + temp);
+				
+				index += temp.length();
+				str = docInfo.substring(index);
+			}
+			if (str.indexOf("\n") != 0) //if the data is the last of the row
+				data.add(word + ": " + docInfo.substring(index, str.indexOf("\n")));
+			else { //if data is at the end of the file
+				data.add(word + ": " + docInfo.substring(index, str.length()));
+			}
 	}
 }

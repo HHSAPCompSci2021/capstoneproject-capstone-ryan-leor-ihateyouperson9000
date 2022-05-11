@@ -8,14 +8,12 @@ import java.util.ArrayList;
 
 public class DcfCalculator {
 
-	
 	private ArrayList<Double> data;
-	private final String[] NEEDED_DATA = {"Expected Annual Growth", "Weighted Average"};
-	
+	private final String[] NEEDED_DATA = {"Diluted EPS (ttm)", "Gross Profit\t", };
 	private final double MARKET_RATE = 0.08;
 	private final int YEARS = 5; //depends on the mkt cap (intraday) [current] , statistics
 	private double dilutedeps; //(ttm) , statistics
-	private double averagegrossprofit; //Gross Profit , financials
+	private double averagegrossprofit; // , financials
 	
 	/**
 	 * Creates a DcfCalculator that instantiates data (field) to the desired data 
@@ -38,8 +36,8 @@ public class DcfCalculator {
 	 * @return target price
 	 */
 	public double calcPriceTarget() {
-		double eag = data.get(0); //expected 
-		double wacc = data.get(1);
+		double eps = data.get(0); //expected 
+		double avgGross =  (data.get(2)/data.get(3)-1 + data.get(3)/data.get(4)-1 + data.get(4)/data.get(5)-1)/3;
 		
 		return 0.0;
 	}
