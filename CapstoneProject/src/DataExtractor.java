@@ -1,5 +1,5 @@
 /**
- * Extracts desired financial data from the text file named "financials.txt"
+ * Extracts desired financial data from the text file named "financials.txt" 
  * 
  * Author: Ryan Xu
  * Version: 5/5/22
@@ -20,7 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class DataExtractor {
 
-	private String[] keywords;
+	private ArrayList<String> keywords;
 	private final String DOC_NAME = "financials.txt";
 	private String docInfo;
 	
@@ -28,7 +28,7 @@ public class DataExtractor {
 	 * Creates a DataExtractor object
 	 */
 	public DataExtractor() {
-		addWords(keywords);
+		keywords = new ArrayList<String>();
 		docInfo = "";
 	}
 	
@@ -40,7 +40,7 @@ public class DataExtractor {
 	 */
 	public void addWords(String[] words) {
 		for (int i=0; i<words.length; i++) {
-			keywords[i] = words[i];
+			keywords.add(words[i]);
 		}
 	}
 	
@@ -138,7 +138,7 @@ public class DataExtractor {
 			
 			while (str.indexOf("\t") != 0) { //if there's more data further (separated by tab)
 	
-				String temp = docInfo.substring(index, str.indexOf("\t"));
+				String temp = docInfo.substring(index, str.indexOf("\t")+1);
 				data.add(word + ": " + temp);
 				
 				index += temp.length();

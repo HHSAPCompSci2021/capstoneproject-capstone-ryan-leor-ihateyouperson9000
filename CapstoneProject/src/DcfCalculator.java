@@ -10,12 +10,12 @@ public class DcfCalculator {
 
 	private ArrayList<Double> data;
 	private final String[] NEEDED_DATA = {"Diluted EPS (ttm)", "Gross Profit\t", };
-	private final double MARKET_RATE = 0.08;
+											//in statistics       //in financials
+	private final double MARKET_RATE = 0.1;
 	private final int YEARS = 5; //depends on the mkt cap (intraday) [current] , statistics
-	private double dilutedeps; //(ttm) , statistics
-	private double averagegrossprofit; // , financials
+	private final double AFTER_RATE = 0;
 	
-	/**
+	/**3
 	 * Creates a DcfCalculator that instantiates data (field) to the desired data 
 	 * 
 	 * @pre only call when there exists a "financials.txt" in src
@@ -26,7 +26,7 @@ public class DcfCalculator {
 		e.addFile();
 		e.addWords(NEEDED_DATA);
 		for (String s : e.extractData()) {
-			data.add(Double.parseDouble(s));
+			data.add(Double.parseDouble(s)); //auto removes any \t etc
 		}
 	}
 	
@@ -37,7 +37,7 @@ public class DcfCalculator {
 	 */
 	public double calcPriceTarget() {
 		double eps = data.get(0); //expected 
-		double avgGross =  (data.get(2)/data.get(3)-1 + data.get(3)/data.get(4)-1 + data.get(4)/data.get(5)-1)/3;
+		double avgGrowth =  (data.get(2)/data.get(3)-1 + data.get(3)/data.get(4)-1 + data.get(4)/data.get(5)-1)/3;
 		
 		return 0.0;
 	}
