@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import rxu770.shapes.Line;
 
 
@@ -29,6 +30,7 @@ public class DrawingSurface extends PApplet {
 	private Button calculateDCF;
 	private TextBox ticker;
 	private ArrayList<Line> chart;
+	private PImage line, rectangle, eraser, cursor, calculator;
 	
 	/**
 	 * Creates a DrawingSurface object
@@ -38,6 +40,7 @@ public class DrawingSurface extends PApplet {
 		boxButton = new Button(0, 150, 50, 50, "rectangle.png", this);
 		eraserButton = new Button(0, 50, 50, 50, "eraser.png", this);
 		pointerButton = new Button(0, 100, 50, 50, "cursor.png", this);
+		calculateDCF = new Button(0, 200, 50, 50, "calculator.png", this);
 		chart = new ArrayList<Line>();
 	}
 	
@@ -45,6 +48,11 @@ public class DrawingSurface extends PApplet {
 	 * Executes when the program begins
 	 */
 	public void setup() {
+		line = this.loadImage("line.png");
+		rectangle = this.loadImage("rectangle.png");
+		eraser = this.loadImage("eraser.png");
+		cursor = this.loadImage("cursor.png");
+		calculator = this.loadImage("calculator.png");
 	}
 	
 	/**
@@ -74,11 +82,6 @@ public class DrawingSurface extends PApplet {
 
 		int j = 0;
 		int i = 0;
-		
-//		if (!(p.x > x + width || p.y > y+height || p.x < x || p.y < y)) { //range check
-//			j = (int) (p.y * grid.length / height);
-//			i = (int) (p.x * grid[0].length / width);
-//		}
 		
 		Point result = new Point(i, j);
 		return result;
@@ -129,19 +132,8 @@ public class DrawingSurface extends PApplet {
 	 * Saves the string that was typed
 	 */
 	public void keyPressed() {
-//		if (keyCode == KeyEvent.VK_SPACE) {
-//			if (runCount >= 0)
-//				runCount = -1;
-//			else
-//				runCount = 0;
-//		} else if (keyCode == KeyEvent.VK_DOWN) {
-//			speed = Math.min(MAX_SPEED, speed*2);
-//		} else if (keyCode == KeyEvent.VK_UP) {
-//			speed = Math.max(MIN_SPEED, speed/2);
-//			runCount = Math.min(runCount, speed);
-//		} else if (keyCode == KeyEvent.VK_ENTER) {
-//			board.step();
-//		}
+
+		
 	}
 
 	

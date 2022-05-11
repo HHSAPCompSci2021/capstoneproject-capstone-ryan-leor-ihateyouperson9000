@@ -28,7 +28,8 @@ public class DataExtractor {
 	 * Creates a DataExtractor object
 	 */
 	public DataExtractor() {
-		
+		addWords(keywords);
+		docInfo = "";
 	}
 	
 	/**
@@ -51,7 +52,7 @@ public class DataExtractor {
 	 */
 	public void addFile() {
 		
-		Path path = Paths.get("DOC_NAME");
+		Path path = Paths.get(DOC_NAME);
 		try {
 			docInfo += Files.readString(path, StandardCharsets.ISO_8859_1);
 		} catch (IOException e) {
