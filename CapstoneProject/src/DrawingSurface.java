@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import com.crazzyghost.alphavantage.AlphaVantage;
 import com.crazzyghost.alphavantage.Config;
+import com.crazzyghost.alphavantage.Fetcher;
 import com.crazzyghost.alphavantage.UrlExtractor;
 import com.crazzyghost.alphavantage.forex.request.IntraDayRequest;
 import com.crazzyghost.alphavantage.forex.request.MonthlyRequest;
@@ -21,6 +22,7 @@ import com.crazzyghost.alphavantage.parameters.DataType;
 import com.crazzyghost.alphavantage.parameters.Interval;
 import com.crazzyghost.alphavantage.parameters.OutputSize;
 import com.crazzyghost.alphavantage.timeseries.TimeSeries;
+import com.crazzyghost.alphavantage.timeseries.request.DailyRequest;
 import com.crazzyghost.alphavantage.timeseries.request.TimeSeriesRequest;
 
 import processing.core.PApplet;
@@ -51,24 +53,42 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface object
 	 */
 	public DrawingSurface() {
+		chart = new ArrayList<Line>();
 		
 		cfg = Config.builder()
 			    .key("K3GVRKJIDYNUZPZM")
 			    .timeOut(10)
 			    .build();
 		AlphaVantage.api().init(cfg);
-		chart = new ArrayList<Line>();
+		
+		getData();
 	}
 	
 	
 	public void getData() {
-		String expected = "https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=IBM&datatype=json&apikey=demo";
-        TimeSeriesRequest request = new MonthlyRequest.Builder()
-            .forSymbol("IBM")
-            .adjusted()
-            .dataType(DataType.JSON)
-            .build();
-        assertEquals(expected, Config.BASE_URL + UrlExtractor.extract(request) + "demo");  
+//		String expected = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&datatype=json&apikey=demo";
+//        TimeSeriesRequest request = new DailyRequest.Builder()
+//            .forSymbol("IBM")
+//            .dataType(DataType.JSON)
+//            .build();
+//        assertEquals(expected, Config.BASE_URL + UrlExtractor.extract(request) + "demo");  
+		
+		 AlphaVantage.api()
+         .timeSeries()
+         .daily()
+         .forSymbol("AAPL")
+//         .onSuccess(Fetcher.SuccessCallback<TimeSeriesResponse>)
+//         .onFailure(Fetcher.FailureCallback)
+         .fetch();
+		 
+//		 AlphaVantage.api()
+//		 .timeSeries()
+//		 .daily()
+//		 .forSymbol("AAPL")
+//		 .outputSize(OutputSize.FULL)
+//		 .dataType(DataType.JSON)
+//		 .onSuccess(e->onData((e.getStockUnits())))
+//		 .fetch();
 	}
 	/**
 	 * Executes when the program begins
@@ -100,6 +120,7 @@ public class DrawingSurface extends PApplet {
 		pointerButton.draw(this);
 		boxButton.draw(this);
 		calculateDCF.draw(this);
+	
 	}
 	
 	/**

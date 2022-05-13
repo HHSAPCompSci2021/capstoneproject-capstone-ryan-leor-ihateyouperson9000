@@ -5,19 +5,22 @@
  * Version: 5/5/22
  */
 
-import java.awt.Dimension;
+import java.awt.Dimension; 
 
 import javax.swing.JFrame;
 
+import com.crazzyghost.alphavantage.timeseries.TimeSeries;
+
 import processing.awt.PSurfaceAWT;
 import processing.core.PApplet;
+
 
 public class StockVisualizer {
 //	com.crazzyghost.alphavantage
 	public static void main(String[] args) {
 	// TODO Auto-generated method stub
-	DrawingSurface drawing = new DrawingSurface();
-	PApplet.runSketch(new String[]{""}, drawing);
+		DrawingSurface drawing = new DrawingSurface();
+		PApplet.runSketch(new String[]{""}, drawing);
 		PSurfaceAWT surf = (PSurfaceAWT) drawing.getSurface();
 		PSurfaceAWT.SmoothCanvas canvas = (PSurfaceAWT.SmoothCanvas) surf.getNative();
 		JFrame window = (JFrame)canvas.getFrame();
@@ -38,6 +41,9 @@ public class StockVisualizer {
 //		System.out.println(s.indexOf("\t"));
 //		System.out.println(s.lastIndexOf("\t"));
 //		System.out.println(Double.parseDouble(s)+3);
+		
+//		 TimeSeriesTest timeSeries;
+		 
 		
 	}
 
