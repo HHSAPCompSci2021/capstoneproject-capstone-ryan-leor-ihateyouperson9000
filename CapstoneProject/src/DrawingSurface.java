@@ -10,6 +10,9 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.crazzyghost.alphavantage.AlphaVantage;
+import com.crazzyghost.alphavantage.Config;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import rxu770.shapes.Line;
@@ -31,12 +34,19 @@ public class DrawingSurface extends PApplet {
 	private TextBox ticker;
 	private ArrayList<Line> chart;
 	private PImage line, rectangle, eraser, cursor, calculator;
+	private Config cfg;
 	
 	/**
 	 * Creates a DrawingSurface object
 	 */
 	public DrawingSurface() {
 		
+		cfg = Config.builder()
+			    .key("K3GVRKJIDYNUZPZM")
+			    .timeOut(10)
+			    .build();
+		AlphaVantage.api().init(cfg);
+		AlphaVantage.api().fundamentalData();
 		chart = new ArrayList<Line>();
 	}
 	
