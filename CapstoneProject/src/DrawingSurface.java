@@ -12,6 +12,16 @@ import java.util.Scanner;
 
 import com.crazzyghost.alphavantage.AlphaVantage;
 import com.crazzyghost.alphavantage.Config;
+import com.crazzyghost.alphavantage.UrlExtractor;
+import com.crazzyghost.alphavantage.forex.request.IntraDayRequest;
+import com.crazzyghost.alphavantage.forex.request.MonthlyRequest;
+import com.crazzyghost.alphavantage.fundamentaldata.response.BalanceSheetResponse;
+import com.crazzyghost.alphavantage.fundamentaldata.response.EarningsResponse;
+import com.crazzyghost.alphavantage.parameters.DataType;
+import com.crazzyghost.alphavantage.parameters.Interval;
+import com.crazzyghost.alphavantage.parameters.OutputSize;
+import com.crazzyghost.alphavantage.timeseries.TimeSeries;
+import com.crazzyghost.alphavantage.timeseries.request.TimeSeriesRequest;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -35,6 +45,7 @@ public class DrawingSurface extends PApplet {
 	private ArrayList<Line> chart;
 	private PImage line, rectangle, eraser, cursor, calculator;
 	private Config cfg;
+	private TimeSeries stockTimeSeries = new TimeSeries(null);
 	
 	/**
 	 * Creates a DrawingSurface object
@@ -46,10 +57,19 @@ public class DrawingSurface extends PApplet {
 			    .timeOut(10)
 			    .build();
 		AlphaVantage.api().init(cfg);
-		AlphaVantage.api().fundamentalData();
 		chart = new ArrayList<Line>();
 	}
 	
+	
+	public void getData() {
+		String expected = "https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=IBM&datatype=json&apikey=demo";
+        TimeSeriesRequest request = new MonthlyRequest.Builder()
+            .forSymbol("IBM")
+            .adjusted()
+            .dataType(DataType.JSON)
+            .build();
+        assertEquals(expected, Config.BASE_URL + UrlExtractor.extract(request) + "demo");  
+	}
 	/**
 	 * Executes when the program begins
 	 */
