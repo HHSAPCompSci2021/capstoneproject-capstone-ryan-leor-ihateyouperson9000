@@ -44,11 +44,11 @@ public class DrawingSurface extends PApplet {
 	 * Executes when the program begins
 	 */
 	public void setup() {
-		line = this.loadImage("line.png");
-		rectangle = this.loadImage("rectangle.png");
-		eraser = this.loadImage("eraser.png");
-		cursor = this.loadImage("cursor.png");
-		calculator = this.loadImage("calculator.png");
+		// line = this.loadImage("line.png");
+		// rectangle = this.loadImage("rectangle.png");
+		// eraser = this.loadImage("eraser.png");
+		// cursor = this.loadImage("cursor.png");
+		// calculator = this.loadImage("calculator.png");
 		
 		lineButton = new Button(0, 0, 50, 50, "line.png", this);
 		boxButton = new Button(0, 150, 50, 50, "rectangle.png", this);
