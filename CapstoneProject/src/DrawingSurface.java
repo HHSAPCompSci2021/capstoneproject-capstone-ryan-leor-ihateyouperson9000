@@ -4,7 +4,7 @@
  * Author: Ryan Xu
  * Version: 5/6/22
  */
-import java.awt.Point; 
+import java.awt.Point;  
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -36,11 +36,7 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface object
 	 */
 	public DrawingSurface() {
-		lineButton = new Button(0, 0, 50, 50, "line.png", this);
-		boxButton = new Button(0, 150, 50, 50, "rectangle.png", this);
-		eraserButton = new Button(0, 50, 50, 50, "eraser.png", this);
-		pointerButton = new Button(0, 100, 50, 50, "cursor.png", this);
-		calculateDCF = new Button(0, 200, 50, 50, "calculator.png", this);
+		
 		chart = new ArrayList<Line>();
 	}
 	
@@ -53,6 +49,12 @@ public class DrawingSurface extends PApplet {
 		eraser = this.loadImage("eraser.png");
 		cursor = this.loadImage("cursor.png");
 		calculator = this.loadImage("calculator.png");
+		
+		lineButton = new Button(0, 0, 50, 50, "line.png", this);
+		boxButton = new Button(0, 150, 50, 50, "rectangle.png", this);
+		eraserButton = new Button(0, 50, 50, 50, "eraser.png", this);
+		pointerButton = new Button(0, 100, 50, 50, "cursor.png", this);
+		calculateDCF = new Button(0, 200, 50, 50, "calculator.png", this);
 	}
 	
 	/**
