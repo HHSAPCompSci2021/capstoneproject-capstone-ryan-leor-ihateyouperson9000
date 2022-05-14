@@ -45,17 +45,18 @@ public class DrawingSurface extends PApplet {
 	private Button boxButton;
 	private Button calculateDCF;
 	private TextBox ticker;
-	private ArrayList<Line> chart;
 	private ArrayList<StockUnit> data;
 	private PImage line, rectangle, eraser, cursor, calculator;
 	private Config cfg;
 	private TimeSeries stockTimeSeries = new TimeSeries(null);
 	
+	private boolean dataGood;
+	
 	/**
 	 * Creates a DrawingSurface object
 	 */
 	public DrawingSurface() {
-		chart = new ArrayList<Line>();
+		dataGood = false;
 		
 		cfg = Config.builder()
 			    .key("K3GVRKJIDYNUZPZM")
@@ -83,10 +84,14 @@ public class DrawingSurface extends PApplet {
 		    .onSuccess(e->handleSuccess(e))
 		    .onFailure(e->handleFailure(e))
 		    .fetch();
+		 
+		 System.out.println("Ran");
 	}
 	
 	public void handleSuccess(Object e) {
+		System.out.println("Run");
 	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
+	    dataGood = true;
 	}
 	public void handleFailure(AlphaVantageException error) {
 	    System.out.println("API Failed in getData()");
@@ -108,6 +113,8 @@ public class DrawingSurface extends PApplet {
 		eraserButton = new Button(0, 50, 50, 50, "eraser.png", this);
 		pointerButton = new Button(0, 100, 50, 50, "cursor.png", this);
 		calculateDCF = new Button(0, 200, 50, 50, "calculator.png", this);
+		
+		
 	}
 	
 	/**
@@ -124,8 +131,10 @@ public class DrawingSurface extends PApplet {
 		boxButton.draw(this);
 		calculateDCF.draw(this);
 	
-		for (int e=0; e<data.length; e+=2) {
-			Line l = new Line(data.get(e).getDate(), data.get(e).getClose(), data.get(e+1).getDate(), data.get(e+1).getClose());
+		if (dataGood) {
+			for (int e=0; e<data.size(); e+=2) {
+	//			Line l = new Line(data.get(e).getDate(), data.get(e).getClose(), data.get(e+1).getDate(), data.get(e+1).getClose());
+			}
 		}
 	}
 	

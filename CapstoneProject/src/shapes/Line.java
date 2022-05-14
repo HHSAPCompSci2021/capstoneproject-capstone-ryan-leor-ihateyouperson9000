@@ -9,6 +9,25 @@ public class Line extends Shape {
 	private double x2, y2;
 	private double length;
 	
+	
+	/**
+	 * Creates a Line with given parameters
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @pre x1 > 0
+	 * @pre y1 > 0
+	 * @pre x2 > 0
+	 * @pre y2 > 0
+	 */
+	public Line(String s1, double y1, String s2, double y2) {
+		this.x2 = x2;
+		this.y2 = y2;
+		length = Math.sqrt(Math.pow(Math.abs(x2-x1), 2) + Math.pow(Math.abs(y2-y1), 2));
+	}
+	
 	/**
 	 * Creates a Line with given parameters
 	 * 
@@ -46,6 +65,7 @@ public class Line extends Shape {
 		this.length = length;
 	}
 	
+
 	/**
 	 * Gets the x coordinate of the second point in a line
 	 * 
