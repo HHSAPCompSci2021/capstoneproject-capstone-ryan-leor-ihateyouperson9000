@@ -4,18 +4,17 @@
  * Author: Ryan Xu
  * Version: 5/6/22
  */
-import java.awt.Point;  
+import java.awt.Point;   
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.crazzyghost.alphavantage.AlphaVantage;
+import com.crazzyghost.alphavantage.AlphaVantageException;
 import com.crazzyghost.alphavantage.Config;
 import com.crazzyghost.alphavantage.Fetcher;
 import com.crazzyghost.alphavantage.UrlExtractor;
-import com.crazzyghost.alphavantage.forex.request.IntraDayRequest;
-import com.crazzyghost.alphavantage.forex.request.MonthlyRequest;
 import com.crazzyghost.alphavantage.fundamentaldata.response.BalanceSheetResponse;
 import com.crazzyghost.alphavantage.fundamentaldata.response.EarningsResponse;
 import com.crazzyghost.alphavantage.parameters.DataType;
@@ -24,6 +23,8 @@ import com.crazzyghost.alphavantage.parameters.OutputSize;
 import com.crazzyghost.alphavantage.timeseries.TimeSeries;
 import com.crazzyghost.alphavantage.timeseries.request.DailyRequest;
 import com.crazzyghost.alphavantage.timeseries.request.TimeSeriesRequest;
+import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
+import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -45,6 +46,7 @@ public class DrawingSurface extends PApplet {
 	private Button calculateDCF;
 	private TextBox ticker;
 	private ArrayList<Line> chart;
+	private ArrayList<StockUnit> data;
 	private PImage line, rectangle, eraser, cursor, calculator;
 	private Config cfg;
 	private TimeSeries stockTimeSeries = new TimeSeries(null);
@@ -72,32 +74,25 @@ public class DrawingSurface extends PApplet {
 //            .dataType(DataType.JSON)
 //            .build();
 //        assertEquals(expected, Config.BASE_URL + UrlExtractor.extract(request) + "demo");  
-		AlphaVantage.api()
-	    .timeSeries()
-	    .daily()
-	    .forSymbol("AAPL")
-	    .outputSize(OutputSize.FULL)
-	    .dataType(DataType.JSON)
-	    .onSuccess(e->onData(e.getStockUnits()))
-	    .fetch();
-		 System.out.println();
-        // TimeSeries ts = new TimeSeries(cfg);
-      //   IntraDayRequest idr = ts.intraday();
-	//	 AlphaVantage.api().timeSeries()
-  //       .daily()
-//         .forSymbol("AAPL")
-//         .onSuccess(Fetcher.SuccessCallback<TimeSeriesResponse>)
-//         .onFailure(Fetcher.FailureCallback)
-  //       .fetch();
-//		 AlphaVantage.api()
-//		 .timeSeries()
-//		 .daily()
-//		 .forSymbol("AAPL")
-//		 .outputSize(OutputSize.FULL)
-//		 .dataType(DataType.JSON)
-//		 .onSuccess(e->onData((e.getStockUnits())))
-//		 .fetch();
+
+		 AlphaVantage.api()
+		    .timeSeries()
+		    .daily()
+		    .forSymbol("AAPL")
+		    .outputSize(OutputSize.FULL)
+		    .onSuccess(e->handleSuccess(e))
+		    .onFailure(e->handleFailure(e))
+		    .fetch();
 	}
+	
+	public void handleSuccess(Object e) {
+	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
+	}
+	public void handleFailure(AlphaVantageException error) {
+	    System.out.println("API Failed in getData()");
+	}
+	
+	
 	/**
 	 * Executes when the program begins
 	 */
@@ -129,6 +124,13 @@ public class DrawingSurface extends PApplet {
 		boxButton.draw(this);
 		calculateDCF.draw(this);
 	
+		for (int e=0; e<data.length; e+=2) {
+			Line l = new Line(data.get(e).getDate(), data.get(e).getClose(), data.get(e+1).getDate(), data.get(e+1).getClose());
+		}
+	}
+	
+	private void draw(ArrayList<StockUnit> data) {
+		
 	}
 	
 	/**
