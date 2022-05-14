@@ -72,15 +72,23 @@ public class DrawingSurface extends PApplet {
 //            .dataType(DataType.JSON)
 //            .build();
 //        assertEquals(expected, Config.BASE_URL + UrlExtractor.extract(request) + "demo");  
-		
-		 AlphaVantage.api()
-         .timeSeries()
-         .daily()
-         .forSymbol("AAPL")
+		AlphaVantage.api()
+	    .timeSeries()
+	    .daily()
+	    .forSymbol("AAPL")
+	    .outputSize(OutputSize.FULL)
+	    .dataType(DataType.JSON)
+	    .onSuccess(e->onData(e.getStockUnits()))
+	    .fetch();
+		 System.out.println();
+        // TimeSeries ts = new TimeSeries(cfg);
+      //   IntraDayRequest idr = ts.intraday();
+	//	 AlphaVantage.api().timeSeries()
+  //       .daily()
+//         .forSymbol("AAPL")
 //         .onSuccess(Fetcher.SuccessCallback<TimeSeriesResponse>)
 //         .onFailure(Fetcher.FailureCallback)
-         .fetch();
-		 
+  //       .fetch();
 //		 AlphaVantage.api()
 //		 .timeSeries()
 //		 .daily()
