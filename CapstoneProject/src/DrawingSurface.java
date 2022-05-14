@@ -133,6 +133,12 @@ public class DrawingSurface extends PApplet {
 	
 		if (dataGood) {
 			for (int e=0; e<data.size(); e+=2) {
+				int year1 = parseInt(data.get(e).getDate().substring(0,4));
+				int month1 = parseInt(data.get(e).getDate().substring(5,7));
+				int day1 = parseInt(data.get(e).getDate().substring(8,10));
+				int year2 = parseInt(data.get(e+1).getDate().substring(0,4));
+				int month2 = parseInt(data.get(e+1).getDate().substring(0,4));
+				int day2 = parseInt(data.get(e+1).getDate().substring(0,4));
 	//			Line l = new Line(data.get(e).getDate(), data.get(e).getClose(), data.get(e+1).getDate(), data.get(e+1).getClose());
 			}
 		}
