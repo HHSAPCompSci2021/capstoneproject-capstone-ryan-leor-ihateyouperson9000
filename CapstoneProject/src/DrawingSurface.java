@@ -1,7 +1,7 @@
 /**
  * Represents a PApplet that draws the stock chart and UI
  * 
- * Author: Ryan Xu
+ * Author: Leor Porat, Ryan Xu
  * Version: 5/6/22
  */
 import java.awt.Point;   
@@ -69,13 +69,6 @@ public class DrawingSurface extends PApplet {
 	
 	
 	public void getData() {
-//		String expected = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&datatype=json&apikey=demo";
-//        TimeSeriesRequest request = new DailyRequest.Builder()
-//            .forSymbol("IBM")
-//            .dataType(DataType.JSON)
-//            .build();
-//        assertEquals(expected, Config.BASE_URL + UrlExtractor.extract(request) + "demo");  
-
 		 AlphaVantage.api()
 		    .timeSeries()
 		    .daily()
@@ -84,12 +77,9 @@ public class DrawingSurface extends PApplet {
 		    .onSuccess(e->handleSuccess(e))
 		    .onFailure(e->handleFailure(e))
 		    .fetch();
-		 
-		 System.out.println("Ran");
 	}
 	
 	public void handleSuccess(Object e) {
-		System.out.println("Run");
 	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
 	    dataGood = true;
 	}
@@ -113,8 +103,6 @@ public class DrawingSurface extends PApplet {
 		eraserButton = new Button(0, 50, 50, 50, "eraser.png", this);
 		pointerButton = new Button(0, 100, 50, 50, "cursor.png", this);
 		calculateDCF = new Button(0, 200, 50, 50, "calculator.png", this);
-		
-		
 	}
 	
 	/**
@@ -142,10 +130,6 @@ public class DrawingSurface extends PApplet {
 	//			Line l = new Line(data.get(e).getDate(), data.get(e).getClose(), data.get(e+1).getDate(), data.get(e+1).getClose());
 			}
 		}
-	}
-	
-	private void draw(ArrayList<StockUnit> data) {
-		
 	}
 	
 	/**
