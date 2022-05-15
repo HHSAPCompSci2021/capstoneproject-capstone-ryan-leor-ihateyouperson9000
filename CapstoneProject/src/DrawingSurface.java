@@ -46,6 +46,8 @@ public class DrawingSurface extends PApplet {
 	private Button calculateDCF;
 	private TextBox ticker;
 	private ArrayList<StockUnit> data;
+	private int timespan;
+	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D;
 	private PImage line, rectangle, eraser, cursor, calculator;
 	private Config cfg;
 	private TimeSeries stockTimeSeries = new TimeSeries(null);
@@ -57,6 +59,14 @@ public class DrawingSurface extends PApplet {
 	 */
 	public DrawingSurface() {
 		dataGood = false;
+		FIVE_Y = 0; //one data point per week
+		ONE_Y = 365; //one data point per day
+		SIX_M = 0; //one data point per 2hr
+		THREE_M = 0; //one data point per 1hr
+		ONE_M = 0; //one data point per 30min
+		FIVE_D = 0; //one data point per 5min
+		ONE_D = 0; //one data point per 1min
+		timespan = ONE_Y;
 		
 		cfg = Config.builder()
 			    .key("K3GVRKJIDYNUZPZM")
@@ -71,7 +81,7 @@ public class DrawingSurface extends PApplet {
 	public void getData() {
 		 AlphaVantage.api()
 		    .timeSeries()
-		    .daily()
+		    .daily() //change based on timespan
 		    .forSymbol("AAPL")
 		    .outputSize(OutputSize.FULL)
 		    .onSuccess(e->handleSuccess(e))
@@ -113,24 +123,37 @@ public class DrawingSurface extends PApplet {
 		fill(0);
 		textAlign(LEFT);
 		textSize(12);
-		lineButton.draw(this);
-		eraserButton.draw(this);
-		pointerButton.draw(this);
-		boxButton.draw(this);
-		calculateDCF.draw(this);
+//		lineButton.draw(this);
+//		eraserButton.draw(this);
+//		pointerButton.draw(this);
+//		boxButton.draw(this);
+//		calculateDCF.draw(this);
 	
 		if (dataGood) {
-			for (int e=0; e<data.size(); e+=2) {
-				int year1 = parseInt(data.get(e).getDate().substring(0,4));
-				int month1 = parseInt(data.get(e).getDate().substring(5,7));
-				int day1 = parseInt(data.get(e).getDate().substring(8,10));
-				int year2 = parseInt(data.get(e+1).getDate().substring(0,4));
-				int month2 = parseInt(data.get(e+1).getDate().substring(0,4));
-				int day2 = parseInt(data.get(e+1).getDate().substring(0,4));
-	//			Line l = new Line(data.get(e).getDate(), data.get(e).getClose(), data.get(e+1).getDate(), data.get(e+1).getClose());
+			for (int e=0; e<data.size(); e++) {
+//				int year1 = parseInt(data.get(e).getDate().substring(6,10));
+//				int month1 = parseInt(data.get(e).getDate().substring(3,5));
+//				int day1 = parseInt(data.get(e).getDate().substring(0,2));
+//				int year2 = parseInt(data.get(e+1).getDate().substring(6,10));
+//				int month2 = parseInt(data.get(e+1).getDate().substring(3,5));
+//				int day2 = parseInt(data.get(e+1).getDate().substring(0,2));
+				
+				StockUnit[] units = new StockUnit[365]; //change based on timespan
+				for (int i=0; i<365; i++) {
+					units[i] = data.get(i);
+				}
+				
+				double x1 = e/500; //500 is length of jframe
+				double y1 = data.get(e).getClose();
+				double x2 = (e+1)/500;
+				double y2 = data.get(e+1).getClose();
+				
+				Line l = new Line(x1, x2, y1, y2);
+				l.draw(this);
 			}
 		}
 	}
+
 	
 	/**
 	 * Returns the date and close price corresponding to the point clicked
