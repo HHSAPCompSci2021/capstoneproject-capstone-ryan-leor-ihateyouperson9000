@@ -143,10 +143,10 @@ public class DrawingSurface extends PApplet {
 			// shows graph data for one year
 			for (int e = 365; e > 0; e--) {
 				System.out.println("RAN");
-				double x1 = (double)e*(500.0/365); //500 is length of jframe
-				double y1 = data.get(e).getClose();
-				double x2 = (double)e*(500.0/365)+1.0;
-				double y2 = data.get(e-1).getClose();
+				double x1 = 500-(double)e*(500.0/365); //500 is length of jframe
+				double y1 = 500-data.get(e).getClose();
+				double x2 = 500-(double)e*(500.0/365)+1.0;
+				double y2 = 500-data.get(e-1).getClose();
 				
 				Line l = new Line(x1, y1, x2, y2);
 				l.draw(this);
