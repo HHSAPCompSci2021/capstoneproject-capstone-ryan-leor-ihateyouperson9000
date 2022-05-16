@@ -129,29 +129,33 @@ public class DrawingSurface extends PApplet {
 //		boxButton.draw(this);
 //		calculateDCF.draw(this);
 	
+	
+		
 		if (dataGood) {
-			for (int e=0; e<data.size(); e++) {
-//				int year1 = parseInt(data.get(e).getDate().substring(6,10));
-//				int month1 = parseInt(data.get(e).getDate().substring(3,5));
-//				int day1 = parseInt(data.get(e).getDate().substring(0,2));
-//				int year2 = parseInt(data.get(e+1).getDate().substring(6,10));
-//				int month2 = parseInt(data.get(e+1).getDate().substring(3,5));
-//				int day2 = parseInt(data.get(e+1).getDate().substring(0,2));
+		
+		/*
+			for (int e=0; e<data.size()-1; e++) {
 				
 				StockUnit[] units = new StockUnit[365]; //change based on timespan
 				for (int i=0; i<365; i++) {
 					units[i] = data.get(i);
 				}
 				
-				double x1 = e/500; //500 is length of jframe
+		*/	
+			for (int e = 0; e < 365; e++) {
+				double x1 = (double)e; //500 is length of jframe
+				System.out.println("X1: " + x1);
 				double y1 = data.get(e).getClose();
-				double x2 = (e+1)/500;
+				double x2 = (double)e+1.0;
+				System.out.println("X2: " + x2);
 				double y2 = data.get(e+1).getClose();
 				
-				Line l = new Line(x1, x2, y1, y2);
+				Line l = new Line(x1, y1, x2, y2);
 				l.draw(this);
 			}
+			
 		}
+		
 	}
 
 	
