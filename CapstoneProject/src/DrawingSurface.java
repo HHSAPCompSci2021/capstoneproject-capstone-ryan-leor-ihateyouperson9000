@@ -19,6 +19,7 @@ import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 import processing.core.PApplet;
 import processing.core.PImage;
 import rxu770.shapes.Line;
+import rxu770.shapes.Rectangle;
 
 
 /**
@@ -28,7 +29,7 @@ import rxu770.shapes.Line;
  */
 public class DrawingSurface extends PApplet {
 
-	
+	private Rectangle frame;
 	private Button lineButton;
 	private Button eraserButton;
 	private Button pointerButton;
@@ -49,6 +50,7 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface object
 	 */
 	public DrawingSurface() {
+		
 		stockTimeSeries = new TimeSeries(null);
 		dataGood = false;
 		FIVE_Y = 0; //one data point per week
@@ -105,12 +107,11 @@ public class DrawingSurface extends PApplet {
 		// eraser = this.loadImage("eraser.png");
 		// cursor = this.loadImage("cursor.png");
 		// calculator = this.loadImage("calculator.png");
-		
+		frame = new Rectangle(0, 50, 600, 525);
 		lineButton = new Button(0, 0, 50, 50, "line.png", this);
 		boxButton = new Button(0, 150, 50, 50, "rectangle.png", this);
 		eraserButton = new Button(0, 50, 50, 50, "eraser.png", this);
 		pointerButton = new Button(0, 100, 50, 50, "cursor.png", this);
-		calculateDCF = new Button(0, 200, 50, 50, "calculator.png", this);
 	}
 	
 	/**
@@ -121,6 +122,7 @@ public class DrawingSurface extends PApplet {
 		fill(0);
 		textAlign(LEFT);
 		textSize(12);
+		frame.draw(this);
 //		lineButton.draw(this);
 //		eraserButton.draw(this);
 //		pointerButton.draw(this);
@@ -141,14 +143,31 @@ public class DrawingSurface extends PApplet {
 				
 		*/	
 			// shows graph data for one year
+			double minY = 0;
+			double maxY = 0;
+			double multiplier = 1.0;
+			
 			for (int e = 365; e > 0; e--) {
-				System.out.println("RAN");
-				double x1 = 500-(double)e*(500.0/365); //500 is length of jframe
-				double y1 = 500-data.get(e).getClose();
+				double x1 = 500-(double)e*(500.0/365); //length is 750
+				double y1 = 650-multiplier*data.get(e).getClose();
 				double x2 = 500-(double)e*(500.0/365)+1.0;
-				double y2 = 500-data.get(e-1).getClose();
+				double y2 = 650-multiplier*data.get(e-1).getClose();
+				
+				if (y1 < minY) {
+					minY = y1;
+				}
+				else {
+					maxY = y1;
+				}
+				if (y2 < minY ) {
+					minY = y2;
+				}
+				else {
+					maxY = y2;
+				}
 				
 				Line l = new Line(x1, y1, x2, y2);
+				l.setStrokeColors(255,255,255);
 				l.draw(this);
 			}
 			
@@ -180,41 +199,41 @@ public class DrawingSurface extends PApplet {
 	 * Saves the coordinate that was clicked by the mouse
 	 */
 	public void mousePressed() {
-		if (mouseButton == LEFT) {
-			if (lineButton.getBorder().isPointInside(mouseX, mouseY)) {
-				if (lineButton.isPressed()) {
-					lineButton.unpress();
-				} else {
-					lineButton.press();
-				}
-			}
-			if (eraserButton.getBorder().isPointInside(mouseX, mouseY)) {
-				if (eraserButton.isPressed()) {
-					eraserButton.unpress();
-				} else {
-					eraserButton.press();
-				}
-			}
-			if (pointerButton.getBorder().isPointInside(mouseX, mouseY)) {
-				if (pointerButton.isPressed()) {
-					pointerButton.unpress();
-				} else {
-					pointerButton.press();
-				}
-			}
-			if (boxButton.getBorder().isPointInside(mouseX, mouseY)) {
-				if (boxButton.isPressed()) {
-					boxButton.unpress();
-				} else {
-					boxButton.press();
-				}
-			}
-			if (ticker.getBorder().isPointInside(mouseX, mouseY)) {
-				Scanner reader = new Scanner(System.in);
-				String n = reader.next();
-				ticker.setString(n);
-			}
-		} 
+//		if (mouseButton == LEFT) {
+//			if (lineButton.getBorder().isPointInside(mouseX, mouseY)) {
+//				if (lineButton.isPressed()) {
+//					lineButton.unpress();
+//				} else {
+//					lineButton.press();
+//				}
+//			}
+//			if (eraserButton.getBorder().isPointInside(mouseX, mouseY)) {
+//				if (eraserButton.isPressed()) {
+//					eraserButton.unpress();
+//				} else {
+//					eraserButton.press();
+//				}
+//			}
+//			if (pointerButton.getBorder().isPointInside(mouseX, mouseY)) {
+//				if (pointerButton.isPressed()) {
+//					pointerButton.unpress();
+//				} else {
+//					pointerButton.press();
+//				}
+//			}
+//			if (boxButton.getBorder().isPointInside(mouseX, mouseY)) {
+//				if (boxButton.isPressed()) {
+//					boxButton.unpress();
+//				} else {
+//					boxButton.press();
+//				}
+//			}
+//			if (ticker.getBorder().isPointInside(mouseX, mouseY)) {
+//				Scanner reader = new Scanner(System.in);
+//				String n = reader.next();
+//				ticker.setString(n);
+//			}
+//		} 
 	}
 	
 	/**
