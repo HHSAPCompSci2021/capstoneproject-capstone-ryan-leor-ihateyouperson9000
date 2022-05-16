@@ -4,25 +4,15 @@
  * Author: Leor Porat, Ryan Xu
  * Version: 5/6/22
  */
-import java.awt.Point;   
-import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.crazzyghost.alphavantage.AlphaVantage;
 import com.crazzyghost.alphavantage.AlphaVantageException;
 import com.crazzyghost.alphavantage.Config;
-import com.crazzyghost.alphavantage.Fetcher;
-import com.crazzyghost.alphavantage.UrlExtractor;
-import com.crazzyghost.alphavantage.fundamentaldata.response.BalanceSheetResponse;
-import com.crazzyghost.alphavantage.fundamentaldata.response.EarningsResponse;
-import com.crazzyghost.alphavantage.parameters.DataType;
-import com.crazzyghost.alphavantage.parameters.Interval;
 import com.crazzyghost.alphavantage.parameters.OutputSize;
 import com.crazzyghost.alphavantage.timeseries.TimeSeries;
-import com.crazzyghost.alphavantage.timeseries.request.DailyRequest;
-import com.crazzyghost.alphavantage.timeseries.request.TimeSeriesRequest;
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 
@@ -45,12 +35,13 @@ public class DrawingSurface extends PApplet {
 	private Button boxButton;
 	private Button calculateDCF;
 	private TextBox ticker;
+	private String tickerSymbol;
 	private ArrayList<StockUnit> data;
 	private int timespan;
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D;
 	private PImage line, rectangle, eraser, cursor, calculator;
 	private Config cfg;
-	private TimeSeries stockTimeSeries = new TimeSeries(null);
+	private TimeSeries stockTimeSeries;
 	
 	private boolean dataGood;
 	
@@ -58,6 +49,7 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface object
 	 */
 	public DrawingSurface() {
+		stockTimeSeries = new TimeSeries(null);
 		dataGood = false;
 		FIVE_Y = 0; //one data point per week
 		ONE_Y = 365; //one data point per day
@@ -68,6 +60,9 @@ public class DrawingSurface extends PApplet {
 		ONE_D = 0; //one data point per 1min
 		timespan = ONE_Y;
 		
+		tickerSymbol = "AAPL";
+		
+		
 		cfg = Config.builder()
 			    .key("K3GVRKJIDYNUZPZM")
 			    .timeOut(10)
@@ -77,12 +72,14 @@ public class DrawingSurface extends PApplet {
 		getData();
 	}
 	
-	
+	/**
+	 * Sets up parameters for data from the API
+	 */
 	public void getData() {
 		 AlphaVantage.api()
 		    .timeSeries()
 		    .daily() //change based on timespan
-		    .forSymbol("AAPL")
+		    .forSymbol(tickerSymbol)
 		    .outputSize(OutputSize.FULL)
 		    .onSuccess(e->handleSuccess(e))
 		    .onFailure(e->handleFailure(e))
@@ -93,6 +90,7 @@ public class DrawingSurface extends PApplet {
 	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
 	    dataGood = true;
 	}
+	
 	public void handleFailure(AlphaVantageException error) {
 	    System.out.println("API Failed in getData()");
 	}
@@ -142,12 +140,11 @@ public class DrawingSurface extends PApplet {
 				}
 				
 		*/	
+			// shows graph data for one year
 			for (int e = 0; e < 365; e++) {
 				double x1 = (double)e; //500 is length of jframe
-				System.out.println("X1: " + x1);
 				double y1 = data.get(e).getClose();
 				double x2 = (double)e+1.0;
-				System.out.println("X2: " + x2);
 				double y2 = data.get(e+1).getClose();
 				
 				Line l = new Line(x1, y1, x2, y2);
@@ -220,12 +217,15 @@ public class DrawingSurface extends PApplet {
 	}
 	
 	/**
-	 * Saves the string that was typed
+	 * Runs if a key is pressed
 	 */
 	public void keyPressed() {
 		
 	}
 	
+	/**
+	 * Runs if user's mouse is held and dragged across the screen
+	 */
 	public void mouseDragged() {
 		if (eraserButton.isPressed()) {
 			this.stroke(255);
