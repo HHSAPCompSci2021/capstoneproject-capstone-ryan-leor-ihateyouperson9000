@@ -33,6 +33,7 @@ import rxu770.shapes.Rectangle;
  */
 public class DrawingSurface extends PApplet {
 
+	private AlphaVantageConnector alpha;
 	private GImageButton eraserButton;
 	private GImageButton lineButton;
 	private GImageButton cursorButton;
@@ -48,10 +49,9 @@ public class DrawingSurface extends PApplet {
 	private int timespan;
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
 	//private PImage line, rectangle, eraser, cursor, calculator;
-	private Config cfg;
+	
 	//private TimeSeries stockTimeSeries;
 	private double minY, maxY;
-	
 	private boolean dataGood;
 	
 	/**
@@ -59,6 +59,7 @@ public class DrawingSurface extends PApplet {
 	 */
 	public DrawingSurface() {
 		
+		alpha = new AlphaVantageConnector();
 		dataGood = false;
 		FIVE_Y = 0; //one data point per week
 		ONE_Y = 365; //one data point per day
@@ -71,12 +72,6 @@ public class DrawingSurface extends PApplet {
 		
 		tickerSymbol = "AAPL";
 		
-		
-		cfg = Config.builder()
-			    .key("K3GVRKJIDYNUZPZM")
-			    .timeOut(10)
-			    .build();
-		AlphaVantage.api().init(cfg);
 		getData();
 	}
 	
@@ -165,18 +160,13 @@ public class DrawingSurface extends PApplet {
 		*/	
 			// shows graph data for one year
 			findMinMax();
-			int length = 5;
+			int length = 261;
 			for (int e = length; e > 0; e--) { //261 days of stock trading per year
 				
 				double x1 = 650-(double)e*(600.0/length); //300 to give space for buttons on left side
 				double y1 = 525-(data.get(e).getClose()-minY)/(maxY-minY)*300; //575 is the max y val of the jframe
 				double x2 = 650-(double)e*(600.0/length)+(600.0/length);
-				double y2 = 525-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;
-				
-				if (y1 > 575) {
-					System.out.println(y1 + ": " + data.get(e).getDate());
-				}
-				
+				double y2 = 525-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
 				
 				Line l = new Line(x1, y1, x2, y2);
 				l.setStrokeColors(255,255,255);
@@ -189,6 +179,9 @@ public class DrawingSurface extends PApplet {
 	
 	/**
 	 * Finds the min and maximum stock prices in the desired span
+	 * 
+	 * @post sets minY to the minimum stock price of the interval
+	 * @post sets maxY to the maximum stock price of the interval
 	 */
 	private void findMinMax() { //only for 1 year
 		
