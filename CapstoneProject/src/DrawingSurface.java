@@ -44,7 +44,7 @@ public class DrawingSurface extends PApplet {
 	private String[] cursorFiles;
 	private String[] rectangleFiles;
 	private Rectangle frame;
-	private String tickerSymbol;
+	private static String stockTicker;
 	private ArrayList<StockUnit> data;
 	private int timespan;
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
@@ -70,7 +70,7 @@ public class DrawingSurface extends PApplet {
 		ONE_D = 0; //one data point per 1min
 		timespan = ONE_Y;
 		
-		tickerSymbol = "AAPL";
+		stockTicker = "AAPL";
 		
 		getData();
 	}
@@ -82,7 +82,7 @@ public class DrawingSurface extends PApplet {
 		 AlphaVantage.api()
 		    .timeSeries()
 		    .daily() //change based on timespan
-		    .forSymbol(tickerSymbol)
+		    .forSymbol(stockTicker)
 		    .outputSize(OutputSize.FULL)
 		    .onSuccess(e->handleSuccess(e))
 		    .onFailure(e->handleFailure(e))
@@ -283,6 +283,9 @@ public class DrawingSurface extends PApplet {
 		*/
 	}
 	
+	public static String getStockTicker() {
+		return stockTicker;
+	}
 	
 
 	

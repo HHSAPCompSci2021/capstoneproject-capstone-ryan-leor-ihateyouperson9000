@@ -7,13 +7,24 @@
 import java.util.ArrayList;
 
 import com.crazzyghost.alphavantage.AlphaVantage;
+import com.crazzyghost.alphavantage.AlphaVantageException;
+import com.crazzyghost.alphavantage.fundamentaldata.FundamentalData;
 import com.crazzyghost.alphavantage.fundamentaldata.response.BalanceSheetResponse;
 import com.crazzyghost.alphavantage.parameters.OutputSize;
+import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
+import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 
 public class DcfCalculator {
 
 	AlphaVantageConnector alpha;
-//	BalanceSheetResponse resp = BalanceSheetResponse.of(null)
+	
+	public DcfCalculator() {
+		alpha = new AlphaVantageConnector();
+		FundamentalData api = new FundamentalData(alpha.getConfig());
+	}
+	
+	
+			
 //	private ArrayList<Double> data;
 //	private final String[] NEEDED_DATA = {"Diluted EPS (ttm)", "Gross Profit\t", };
 //											//in statistics       //in financials
