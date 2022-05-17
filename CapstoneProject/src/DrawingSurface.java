@@ -151,7 +151,6 @@ public class DrawingSurface extends PApplet {
 //		pointerButton.draw(this);
 //		boxButton.draw(this);
 //		calculateDCF.draw(this);
-		eraserButton.draw();
 		
 		if (dataGood) {
 		
@@ -166,12 +165,12 @@ public class DrawingSurface extends PApplet {
 		*/	
 			// shows graph data for one year
 			findMinMax();
-			
-			for (int e = 365; e > 0; e--) { //261 days of stock trading per year
+			int length = 5;
+			for (int e = length; e > 0; e--) { //261 days of stock trading per year
 				
-				double x1 = 500-(double)e*(500.0/300); //300 to give space for buttons on left side
+				double x1 = 650-(double)e*(600.0/length); //300 to give space for buttons on left side
 				double y1 = 525-(data.get(e).getClose()-minY)/(maxY-minY)*300; //575 is the max y val of the jframe
-				double x2 = 500-(double)e*(500.0/300)+1.0;
+				double x2 = 650-(double)e*(600.0/length)+(600.0/length);
 				double y2 = 525-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;
 				
 				if (y1 > 575) {
