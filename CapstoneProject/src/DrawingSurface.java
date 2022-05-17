@@ -33,16 +33,16 @@ import rxu770.shapes.Rectangle;
  */
 public class DrawingSurface extends PApplet {
 
+	private GImageButton eraserButton;
 	private GImageButton lineButton;
+	private GImageButton cursorButton;
+	private GImageButton rectangleButton;
 	private GButton button;
 	private String[] eraserFiles;
 	private String[] lineFiles;
+	private String[] cursorFiles;
+	private String[] rectangleFiles;
 	private Rectangle frame;
-	// private Button lineButton;
-	//private Button eraserButton;
-	//private Button pointerButton;
-	//private Button boxButton;
-	//private TextBox ticker;
 	private String tickerSymbol;
 	private ArrayList<StockUnit> data;
 	private int timespan;
@@ -59,11 +59,6 @@ public class DrawingSurface extends PApplet {
 	 */
 	public DrawingSurface() {
 		
-		System.out.println("BEFORE");
-		
-		System.out.println("AFTER");
-		
-		// stockTimeSeries = new TimeSeries(null);
 		dataGood = false;
 		FIVE_Y = 0; //one data point per week
 		ONE_Y = 365; //one data point per day
@@ -124,8 +119,13 @@ public class DrawingSurface extends PApplet {
 	 */
 	public void setup() {
 		eraserFiles = new String[]{"eraser.png"};
-		lineButton = new GImageButton(this, 0, 0, 50, 50, eraserFiles);
 		lineFiles = new String[]{"line.png"};
+		cursorFiles = new String[]{"cursor.png"};
+		rectangleFiles = new String[]{"rectangle.png"};
+		eraserButton = new GImageButton(this, 0, 0, 50, 50, eraserFiles);
+		lineButton = new GImageButton(this, 0, 50, 50, 50, lineFiles);
+		cursorButton = new GImageButton(this, 0, 100, 50, 50, cursorFiles);
+		rectangleButton = new GImageButton(this, 0, 150, 50, 50, rectangleFiles);
 		frame = new Rectangle(50, 50, 600, 525);
 	}
 	
@@ -151,7 +151,7 @@ public class DrawingSurface extends PApplet {
 //		pointerButton.draw(this);
 //		boxButton.draw(this);
 //		calculateDCF.draw(this);
-		lineButton.draw();
+		eraserButton.draw();
 		
 		if (dataGood) {
 		
