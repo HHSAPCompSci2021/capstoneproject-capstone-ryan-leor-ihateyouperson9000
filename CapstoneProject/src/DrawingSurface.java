@@ -34,15 +34,15 @@ public class DrawingSurface extends PApplet {
 	private Button eraserButton;
 	private Button pointerButton;
 	private Button boxButton;
-	private Button calculateDCF;
 	private TextBox ticker;
 	private String tickerSymbol;
 	private ArrayList<StockUnit> data;
 	private int timespan;
-	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D;
+	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
 	private PImage line, rectangle, eraser, cursor, calculator;
 	private Config cfg;
 	private TimeSeries stockTimeSeries;
+	private double minY, maxY;
 	
 	private boolean dataGood;
 	
@@ -88,13 +88,23 @@ public class DrawingSurface extends PApplet {
 		    .fetch();
 	}
 	
-	public void handleSuccess(Object e) {
+	/**
+	 * Instructions for what to do if the API was successfully fetched
+	 * 
+	 * @param e the object passed from onSuccess() in the api
+	 */
+	private void handleSuccess(Object e) {
 	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
 	    dataGood = true;
 	}
 	
-	public void handleFailure(AlphaVantageException error) {
-	    System.out.println("API Failed in getData()");
+	/**
+	 * Instructions for what to do if the API was unsuccessfully fetched
+	 * 
+	 * @param error the error that occurred
+	 */
+	private void handleFailure(AlphaVantageException error) {
+	    System.out.println(error.toString());
 	}
 	
 	
@@ -107,7 +117,7 @@ public class DrawingSurface extends PApplet {
 		// eraser = this.loadImage("eraser.png");
 		// cursor = this.loadImage("cursor.png");
 		// calculator = this.loadImage("calculator.png");
-		frame = new Rectangle(0, 50, 600, 525);
+		frame = new Rectangle(50, 50, 600, 525);
 		lineButton = new Button(0, 0, 50, 50, "line.png", this);
 		boxButton = new Button(0, 150, 50, 50, "rectangle.png", this);
 		eraserButton = new Button(0, 50, 50, 50, "eraser.png", this);
@@ -128,8 +138,7 @@ public class DrawingSurface extends PApplet {
 //		pointerButton.draw(this);
 //		boxButton.draw(this);
 //		calculateDCF.draw(this);
-	
-	
+		
 		
 		if (dataGood) {
 		
@@ -143,34 +152,45 @@ public class DrawingSurface extends PApplet {
 				
 		*/	
 			// shows graph data for one year
-			double minY = 0;
-			double maxY = 0;
-			double multiplier = 1.0;
+			findMinMax();
 			
-			for (int e = 365; e > 0; e--) {
-				double x1 = 500-(double)e*(500.0/365); //length is 750
-				double y1 = 650-multiplier*data.get(e).getClose();
-				double x2 = 500-(double)e*(500.0/365)+1.0;
-				double y2 = 650-multiplier*data.get(e-1).getClose();
+			for (int e = 261; e > 0; e--) { //261 days of stock trading per year
 				
-				if (y1 < minY) {
-					minY = y1;
+				double x1 = 500-(double)e*(500.0/300); //300 to give space for buttons on left side
+				double y1 = 525-(data.get(e).getClose()-minY)/(maxY-minY)*300; //575 is the max y val of the jframe
+				double x2 = 500-(double)e*(500.0/300)+1.0;
+				double y2 = 525-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;
+				
+				if (y1 > 575) {
+					System.out.println(y1 + ": " + data.get(e).getDate());
 				}
-				else {
-					maxY = y1;
-				}
-				if (y2 < minY ) {
-					minY = y2;
-				}
-				else {
-					maxY = y2;
-				}
+				
 				
 				Line l = new Line(x1, y1, x2, y2);
 				l.setStrokeColors(255,255,255);
 				l.draw(this);
 			}
 			
+		}
+		
+	}
+	
+	/**
+	 * Finds the min and maximum stock prices in the desired span
+	 */
+	private void findMinMax() { //only for 1 year
+		
+		minY = data.get(0).getClose();
+		maxY = 0;
+		
+		for (int e = 261; e > 0; e--) { 
+			
+			if (data.get(e).getClose() < minY) {
+				minY = data.get(e).getClose();
+			}
+			if (data.get(e).getClose() > maxY) {
+				maxY = data.get(e).getClose();
+			}
 		}
 		
 	}
