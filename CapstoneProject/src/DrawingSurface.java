@@ -16,6 +16,10 @@ import com.crazzyghost.alphavantage.timeseries.TimeSeries;
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 
+import g4p_controls.GButton;
+import g4p_controls.GEvent;
+import g4p_controls.GImageButton;
+import g4p_controls.GTextArea;
 import processing.core.PApplet;
 import processing.core.PImage;
 import rxu770.shapes.Line;
@@ -29,20 +33,23 @@ import rxu770.shapes.Rectangle;
  */
 public class DrawingSurface extends PApplet {
 
-	private GTextArea a;
+	private GImageButton lineButton;
+	private GButton button;
+	private String[] eraserFiles;
+	private String[] lineFiles;
 	private Rectangle frame;
-	private Button lineButton;
-	private Button eraserButton;
-	private Button pointerButton;
-	private Button boxButton;
-	private TextBox ticker;
+	// private Button lineButton;
+	//private Button eraserButton;
+	//private Button pointerButton;
+	//private Button boxButton;
+	//private TextBox ticker;
 	private String tickerSymbol;
 	private ArrayList<StockUnit> data;
 	private int timespan;
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
-	private PImage line, rectangle, eraser, cursor, calculator;
+	//private PImage line, rectangle, eraser, cursor, calculator;
 	private Config cfg;
-	private TimeSeries stockTimeSeries;
+	//private TimeSeries stockTimeSeries;
 	private double minY, maxY;
 	
 	private boolean dataGood;
@@ -52,7 +59,11 @@ public class DrawingSurface extends PApplet {
 	 */
 	public DrawingSurface() {
 		
-		stockTimeSeries = new TimeSeries(null);
+		System.out.println("BEFORE");
+		
+		System.out.println("AFTER");
+		
+		// stockTimeSeries = new TimeSeries(null);
 		dataGood = false;
 		FIVE_Y = 0; //one data point per week
 		ONE_Y = 365; //one data point per day
@@ -112,16 +123,18 @@ public class DrawingSurface extends PApplet {
 	 * Executes when the program begins
 	 */
 	public void setup() {
-		// line = this.loadImage("line.png");
-		// rectangle = this.loadImage("rectangle.png");
-		// eraser = this.loadImage("eraser.png");
-		// cursor = this.loadImage("cursor.png");
-		// calculator = this.loadImage("calculator.png");
+		eraserFiles = new String[]{"eraser.png"};
+		lineButton = new GImageButton(this, 0, 0, 50, 50, eraserFiles);
+		lineFiles = new String[]{"line.png"};
 		frame = new Rectangle(50, 50, 600, 525);
-		lineButton = new Button(0, 0, 50, 50, "line.png", this);
-		boxButton = new Button(0, 150, 50, 50, "rectangle.png", this);
-		eraserButton = new Button(0, 50, 50, 50, "eraser.png", this);
-		pointerButton = new Button(0, 100, 50, 50, "cursor.png", this);
+	}
+	
+	public void handleButtonEvents(GImageButton button, GEvent event) {
+		if (button.isEnabled()) {
+			System.out.println("ENABLED");
+		} else {
+			
+		}
 	}
 	
 	/**
@@ -138,7 +151,7 @@ public class DrawingSurface extends PApplet {
 //		pointerButton.draw(this);
 //		boxButton.draw(this);
 //		calculateDCF.draw(this);
-		
+		lineButton.draw();
 		
 		if (dataGood) {
 		
@@ -267,6 +280,7 @@ public class DrawingSurface extends PApplet {
 	 * Runs if user's mouse is held and dragged across the screen
 	 */
 	public void mouseDragged() {
+		/*
 		if (eraserButton.isPressed()) {
 			this.stroke(255);
 			this.circle(mouseX, mouseY, 5);
@@ -274,6 +288,7 @@ public class DrawingSurface extends PApplet {
 			Point first = new Point(mouseX, mouseY);
 			
 		}
+		*/
 	}
 	
 	
