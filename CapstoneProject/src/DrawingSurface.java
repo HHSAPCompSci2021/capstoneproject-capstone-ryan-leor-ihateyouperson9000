@@ -29,6 +29,7 @@ import rxu770.shapes.Rectangle;
  */
 public class DrawingSurface extends PApplet {
 
+	private GTextArea a;
 	private Rectangle frame;
 	private Button lineButton;
 	private Button eraserButton;
@@ -70,7 +71,6 @@ public class DrawingSurface extends PApplet {
 			    .timeOut(10)
 			    .build();
 		AlphaVantage.api().init(cfg);
-		
 		getData();
 	}
 	
@@ -154,7 +154,7 @@ public class DrawingSurface extends PApplet {
 			// shows graph data for one year
 			findMinMax();
 			
-			for (int e = 261; e > 0; e--) { //261 days of stock trading per year
+			for (int e = 365; e > 0; e--) { //261 days of stock trading per year
 				
 				double x1 = 500-(double)e*(500.0/300); //300 to give space for buttons on left side
 				double y1 = 525-(data.get(e).getClose()-minY)/(maxY-minY)*300; //575 is the max y val of the jframe
