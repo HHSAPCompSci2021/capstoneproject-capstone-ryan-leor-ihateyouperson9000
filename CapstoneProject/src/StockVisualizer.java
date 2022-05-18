@@ -31,19 +31,6 @@ public class StockVisualizer {
 		window.setResizable(true);
 
 		window.setVisible(true);
-//		String str = "Gross Profit (ttm)	197.48B\r\n"
-//				+ "EBITDA	55.45B\r\n"
-//				+ "Net Income Avi to Common (ttm)	21.41B\r\n"
-//				+ "Diluted EPS (ttm)	41.69\r\n"
-//				+ "Quarterly Earnings Growth (yoy)	N/A\r\n"
-//				+ "";
-//		String s = "\n47";
-//		System.out.println(s.indexOf("\t"));
-//		System.out.println(s.lastIndexOf("\t"));
-//		System.out.println(Double.parseDouble(s)+3);
-		
-//		 TimeSeriesTest timeSeries;
-		 
 		
 	}
 

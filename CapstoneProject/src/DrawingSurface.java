@@ -16,6 +16,10 @@ import com.crazzyghost.alphavantage.timeseries.TimeSeries;
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 
+import g4p_controls.GButton;
+import g4p_controls.GEvent;
+import g4p_controls.GImageButton;
+import g4p_controls.GTextArea;
 import processing.core.PApplet;
 import processing.core.PImage;
 import rxu770.shapes.Line;
@@ -29,21 +33,25 @@ import rxu770.shapes.Rectangle;
  */
 public class DrawingSurface extends PApplet {
 
+	private AlphaVantageConnector alpha;
+	private GImageButton eraserButton;
+	private GImageButton lineButton;
+	private GImageButton cursorButton;
+	private GImageButton rectangleButton;
+	private GButton button;
+	private String[] eraserFiles;
+	private String[] lineFiles;
+	private String[] cursorFiles;
+	private String[] rectangleFiles;
 	private Rectangle frame;
-	private Button lineButton;
-	private Button eraserButton;
-	private Button pointerButton;
-	private Button boxButton;
-	private TextBox ticker;
-	private String tickerSymbol;
+	private static String stockTicker;
 	private ArrayList<StockUnit> data;
 	private int timespan;
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
-	private PImage line, rectangle, eraser, cursor, calculator;
-	private Config cfg;
-	private TimeSeries stockTimeSeries;
-	private double minY, maxY;
+	//private PImage line, rectangle, eraser, cursor, calculator;
 	
+	//private TimeSeries stockTimeSeries;
+	private double minY, maxY;
 	private boolean dataGood;
 	
 	/**
@@ -51,7 +59,7 @@ public class DrawingSurface extends PApplet {
 	 */
 	public DrawingSurface() {
 		
-		stockTimeSeries = new TimeSeries(null);
+		alpha = new AlphaVantageConnector();
 		dataGood = false;
 		FIVE_Y = 0; //one data point per week
 		ONE_Y = 365; //one data point per day
@@ -62,14 +70,7 @@ public class DrawingSurface extends PApplet {
 		ONE_D = 0; //one data point per 1min
 		timespan = ONE_Y;
 		
-		tickerSymbol = "AAPL";
-		
-		
-		cfg = Config.builder()
-			    .key("K3GVRKJIDYNUZPZM")
-			    .timeOut(10)
-			    .build();
-		AlphaVantage.api().init(cfg);
+		stockTicker = "AAPL";
 		
 		getData();
 	}
@@ -81,7 +82,7 @@ public class DrawingSurface extends PApplet {
 		 AlphaVantage.api()
 		    .timeSeries()
 		    .daily() //change based on timespan
-		    .forSymbol(tickerSymbol)
+		    .forSymbol(stockTicker)
 		    .outputSize(OutputSize.FULL)
 		    .onSuccess(e->handleSuccess(e))
 		    .onFailure(e->handleFailure(e))
@@ -112,16 +113,23 @@ public class DrawingSurface extends PApplet {
 	 * Executes when the program begins
 	 */
 	public void setup() {
-		// line = this.loadImage("line.png");
-		// rectangle = this.loadImage("rectangle.png");
-		// eraser = this.loadImage("eraser.png");
-		// cursor = this.loadImage("cursor.png");
-		// calculator = this.loadImage("calculator.png");
+		eraserFiles = new String[]{"eraser.png"};
+		lineFiles = new String[]{"line.png"};
+		cursorFiles = new String[]{"cursor.png"};
+		rectangleFiles = new String[]{"rectangle.png"};
+		eraserButton = new GImageButton(this, 0, 0, 50, 50, eraserFiles);
+		lineButton = new GImageButton(this, 0, 50, 50, 50, lineFiles);
+		cursorButton = new GImageButton(this, 0, 100, 50, 50, cursorFiles);
+		rectangleButton = new GImageButton(this, 0, 150, 50, 50, rectangleFiles);
 		frame = new Rectangle(50, 50, 600, 525);
-		lineButton = new Button(0, 0, 50, 50, "line.png", this);
-		boxButton = new Button(0, 150, 50, 50, "rectangle.png", this);
-		eraserButton = new Button(0, 50, 50, 50, "eraser.png", this);
-		pointerButton = new Button(0, 100, 50, 50, "cursor.png", this);
+	}
+	
+	public void handleButtonEvents(GImageButton button, GEvent event) {
+		if (button.isEnabled()) {
+			System.out.println("ENABLED");
+		} else {
+			
+		}
 	}
 	
 	/**
@@ -139,7 +147,6 @@ public class DrawingSurface extends PApplet {
 //		boxButton.draw(this);
 //		calculateDCF.draw(this);
 		
-		
 		if (dataGood) {
 		
 		/*
@@ -153,18 +160,13 @@ public class DrawingSurface extends PApplet {
 		*/	
 			// shows graph data for one year
 			findMinMax();
-			
-			for (int e = 261; e > 0; e--) { //261 days of stock trading per year
+			int length = 261;
+			for (int e = length; e > 0; e--) { //261 days of stock trading per year
 				
-				double x1 = 500-(double)e*(500.0/300); //300 to give space for buttons on left side
+				double x1 = 650-(double)e*(600.0/length); //300 to give space for buttons on left side
 				double y1 = 525-(data.get(e).getClose()-minY)/(maxY-minY)*300; //575 is the max y val of the jframe
-				double x2 = 500-(double)e*(500.0/300)+1.0;
-				double y2 = 525-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;
-				
-				if (y1 > 575) {
-					System.out.println(y1 + ": " + data.get(e).getDate());
-				}
-				
+				double x2 = 650-(double)e*(600.0/length)+(600.0/length);
+				double y2 = 525-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
 				
 				Line l = new Line(x1, y1, x2, y2);
 				l.setStrokeColors(255,255,255);
@@ -177,6 +179,9 @@ public class DrawingSurface extends PApplet {
 	
 	/**
 	 * Finds the min and maximum stock prices in the desired span
+	 * 
+	 * @post sets minY to the minimum stock price of the interval
+	 * @post sets maxY to the maximum stock price of the interval
 	 */
 	private void findMinMax() { //only for 1 year
 		
@@ -267,6 +272,7 @@ public class DrawingSurface extends PApplet {
 	 * Runs if user's mouse is held and dragged across the screen
 	 */
 	public void mouseDragged() {
+		/*
 		if (eraserButton.isPressed()) {
 			this.stroke(255);
 			this.circle(mouseX, mouseY, 5);
@@ -274,8 +280,12 @@ public class DrawingSurface extends PApplet {
 			Point first = new Point(mouseX, mouseY);
 			
 		}
+		*/
 	}
 	
+	public static String getStockTicker() {
+		return stockTicker;
+	}
 	
 
 	

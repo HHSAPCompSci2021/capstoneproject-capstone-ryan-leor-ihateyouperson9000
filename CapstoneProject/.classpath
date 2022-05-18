@@ -13,6 +13,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/processing_core.jar"/>
 	<classpathentry kind="lib" path="lib/shapes10-22.jar"/>
+	<classpathentry kind="lib" path="lib/G4P.jar"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
