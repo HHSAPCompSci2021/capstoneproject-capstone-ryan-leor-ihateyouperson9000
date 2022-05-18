@@ -50,6 +50,7 @@ public class DataExtractor {
 	 * @pre must import earnings data to folder and rename it "financials.txt"
 	 * @post docInfo is appended by the data in the file
 	 */
+	/*
 	public void addFile() {
 		
 		Path path = Paths.get(DOC_NAME);
@@ -59,6 +60,7 @@ public class DataExtractor {
 			System.out.println(DOC_NAME + " not found");
 		}
 	}
+	*/
 	
 	/**
 	 * Returns the parsed String version of the file

@@ -52,17 +52,8 @@ public class DrawingSurface extends PApplet {
 	private String[] lineFiles;
 	private String[] cursorFiles;
 	private String[] rectangleFiles;
-	private Rectangle frame;
-	private ArrayList<StockUnit> data;
-	private int timespan;
-	private int numDataPoints;
+	private StockChart chart;
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
-	//private PImage line, rectangle, eraser, cursor, calculator;
-	int a = 0;
-	
-	//private TimeSeries stockTimeSeries;
-	private double minY, maxY;
-	private boolean dataGood;
 	
 	/**
 	 * Creates a DrawingSurface object
@@ -72,9 +63,8 @@ public class DrawingSurface extends PApplet {
 		alpha = new AlphaVantageConnector();
 		alpha.setTicker("AAPL");
 		alpha.configure();
-		
+		chart = new StockChart();
 		dcf = new DcfCalculator();
-		dataGood = false;
 		FIVE_Y = 0; //one data point per week
 		ONE_Y = 365; //one data point per day
 		SIX_M = 0; //one data point per 2hr
@@ -82,45 +72,8 @@ public class DrawingSurface extends PApplet {
 		ONE_M = 0; //one data point per 30min
 		FIVE_D = 0; //one data point per 5min
 		ONE_D = 0; //one data point per 1min
-		timespan = ONE_Y;
-		numDataPoints = 261;
 		
-		getData();
 	}
-	
-	/**
-	 * Sets up parameters for Time Series API call
-	 */
-	public void getData() {
-		 AlphaVantage.api()
-		    .timeSeries()
-		    .daily() //change based on timespan
-		    .forSymbol(alpha.getTicker())
-		    .outputSize(OutputSize.FULL)
-		    .onSuccess(e->handleSuccess(e))
-		    .onFailure(e->handleFailure(e))
-		    .fetch();
-	}
-	
-	/**
-	 * Instructions for what to do if the API was successfully fetched
-	 * 
-	 * @param e the object passed from onSuccess() in the api
-	 */
-	private void handleSuccess(Object e) {
-	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
-	    dataGood = true;
-	}
-	
-	/**
-	 * Instructions for what to do if the API was unsuccessfully fetched
-	 * 
-	 * @param error the error that occurred
-	 */
-	private void handleFailure(AlphaVantageException error) {
-	    System.out.println(error.toString());
-	}
-	
 	
 	/**
 	 * Executes when the program begins
@@ -140,8 +93,7 @@ public class DrawingSurface extends PApplet {
 		tickerInstructions = new GTextField(this, 650, 0, 100, 20);
 		timeInstructions = new GTextField(this, 650, 70, 100, 20);
 		tickerDisplay = new GTextField(this, 325, 100, 100, 20);
-		
-		frame = new Rectangle(50, 50, 600, 525);
+
 	}
 	
 	public void handleButtonEvents(GImageButton button, GEvent event) {
@@ -156,64 +108,15 @@ public class DrawingSurface extends PApplet {
 	 * Executed repetitively until the program is stopped.
 	 */
 	public void draw() { 
-		background(255);   // Clear the screen with a white background
 		fill(0);
 		textAlign(LEFT);
 		textSize(12);
-		frame.draw(this);
 		
-		tickerDisplay.setText(alpha.getTicker() + " for " + numDataPoints + " days");
+		tickerDisplay.setText(chart.getTicker() + " for " + chart.getNumDataPoints() + " days");
 		tickerInstructions.setText("Set ticker");
 		timeInstructions.setText("Set time");
 		
-//		lineButton.draw(this);
-//		eraserButton.draw(this);
-//		pointerButton.draw(this);
-//		boxButton.draw(this);
-//		calculateDCF.draw(this);
-		
-		if (dataGood) {
-			
-			findMinMax();
-			for (int e = numDataPoints; e > 0; e--) { //261 days of stock trading per year
-				
-				double x1 = 650-(double)e*(600.0/numDataPoints); //300 to give space for buttons on left side
-				double y1 = 525-(data.get(e).getClose()-minY)/(maxY-minY)*300; //575 is the max y val of the jframe
-				double x2 = 650-(double)e*(600.0/numDataPoints)+(600.0/numDataPoints);
-				double y2 = 525-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
-				
-				Line l = new Line(x1, y1, x2, y2);
-				l.setStrokeColors(255,255,255);
-				l.draw(this);
-			}
-			
-		}
-		
 	}
-	
-	/**
-	 * Finds the min and maximum stock prices in the desired span
-	 * 
-	 * @post sets minY to the minimum stock price of the interval
-	 * @post sets maxY to the maximum stock price of the interval
-	 */
-	private void findMinMax() { //only for 1 year
-		
-		minY = data.get(0).getClose();
-		maxY = 0;
-		
-		for (int e = numDataPoints; e > 0; e--) { 
-			
-			if (data.get(e).getClose() < minY) {
-				minY = data.get(e).getClose();
-			}
-			if (data.get(e).getClose() > maxY) {
-				maxY = data.get(e).getClose();
-			}
-		}
-		
-	}
-
 	
 	/**
 	 * Returns the date and close price corresponding to the point clicked
@@ -250,16 +153,15 @@ public class DrawingSurface extends PApplet {
 	
 	public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
 		if (event == GEvent.ENTERED) {
-			// System.out.println("YO");
 			try {
 				int intCheck = Integer.parseInt(textcontrol.getText());
-				numDataPoints = intCheck;
+				chart.setNumDataPoints(intCheck);
+				chart.update(this);
 			} catch (NumberFormatException e) {
-				alpha.setTicker(textcontrol.getText());
-				getData();
+				chart.setTicker(textcontrol.getText());
+				chart.getData();
+				chart.update(this);
 			}
-			
-			// numDataPoints = parseInt(textcontrol.getText());
 			
 		} 
 	}
