@@ -17,13 +17,17 @@ import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 
 import g4p_controls.GButton;
+import g4p_controls.GEditableTextControl;
 import g4p_controls.GEvent;
 import g4p_controls.GImageButton;
 import g4p_controls.GTextArea;
+import g4p_controls.GTextField;
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.event.KeyEvent;
 import rxu770.shapes.Line;
 import rxu770.shapes.Rectangle;
+
 
 
 /**
@@ -39,6 +43,8 @@ public class DrawingSurface extends PApplet {
 	private GImageButton cursorButton;
 	private GImageButton rectangleButton;
 	private GTextArea tickerBox;
+	private GTextArea timeBox;
+	private GTextField tickerDisplay;
 	private String[] eraserFiles;
 	private String[] lineFiles;
 	private String[] cursorFiles;
@@ -50,6 +56,7 @@ public class DrawingSurface extends PApplet {
 	private int displayTime;
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
 	//private PImage line, rectangle, eraser, cursor, calculator;
+	int a = 0;
 	
 	//private TimeSeries stockTimeSeries;
 	private double minY, maxY;
@@ -124,6 +131,9 @@ public class DrawingSurface extends PApplet {
 		cursorButton = new GImageButton(this, 0, 100, 50, 50, cursorFiles);
 		rectangleButton = new GImageButton(this, 0, 150, 50, 50, rectangleFiles);
 		tickerBox = new GTextArea(this, 650, 0, 100, 50);
+		timeBox = new GTextArea(this, 650, 50, 100, 50);
+		tickerDisplay = new GTextField(this, 325, 100, 100, 20);
+		
 		frame = new Rectangle(50, 50, 600, 525);
 	}
 	
@@ -131,8 +141,8 @@ public class DrawingSurface extends PApplet {
 		if (button.isEnabled()) {
 			System.out.println("ENABLED");
 		} else {
-			
 		}
+		// getData();
 	}
 	
 	/**
@@ -144,6 +154,8 @@ public class DrawingSurface extends PApplet {
 		textAlign(LEFT);
 		textSize(12);
 		frame.draw(this);
+		tickerDisplay.setText(stockTicker + " for " + displayTime + " days");
+		
 //		lineButton.draw(this);
 //		eraserButton.draw(this);
 //		pointerButton.draw(this);
@@ -227,7 +239,12 @@ public class DrawingSurface extends PApplet {
 	}
 	
 	public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
-		
+		if (event == GEvent.ENTERED) {
+			// System.out.println("YO");
+			setStockTicker(textcontrol.getText());
+			displayTime = parseInt(textcontrol.getText());
+			getData();
+		} 
 	}
 	
 	/**
@@ -251,8 +268,9 @@ public class DrawingSurface extends PApplet {
 	
 	public void setStockTicker(String s) {
 		stockTicker = s;
+		System.out.println(stockTicker);
+		// getData();
 	}
-	
 
 	
 }
