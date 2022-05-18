@@ -45,6 +45,8 @@ public class DrawingSurface extends PApplet {
 	private GTextArea tickerBox;
 	private GTextArea timeBox;
 	private GTextField tickerDisplay;
+	private GTextField tickerInstructions;
+	private GTextField timeInstructions;
 	private String[] eraserFiles;
 	private String[] lineFiles;
 	private String[] cursorFiles;
@@ -129,8 +131,11 @@ public class DrawingSurface extends PApplet {
 		lineButton = new GImageButton(this, 0, 50, 50, 50, lineFiles);
 		cursorButton = new GImageButton(this, 0, 100, 50, 50, cursorFiles);
 		rectangleButton = new GImageButton(this, 0, 150, 50, 50, rectangleFiles);
-		tickerBox = new GTextArea(this, 650, 0, 100, 50);
-		timeBox = new GTextArea(this, 650, 50, 100, 50);
+		
+		tickerBox = new GTextArea(this, 650, 20, 100, 50);
+		timeBox = new GTextArea(this, 650, 90, 100, 50);
+		tickerInstructions = new GTextField(this, 650, 0, 100, 20);
+		timeInstructions = new GTextField(this, 650, 70, 100, 20);
 		tickerDisplay = new GTextField(this, 325, 100, 100, 20);
 		
 		frame = new Rectangle(50, 50, 600, 525);
@@ -154,7 +159,9 @@ public class DrawingSurface extends PApplet {
 		textSize(12);
 		frame.draw(this);
 		
-		tickerDisplay.setText(alpha.getTicker() + " for " + timespan + " days");
+		tickerDisplay.setText(alpha.getTicker() + " for " + numDataPoints + " days");
+		tickerInstructions.setText("Set ticker");
+		timeInstructions.setText("Set time");
 		
 //		lineButton.draw(this);
 //		eraserButton.draw(this);
@@ -241,10 +248,16 @@ public class DrawingSurface extends PApplet {
 	public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
 		if (event == GEvent.ENTERED) {
 			// System.out.println("YO");
-			alpha.setTicker(textcontrol.getText());
-			System.out.println(alpha.getTicker());
+			try {
+				int intCheck = Integer.parseInt(textcontrol.getText());
+				numDataPoints = intCheck;
+			} catch (NumberFormatException e) {
+				alpha.setTicker(textcontrol.getText());
+				getData();
+			}
+			
 			// numDataPoints = parseInt(textcontrol.getText());
-			getData();
+			
 		} 
 	}
 	
