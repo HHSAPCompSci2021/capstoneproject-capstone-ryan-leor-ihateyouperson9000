@@ -242,7 +242,8 @@ public class DrawingSurface extends PApplet {
 		if (event == GEvent.ENTERED) {
 			// System.out.println("YO");
 			alpha.setTicker(textcontrol.getText());
-			numDataPoints = parseInt(textcontrol.getText());
+			System.out.println(alpha.getTicker());
+			// numDataPoints = parseInt(textcontrol.getText());
 			getData();
 		} 
 	}
