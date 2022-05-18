@@ -149,7 +149,7 @@ public class DrawingSurface extends PApplet {
 				for (int i=0; i<365; i++) {
 					units[i] = data.get(i);
 				}
-				
+		
 		*/	
 			// shows graph data for one year
 			findMinMax();
