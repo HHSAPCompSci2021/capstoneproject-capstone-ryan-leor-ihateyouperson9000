@@ -80,41 +80,10 @@ public class DrawingSurface extends PApplet {
 		
 		alpha.setTicker("AAPL");
 		
-		getData();
+		alpha.getTimeSeriesData();
 	}
 	
-	/**
-	 * Sets up parameters for data from the API
-	 */
-	public void getData() {
-		 AlphaVantage.api()
-		    .timeSeries()
-		    .daily() //change based on timespan
-		    .forSymbol(alpha.getTicker())
-		    .outputSize(OutputSize.FULL)
-		    .onSuccess(e->handleSuccess(e))
-		    .onFailure(e->handleFailure(e))
-		    .fetch();
-	}
-	
-	/**
-	 * Instructions for what to do if the API was successfully fetched
-	 * 
-	 * @param e the object passed from onSuccess() in the api
-	 */
-	private void handleSuccess(Object e) {
-	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
-	    dataGood = true;
-	}
-	
-	/**
-	 * Instructions for what to do if the API was unsuccessfully fetched
-	 * 
-	 * @param error the error that occurred
-	 */
-	private void handleFailure(AlphaVantageException error) {
-	    System.out.println(error.toString());
-	}
+
 	
 	
 	/**
@@ -242,7 +211,7 @@ public class DrawingSurface extends PApplet {
 			// System.out.println("YO");
 			alpha.setTicker(textcontrol.getText());
 			displayTime = parseInt(textcontrol.getText());
-			getData();
+			alpha.getTimeSeriesData();
 		} 
 	}
 	

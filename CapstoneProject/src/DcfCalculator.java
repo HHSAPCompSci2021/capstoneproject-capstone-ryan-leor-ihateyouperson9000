@@ -14,14 +14,29 @@ import com.crazzyghost.alphavantage.parameters.OutputSize;
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 
-public class DcfCalculator {
-
-	AlphaVantageConnector alpha;
+public class DcfCalculator extends AlphaVantageConnector {
 	
 	public DcfCalculator() {
-		alpha = new AlphaVantageConnector();
-		FundamentalData api = new FundamentalData(alpha.getConfig());
-		api.incomeStatement().forSymbol()
+		super();
+	}
+	
+	/**
+	 * Instructions for what to do if the API was successfully fetched
+	 * 
+	 * @param e the object passed from onSuccess() in the api
+	 */
+	private void handleSuccess(Object e) {
+	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
+	    dataGood = true;
+	}
+	
+	/**
+	 * Instructions for what to do if the API was unsuccessfully fetched
+	 * 
+	 * @param error the error that occurred
+	 */
+	private void handleFailure(AlphaVantageException error) {
+	    System.out.println(error.toString());
 	}
 	
 	
