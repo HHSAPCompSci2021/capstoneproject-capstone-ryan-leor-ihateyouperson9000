@@ -13,6 +13,10 @@ public class AlphaVantageConnector {
 	public String ticker;
 	
 	public AlphaVantageConnector() {
+
+	}
+	
+	public void configure() {
 		cfg = Config.builder()
 			    .key("K3GVRKJIDYNUZPZM")
 			    .timeOut(10)

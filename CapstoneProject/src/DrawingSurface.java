@@ -38,6 +38,7 @@ import rxu770.shapes.Rectangle;
 public class DrawingSurface extends PApplet {
 
 	private AlphaVantageConnector alpha;
+	private DcfCalculator dcf;
 	private GImageButton eraserButton;
 	private GImageButton lineButton;
 	private GImageButton cursorButton;
@@ -69,6 +70,10 @@ public class DrawingSurface extends PApplet {
 	public DrawingSurface() {
 		
 		alpha = new AlphaVantageConnector();
+		alpha.setTicker("AAPL");
+		alpha.configure();
+		
+		dcf = new DcfCalculator();
 		dataGood = false;
 		FIVE_Y = 0; //one data point per week
 		ONE_Y = 365; //one data point per day
@@ -80,13 +85,11 @@ public class DrawingSurface extends PApplet {
 		timespan = ONE_Y;
 		numDataPoints = 261;
 		
-		alpha.setTicker("AAPL");
-		
 		getData();
 	}
 	
 	/**
-	 * Sets up parameters for data from the API
+	 * Sets up parameters for Time Series API call
 	 */
 	public void getData() {
 		 AlphaVantage.api()
