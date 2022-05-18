@@ -52,7 +52,7 @@ public class DrawingSurface extends PApplet {
 	private Rectangle frame;
 	private ArrayList<StockUnit> data;
 	private int timespan;
-	private int displayTime;
+	private int numDataPoints;
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
 	//private PImage line, rectangle, eraser, cursor, calculator;
 	int a = 0;
@@ -76,14 +76,45 @@ public class DrawingSurface extends PApplet {
 		FIVE_D = 0; //one data point per 5min
 		ONE_D = 0; //one data point per 1min
 		timespan = ONE_Y;
-		displayTime = 261;
+		numDataPoints = 261;
 		
 		alpha.setTicker("AAPL");
 		
-		alpha.getTimeSeriesData();
+		getData();
 	}
 	
-
+	/**
+	 * Sets up parameters for data from the API
+	 */
+	public void getData() {
+		 AlphaVantage.api()
+		    .timeSeries()
+		    .daily() //change based on timespan
+		    .forSymbol(alpha.getTicker())
+		    .outputSize(OutputSize.FULL)
+		    .onSuccess(e->handleSuccess(e))
+		    .onFailure(e->handleFailure(e))
+		    .fetch();
+	}
+	
+	/**
+	 * Instructions for what to do if the API was successfully fetched
+	 * 
+	 * @param e the object passed from onSuccess() in the api
+	 */
+	private void handleSuccess(Object e) {
+	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
+	    dataGood = true;
+	}
+	
+	/**
+	 * Instructions for what to do if the API was unsuccessfully fetched
+	 * 
+	 * @param error the error that occurred
+	 */
+	private void handleFailure(AlphaVantageException error) {
+	    System.out.println(error.toString());
+	}
 	
 	
 	/**
@@ -122,7 +153,8 @@ public class DrawingSurface extends PApplet {
 		textAlign(LEFT);
 		textSize(12);
 		frame.draw(this);
-		tickerDisplay.setText(alpha.getTicker() + " for " + displayTime + " days");
+		
+		tickerDisplay.setText(alpha.getTicker() + " for " + timespan + " days");
 		
 //		lineButton.draw(this);
 //		eraserButton.draw(this);
@@ -133,11 +165,11 @@ public class DrawingSurface extends PApplet {
 		if (dataGood) {
 			
 			findMinMax();
-			for (int e = displayTime; e > 0; e--) { //261 days of stock trading per year
+			for (int e = numDataPoints; e > 0; e--) { //261 days of stock trading per year
 				
-				double x1 = 650-(double)e*(600.0/displayTime); //300 to give space for buttons on left side
+				double x1 = 650-(double)e*(600.0/numDataPoints); //300 to give space for buttons on left side
 				double y1 = 525-(data.get(e).getClose()-minY)/(maxY-minY)*300; //575 is the max y val of the jframe
-				double x2 = 650-(double)e*(600.0/displayTime)+(600.0/displayTime);
+				double x2 = 650-(double)e*(600.0/numDataPoints)+(600.0/numDataPoints);
 				double y2 = 525-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
 				
 				Line l = new Line(x1, y1, x2, y2);
@@ -160,7 +192,7 @@ public class DrawingSurface extends PApplet {
 		minY = data.get(0).getClose();
 		maxY = 0;
 		
-		for (int e = displayTime; e > 0; e--) { 
+		for (int e = numDataPoints; e > 0; e--) { 
 			
 			if (data.get(e).getClose() < minY) {
 				minY = data.get(e).getClose();
@@ -210,8 +242,8 @@ public class DrawingSurface extends PApplet {
 		if (event == GEvent.ENTERED) {
 			// System.out.println("YO");
 			alpha.setTicker(textcontrol.getText());
-			displayTime = parseInt(textcontrol.getText());
-			alpha.getTimeSeriesData();
+			numDataPoints = parseInt(textcontrol.getText());
+			getData();
 		} 
 	}
 	

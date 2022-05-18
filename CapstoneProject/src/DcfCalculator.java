@@ -9,29 +9,50 @@ import java.util.ArrayList;
 import com.crazzyghost.alphavantage.AlphaVantage;
 import com.crazzyghost.alphavantage.AlphaVantageException;
 import com.crazzyghost.alphavantage.fundamentaldata.FundamentalData;
+import com.crazzyghost.alphavantage.fundamentaldata.response.BalanceSheet;
 import com.crazzyghost.alphavantage.fundamentaldata.response.BalanceSheetResponse;
-import com.crazzyghost.alphavantage.parameters.OutputSize;
-import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
-import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
+import com.crazzyghost.alphavantage.fundamentaldata.response.CashFlow;
+import com.crazzyghost.alphavantage.fundamentaldata.response.CashFlowResponse;
 
-public class DcfCalculator extends AlphaVantageConnector {
+public class DcfCalculator {
+	
+	private AlphaVantageConnector alpha;
 	
 	public DcfCalculator() {
-		super();
+		alpha = new AlphaVantageConnector();
+		getData();
 	}
 	
+	public void getData() {
+		AlphaVantage.api()
+		    .fundamentalData()
+		    .balanceSheet()
+		    .forSymbol(alpha.getTicker())
+		    .onSuccess(e->handleBSSuccess(e))
+		    .onFailure(e->handleFailure(e))
+		    .fetch();
+		
+		AlphaVantage.api()
+	    .fundamentalData()
+	    .cashFlow()
+	    .forSymbol(alpha.getTicker())
+	    .onSuccess(e->handleCFSuccess(e))
+	    .onFailure(e->handleFailure(e))
+	    .fetch();
+	}
+
 	/**
-	 * Instructions for what to do if the API was successfully fetched
+	 * Instructions for what to do if the Balance Sheet data was successfully fetched
 	 * 
 	 * @param e the object passed from onSuccess() in the api
 	 */
-	private void handleSuccess(Object e) {
-	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
-	    dataGood = true;
+	private void handleBSSuccess(Object e) {
+		ArrayList<BalanceSheet> bs = (ArrayList<BalanceSheet>) ((BalanceSheetResponse) e).getAnnualReports();
+		
 	}
 	
 	/**
-	 * Instructions for what to do if the API was unsuccessfully fetched
+	 * Instructions for what to do if the data was unsuccessfully fetched
 	 * 
 	 * @param error the error that occurred
 	 */
@@ -39,6 +60,15 @@ public class DcfCalculator extends AlphaVantageConnector {
 	    System.out.println(error.toString());
 	}
 	
+	/**
+	 * Instructions for what to do if the Cash Flow data was successfully fetched
+	 * 
+	 * @param e the object passed from onSuccess() in the api
+	 */
+	private void handleCFSuccess(Object e) {
+		ArrayList<CashFlow> cf = (ArrayList<CashFlow>) ((CashFlowResponse) e).getAnnualReports();
+		
+	}
 	
 	
 	
