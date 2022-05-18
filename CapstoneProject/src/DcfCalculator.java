@@ -21,7 +21,10 @@ public class DcfCalculator {
 	public DcfCalculator() {
 		alpha = new AlphaVantageConnector();
 		FundamentalData api = new FundamentalData(alpha.getConfig());
+		api.incomeStatement().forSymbol()
 	}
+	
+	
 	
 	
 			

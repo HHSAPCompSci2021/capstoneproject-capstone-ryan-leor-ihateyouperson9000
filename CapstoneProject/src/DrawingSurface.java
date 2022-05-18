@@ -50,7 +50,6 @@ public class DrawingSurface extends PApplet {
 	private String[] cursorFiles;
 	private String[] rectangleFiles;
 	private Rectangle frame;
-	private static String stockTicker;
 	private ArrayList<StockUnit> data;
 	private int timespan;
 	private int displayTime;
@@ -79,7 +78,7 @@ public class DrawingSurface extends PApplet {
 		timespan = ONE_Y;
 		displayTime = 261;
 		
-		stockTicker = "AAPL";
+		alpha.setTicker("AAPL");
 		
 		getData();
 	}
@@ -91,7 +90,7 @@ public class DrawingSurface extends PApplet {
 		 AlphaVantage.api()
 		    .timeSeries()
 		    .daily() //change based on timespan
-		    .forSymbol(stockTicker)
+		    .forSymbol(alpha.getTicker())
 		    .outputSize(OutputSize.FULL)
 		    .onSuccess(e->handleSuccess(e))
 		    .onFailure(e->handleFailure(e))
@@ -154,7 +153,7 @@ public class DrawingSurface extends PApplet {
 		textAlign(LEFT);
 		textSize(12);
 		frame.draw(this);
-		tickerDisplay.setText(stockTicker + " for " + displayTime + " days");
+		tickerDisplay.setText(alpha.getTicker() + " for " + displayTime + " days");
 		
 //		lineButton.draw(this);
 //		eraserButton.draw(this);
@@ -241,7 +240,7 @@ public class DrawingSurface extends PApplet {
 	public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
 		if (event == GEvent.ENTERED) {
 			// System.out.println("YO");
-			setStockTicker(textcontrol.getText());
+			alpha.setTicker(textcontrol.getText());
 			displayTime = parseInt(textcontrol.getText());
 			getData();
 		} 
@@ -260,16 +259,6 @@ public class DrawingSurface extends PApplet {
 			
 		}
 		*/
-	}
-	
-	public static String getStockTicker() {
-		return stockTicker;
-	}
-	
-	public void setStockTicker(String s) {
-		stockTicker = s;
-		System.out.println(stockTicker);
-		// getData();
 	}
 
 	

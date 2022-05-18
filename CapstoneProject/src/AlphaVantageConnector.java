@@ -4,6 +4,7 @@ import com.crazzyghost.alphavantage.Config;
 public class AlphaVantageConnector {
 
 	private Config cfg;
+	private String stockTicker;
 	
 	public AlphaVantageConnector() {
 		cfg = Config.builder()
@@ -16,6 +17,14 @@ public class AlphaVantageConnector {
 	public Config getConfig() {
 		return cfg;
 	}
+	
+	public void setTicker(String s) {
+		stockTicker = s;
+	}
+	public String getTicker() {
+		return stockTicker;
+	}
+	
 	
 	
 }
