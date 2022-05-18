@@ -47,6 +47,7 @@ public class DrawingSurface extends PApplet {
 	private static String stockTicker;
 	private ArrayList<StockUnit> data;
 	private int timespan;
+	private int displayTime;
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
 	//private PImage line, rectangle, eraser, cursor, calculator;
 	
@@ -69,6 +70,7 @@ public class DrawingSurface extends PApplet {
 		FIVE_D = 0; //one data point per 5min
 		ONE_D = 0; //one data point per 1min
 		timespan = ONE_Y;
+		displayTime = 261;
 		
 		stockTicker = "AAPL";
 		
@@ -148,24 +150,13 @@ public class DrawingSurface extends PApplet {
 //		calculateDCF.draw(this);
 		
 		if (dataGood) {
-		
-		/*
-			for (int e=0; e<data.size()-1; e++) {
-				
-				StockUnit[] units = new StockUnit[365]; //change based on timespan
-				for (int i=0; i<365; i++) {
-					units[i] = data.get(i);
-				}
-		
-		*/	
-			// shows graph data for one year
+			
 			findMinMax();
-			int length = 261;
-			for (int e = length; e > 0; e--) { //261 days of stock trading per year
+			for (int e = displayTime; e > 0; e--) { //261 days of stock trading per year
 				
-				double x1 = 650-(double)e*(600.0/length); //300 to give space for buttons on left side
+				double x1 = 650-(double)e*(600.0/displayTime); //300 to give space for buttons on left side
 				double y1 = 525-(data.get(e).getClose()-minY)/(maxY-minY)*300; //575 is the max y val of the jframe
-				double x2 = 650-(double)e*(600.0/length)+(600.0/length);
+				double x2 = 650-(double)e*(600.0/displayTime)+(600.0/displayTime);
 				double y2 = 525-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
 				
 				Line l = new Line(x1, y1, x2, y2);
@@ -188,7 +179,7 @@ public class DrawingSurface extends PApplet {
 		minY = data.get(0).getClose();
 		maxY = 0;
 		
-		for (int e = 261; e > 0; e--) { 
+		for (int e = displayTime; e > 0; e--) { 
 			
 			if (data.get(e).getClose() < minY) {
 				minY = data.get(e).getClose();
@@ -224,41 +215,7 @@ public class DrawingSurface extends PApplet {
 	 * Saves the coordinate that was clicked by the mouse
 	 */
 	public void mousePressed() {
-//		if (mouseButton == LEFT) {
-//			if (lineButton.getBorder().isPointInside(mouseX, mouseY)) {
-//				if (lineButton.isPressed()) {
-//					lineButton.unpress();
-//				} else {
-//					lineButton.press();
-//				}
-//			}
-//			if (eraserButton.getBorder().isPointInside(mouseX, mouseY)) {
-//				if (eraserButton.isPressed()) {
-//					eraserButton.unpress();
-//				} else {
-//					eraserButton.press();
-//				}
-//			}
-//			if (pointerButton.getBorder().isPointInside(mouseX, mouseY)) {
-//				if (pointerButton.isPressed()) {
-//					pointerButton.unpress();
-//				} else {
-//					pointerButton.press();
-//				}
-//			}
-//			if (boxButton.getBorder().isPointInside(mouseX, mouseY)) {
-//				if (boxButton.isPressed()) {
-//					boxButton.unpress();
-//				} else {
-//					boxButton.press();
-//				}
-//			}
-//			if (ticker.getBorder().isPointInside(mouseX, mouseY)) {
-//				Scanner reader = new Scanner(System.in);
-//				String n = reader.next();
-//				ticker.setString(n);
-//			}
-//		} 
+
 	}
 	
 	/**
@@ -285,6 +242,10 @@ public class DrawingSurface extends PApplet {
 	
 	public static String getStockTicker() {
 		return stockTicker;
+	}
+	
+	public void setStockTicker(String s) {
+		stockTicker = s;
 	}
 	
 
