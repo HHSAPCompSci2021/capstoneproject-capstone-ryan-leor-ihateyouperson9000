@@ -18,6 +18,7 @@ import com.crazzyghost.alphavantage.fundamentaldata.response.IncomeStatementResp
 
 public class DcfCalculator {
 	
+	private Ticker ticker;
 	private boolean dataGood;
 	
 		//Calculating Unlevered free cash flow
@@ -28,9 +29,11 @@ public class DcfCalculator {
 		private double capitalExpenditures;
 	
 	public DcfCalculator() {
-		getBSData();
-		getISData();
-		getCFData();
+		ticker.setTicker("AAPL");
+		
+			getBSData();
+			getISData();
+			getCFData(); 
 	}
 	
 	/**
@@ -40,7 +43,7 @@ public class DcfCalculator {
 		AlphaVantage.api()
 		    .fundamentalData()
 		    .balanceSheet()
-		    .forSymbol()
+		    .forSymbol(ticker.getTicker())
 		    .onSuccess(e->handleBSSuccess(e))
 		    .onFailure(e->handleFailure(e))
 		    .fetch();
@@ -54,7 +57,7 @@ public class DcfCalculator {
 		AlphaVantage.api()
 	    .fundamentalData()
 	    .incomeStatement()
-	    .forSymbol(alpha.getTicker())
+	    .forSymbol(ticker.getTicker())
 	    .onSuccess(e->handleISSuccess(e))
 	    .onFailure(e->handleFailure(e))
 	    .fetch();
@@ -68,7 +71,7 @@ public class DcfCalculator {
 		AlphaVantage.api()
 	    .fundamentalData()
 	    .cashFlow()
-	    .forSymbol(alpha.getTicker())
+	    .forSymbol(ticker.getTicker())
 	    .onSuccess(e->handleCFSuccess(e))
 	    .onFailure(e->handleFailure(e))
 	    .fetch();
