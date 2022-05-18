@@ -38,7 +38,7 @@ public class DrawingSurface extends PApplet {
 	private GImageButton lineButton;
 	private GImageButton cursorButton;
 	private GImageButton rectangleButton;
-	private GButton button;
+	private GTextArea tickerBox;
 	private String[] eraserFiles;
 	private String[] lineFiles;
 	private String[] cursorFiles;
@@ -123,6 +123,7 @@ public class DrawingSurface extends PApplet {
 		lineButton = new GImageButton(this, 0, 50, 50, 50, lineFiles);
 		cursorButton = new GImageButton(this, 0, 100, 50, 50, cursorFiles);
 		rectangleButton = new GImageButton(this, 0, 150, 50, 50, rectangleFiles);
+		tickerBox = new GTextArea(this, 650, 0, 100, 50);
 		frame = new Rectangle(50, 50, 600, 525);
 	}
 	
@@ -222,6 +223,10 @@ public class DrawingSurface extends PApplet {
 	 * Runs if a key is pressed
 	 */
 	public void keyPressed() {
+		
+	}
+	
+	public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
 		
 	}
 	
