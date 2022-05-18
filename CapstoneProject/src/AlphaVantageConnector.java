@@ -8,24 +8,10 @@ import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 
 public class AlphaVantageConnector {
-
-	public Config cfg;
+	
 	public String ticker;
 	
 	public AlphaVantageConnector() {
-
-	}
-	
-	public void configure() {
-		cfg = Config.builder()
-			    .key("K3GVRKJIDYNUZPZM")
-			    .timeOut(10)
-			    .build();
-		AlphaVantage.api().init(cfg);
-	}
-	
-	public Config getConfig() {
-		return cfg;
 	}
 	
 	public void setTicker(String s) {
