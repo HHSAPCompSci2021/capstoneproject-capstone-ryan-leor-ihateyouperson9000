@@ -121,6 +121,15 @@ public class StockChart {
 		return alpha.getTicker();
 	}
 	
-	
-	
+	public double getValAtTime(int year, int month, int day) {
+		String s = year+"-"+month+"-"+day;
+		if (dataGood) {
+			for (int e = numDataPoints; e > 0; e--) {
+				if (data.get(e).getDate().equals(s)) {
+					return data.get(e).getClose();
+				}
+			}
+		}
+		return -1;
+	}
 }
