@@ -12,7 +12,7 @@ public class Ticker {
 	public String ticker;
 	
 	public Ticker() {
-		ticker = "AAPL";
+		ticker = "";
 	}
 	
 	public void setTicker(String s) {

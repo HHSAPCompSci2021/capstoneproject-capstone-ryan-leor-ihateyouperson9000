@@ -53,6 +53,7 @@ public class DrawingSurface extends PApplet {
 	private String[] cursorFiles;
 	private String[] rectangleFiles;
 	private StockChart chart;
+	private boolean tickerSet;
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
 	
 	/**
@@ -63,9 +64,8 @@ public class DrawingSurface extends PApplet {
 		configure();
 		
 		chart = new StockChart();
-		chart.setTicker("AAPL");
-		
 		dcf = new DcfCalculator();
+		tickerSet = false;
 		
 		FIVE_Y = 0; //one data point per week
 		ONE_Y = 365; //one data point per day
@@ -73,7 +73,8 @@ public class DrawingSurface extends PApplet {
 		THREE_M = 0; //one data point per 1hr
 		ONE_M = 0; //one data point per 30min
 		FIVE_D = 0; //one data point per 5min
-		ONE_D = 0; //one data point per 1min		
+		ONE_D = 0; //one data point per 1min	
+		
 	}
 	
 	public void configure() {
@@ -103,14 +104,11 @@ public class DrawingSurface extends PApplet {
 		timeInstructions = new GTextField(this, 650, 70, 100, 20);
 		tickerDisplay = new GTextField(this, 325, 100, 120, 20);
 		hoveredVal = new GTextField(this, 200, 0, 100, 50);
+		
 
 	}
 	
 	public void handleButtonEvents(GImageButton button, GEvent event) {
-		if (button.isEnabled()) {
-			System.out.println("ENABLED");
-		} else {
-		}
 	}
 	
 	/**
@@ -120,8 +118,12 @@ public class DrawingSurface extends PApplet {
 		fill(0);
 		textAlign(LEFT);
 		textSize(12);
+		if (!tickerSet) {
+			tickerDisplay.setText("CHOOSE TICKER");
+		} else {
+			tickerDisplay.setText(chart.getTicker() + " for " + chart.getNumDataPoints() + " days");
+		}
 		
-		tickerDisplay.setText(chart.getTicker() + " for " + chart.getNumDataPoints() + " days");
 		tickerInstructions.setText("Set ticker");
 		timeInstructions.setText("Set time");
 		
@@ -185,6 +187,7 @@ public class DrawingSurface extends PApplet {
 				chart.update(this);
 			} catch (NumberFormatException e) {
 				chart.setTicker(textcontrol.getText());
+				tickerSet = true;
 				chart.getData();
 				chart.update(this);
 			}

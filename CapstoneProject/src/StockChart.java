@@ -1,3 +1,9 @@
+/**
+ * Draws the stock chart
+ * 
+ * Author: Leor Porat
+ * Version: 5/19/22
+ */
 import java.util.ArrayList;
 
 import com.crazzyghost.alphavantage.AlphaVantage;
@@ -61,11 +67,18 @@ public class StockChart {
 	}
 	
 	public void update(PApplet drawer) {
+		if (drawer == null) {
+			System.out.println("DRAWER NULL");
+		} else {
+			System.out.println("DRAWER NOT NULL");
+		}
 		drawer.background(255);
 		drawer.stroke(0);
 		frame.draw(drawer);
 		drawer.stroke(255);
+		System.out.println("DATA NOT GOOD YET");
 		if (dataGood) {
+			System.out.println("DATA GOOD");
 			findMinMax();
 			for (int e = numDataPoints; e > 0; e--) { //261 days of stock trading per year
 				
