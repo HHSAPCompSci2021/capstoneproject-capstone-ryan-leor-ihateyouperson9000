@@ -25,6 +25,7 @@ import g4p_controls.GTextField;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.event.KeyEvent;
+import processing.event.MouseEvent;
 import rxu770.shapes.Line;
 import rxu770.shapes.Rectangle;
 
@@ -152,10 +153,20 @@ public class DrawingSurface extends PApplet {
 		if (50 < mouseX && mouseX < 650 && 50 < mouseY && mouseY < 525) {
 			int dataPoints = chart.getNumDataPoints();
 			int dataPointActual = (int)(chart.getFrame().getWidth()/chart.getNumDataPoints());
-			int pointClicked = (mouseX+50)/chart.getNumDataPoints();
+			int pointClicked = chart.getNumDataPoints()-(int)((mouseX-50)*(chart.getNumDataPoints()/chart.getFrame().getWidth()));
 			System.out.println(pointClicked);
 			hoveredVal.setText("date: " + chart.getStockData().get(pointClicked).getDate()
-					+ "val: " + chart.getStockData().get(pointClicked).getClose());
+					+ "\n" + "val: " + chart.getStockData().get(pointClicked).getClose());
+		}
+	}
+	
+
+	public void mouseWheel(MouseEvent event) {
+		if (50 < mouseX && mouseX < 650 && 50 < mouseY && mouseY < 525) {
+			float e = event.getCount();
+			int sizeAmount = (int)e*10;
+			chart.setNumDataPoints(chart.getNumDataPoints()+sizeAmount);
+			chart.update(this);
 		}
 	}
 	

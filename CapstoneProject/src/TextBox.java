@@ -5,6 +5,7 @@
  * Version: 5/6/22
  */
 import processing.core.PApplet;
+import processing.event.MouseEvent;
 import rxu770.shapes.Rectangle;
 
 public class TextBox {
@@ -83,6 +84,7 @@ public class TextBox {
 		border.setX(x);
 		border.setY(y);
 	}
+	
 	
 	/**
 	 * Sets input (field) to a given string that was typed in the textbox
