@@ -5,7 +5,7 @@
  * Version: 5/5/22
  */
 
-import java.awt.Dimension; 
+import java.awt.Dimension;  
 
 import javax.swing.JFrame;
 

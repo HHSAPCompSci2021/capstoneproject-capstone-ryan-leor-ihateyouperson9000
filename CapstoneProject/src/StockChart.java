@@ -13,7 +13,7 @@ import rxu770.shapes.Rectangle;
 
 public class StockChart {
 
-	private AlphaVantageConnector alpha;
+	private Ticker ticker;
 	private Config cfg;
 	private Rectangle frame;
 	private ArrayList<StockUnit> data;
@@ -22,9 +22,8 @@ public class StockChart {
 	private boolean dataGood;
 	
 	public StockChart() {
-		alpha = new AlphaVantageConnector();
-		alpha.setTicker("AAPL");
-		alpha.configure();
+		ticker = new Ticker();
+		ticker.setTicker("AAPL");
 		dataGood = false;
 		numDataPoints = 261;
 		frame = new Rectangle(50, 50, 600, 525);
@@ -35,7 +34,7 @@ public class StockChart {
 			 AlphaVantage.api()
 			    .timeSeries()
 			    .daily() //change based on timespan
-			    .forSymbol(alpha.getTicker())
+			    .forSymbol(ticker.getTicker())
 			    .outputSize(OutputSize.FULL)
 			    .onSuccess(e->handleSuccess(e))
 			    .onFailure(e->handleFailure(e))
@@ -114,11 +113,11 @@ public class StockChart {
 	}
 	
 	public void setTicker(String s) {
-		alpha.setTicker(s);
+		ticker.setTicker(s);
 	}
 	
 	public String getTicker() {
-		return alpha.getTicker();
+		return ticker.getTicker();
 	}
 	
 	public double getValAtTime(int year, int month, int day) {

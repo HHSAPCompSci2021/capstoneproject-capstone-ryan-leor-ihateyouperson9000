@@ -7,28 +7,16 @@ import com.crazzyghost.alphavantage.parameters.OutputSize;
 import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 
-public class AlphaVantageConnector {
-
-	public Config cfg;
+public class Ticker {
+	
 	public String ticker;
 	
-	public AlphaVantageConnector() {
-
-	}
-	
-	public void configure() {
-		cfg = Config.builder()
-			    .key("K3GVRKJIDYNUZPZM")
-			    .timeOut(10)
-			    .build();
-		AlphaVantage.api().init(cfg);
-	}
-	
-	public Config getConfig() {
-		return cfg;
+	public Ticker() {
+		ticker = "AAPL";
 	}
 	
 	public void setTicker(String s) {
+		System.out.println("set");
 		ticker = s;
 	}
 	public String getTicker() {

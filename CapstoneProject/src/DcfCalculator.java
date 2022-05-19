@@ -18,14 +18,22 @@ import com.crazzyghost.alphavantage.fundamentaldata.response.IncomeStatementResp
 
 public class DcfCalculator {
 	
-	private AlphaVantageConnector alpha;
+	private Ticker ticker;
+	private boolean dataGood;
+	
+		//Calculating Unlevered free cash flow
+		private double netIncome;
+		private double depreciationOrAmortization;
+		private double deltWorkingCapital;
+		private double deltWorkingCapital_optimized;
+		private double capitalExpenditures;
 	
 	public DcfCalculator() {
-		alpha = new AlphaVantageConnector();
-		alpha.setTicker("AAPL");
-		getBSData();
-		getISData();
-		getCFData();
+		ticker.setTicker("AAPL");
+		
+			getBSData();
+			getISData();
+			getCFData(); 
 	}
 	
 	/**
@@ -35,10 +43,11 @@ public class DcfCalculator {
 		AlphaVantage.api()
 		    .fundamentalData()
 		    .balanceSheet()
-		    .forSymbol(alpha.getTicker())
+		    .forSymbol(ticker.getTicker())
 		    .onSuccess(e->handleBSSuccess(e))
 		    .onFailure(e->handleFailure(e))
 		    .fetch();
+		dataGood = true;
 	}
 	
 	/**
@@ -48,10 +57,11 @@ public class DcfCalculator {
 		AlphaVantage.api()
 	    .fundamentalData()
 	    .incomeStatement()
-	    .forSymbol(alpha.getTicker())
+	    .forSymbol(ticker.getTicker())
 	    .onSuccess(e->handleISSuccess(e))
 	    .onFailure(e->handleFailure(e))
 	    .fetch();
+		dataGood = true;
 	}
 	
 	/**
@@ -61,10 +71,11 @@ public class DcfCalculator {
 		AlphaVantage.api()
 	    .fundamentalData()
 	    .cashFlow()
-	    .forSymbol(alpha.getTicker())
+	    .forSymbol(ticker.getTicker())
 	    .onSuccess(e->handleCFSuccess(e))
 	    .onFailure(e->handleFailure(e))
 	    .fetch();
+		dataGood = true;
 	}
 	
 	/**
@@ -82,20 +93,25 @@ public class DcfCalculator {
 	 * @param e the object passed from onSuccess() in the api
 	 */
 	private void handleBSSuccess(Object e) {
+		double workingCap1, workingCap2;
 		ArrayList<BalanceSheet> bs = (ArrayList<BalanceSheet>) ((BalanceSheetResponse) e).getAnnualReports();
+		
 		double a = bs.get(0).getTotalCurrentAssets();
 		double b = bs.get(0).getCashAndCashEquivalentsAtCarryingValue();
 		double c = bs.get(0).getTotalCurrentLiabilities();
 		double d = bs.get(0).getCurrentDebt();
-		double workingCap1 = (a-b) - (c-d);
 		
 		double f = bs.get(1).getTotalCurrentAssets();
 		double g = bs.get(1).getCashAndCashEquivalentsAtCarryingValue();
 		double h = bs.get(1).getTotalCurrentLiabilities();
 		double i = bs.get(1).getCurrentDebt();
-		double workingCap2 = (f-g) - (h-i);
-		
-		double deltWorkingCap = workingCap1 - workingCap2;
+	
+		workingCap1 = a-c;
+		workingCap2 = f-h; 
+		deltWorkingCapital = workingCap1 - workingCap2;
+		workingCap1 = (a-b) - (c-d);
+		workingCap2 = (f-g) - (h-i); 
+		deltWorkingCapital_optimized = workingCap1 - workingCap2;
 	}
 	
 	/**
@@ -105,8 +121,8 @@ public class DcfCalculator {
 	 */
 	private void handleISSuccess(Object e) {
 		ArrayList<IncomeStatement> is = (ArrayList<IncomeStatement>) ((IncomeStatementResponse) e).getAnnualReports();
-		is.get(0).getNetIncome();
-		is.get(0).getDepreciationAndAmortization();
+		netIncome = is.get(0).getNetIncome();
+		depreciationOrAmortization = is.get(0).getDepreciationAndAmortization();
 	}
 	
 	/**
@@ -116,10 +132,25 @@ public class DcfCalculator {
 	 */
 	private void handleCFSuccess(Object e) {
 		ArrayList<CashFlow> cf = (ArrayList<CashFlow>) ((CashFlowResponse) e).getAnnualReports();
-//		cf.get(0)
+		capitalExpenditures = cf.get(0).getCapitalExpenditures();
 	}
 	
+	private double calcUnleveredCashFlow() {
+		return netIncome + depreciationOrAmortization - deltWorkingCapital - capitalExpenditures;
+	}
 	
+	private double calcOptimizedUnleveredCashFlow() { 
+		return netIncome + depreciationOrAmortization - deltWorkingCapital_optimized - capitalExpenditures;
+	}
+	
+	private double calcDCF() {
+		if (dataGood) {
+			
+			
+			
+		}
+		return 0.0;
+	}
 	
 			
 //	private ArrayList<Double> data;

@@ -36,8 +36,6 @@ import rxu770.shapes.Rectangle;
  *
  */
 public class DrawingSurface extends PApplet {
-
-	private AlphaVantageConnector alpha;
 	private DcfCalculator dcf;
 	private GImageButton eraserButton;
 	private GImageButton lineButton;
@@ -60,19 +58,28 @@ public class DrawingSurface extends PApplet {
 	 */
 	public DrawingSurface() {
 		
-		alpha = new AlphaVantageConnector();
-		alpha.setTicker("AAPL");
-		alpha.configure();
+		configure();
+		
 		chart = new StockChart();
+		chart.setTicker("AAPL");
+		
 		dcf = new DcfCalculator();
+		
 		FIVE_Y = 0; //one data point per week
 		ONE_Y = 365; //one data point per day
 		SIX_M = 0; //one data point per 2hr
 		THREE_M = 0; //one data point per 1hr
 		ONE_M = 0; //one data point per 30min
 		FIVE_D = 0; //one data point per 5min
-		ONE_D = 0; //one data point per 1min
-		
+		ONE_D = 0; //one data point per 1min		
+	}
+	
+	public void configure() {
+		Config cfg = Config.builder()
+			    .key("K3GVRKJIDYNUZPZM")
+			    .timeOut(10)
+			    .build();
+		AlphaVantage.api().init(cfg);
 	}
 	
 	/**
