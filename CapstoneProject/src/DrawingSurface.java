@@ -162,9 +162,9 @@ public class DrawingSurface extends PApplet {
 	
 
 	public void mouseWheel(MouseEvent event) {
-		if (50 < mouseX && mouseX < 650 && 50 < mouseY && mouseY < 525) {
+		if (50 < mouseX && mouseX < 650 && 50 < mouseY && mouseY < 525 && chart.getNumDataPoints() >= 1) {
 			float e = event.getCount();
-			int sizeAmount = (int)e*10;
+			int sizeAmount = (int)e;
 			chart.setNumDataPoints(chart.getNumDataPoints()+sizeAmount);
 			chart.update(this);
 		}

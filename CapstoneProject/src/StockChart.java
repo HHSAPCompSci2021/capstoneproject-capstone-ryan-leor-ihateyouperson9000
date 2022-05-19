@@ -109,7 +109,9 @@ public class StockChart {
 	}
 	
 	public void setNumDataPoints(int n) {
-		numDataPoints = n;
+		if (n > 0) {
+			numDataPoints = n;
+		}
 	}
 	
 	public void setTicker(String s) {
