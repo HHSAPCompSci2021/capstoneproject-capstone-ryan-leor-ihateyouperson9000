@@ -46,6 +46,7 @@ public class DrawingSurface extends PApplet {
 	private GTextField tickerDisplay;
 	private GTextField tickerInstructions;
 	private GTextField timeInstructions;
+	private GTextField hoveredVal;
 	private String[] eraserFiles;
 	private String[] lineFiles;
 	private String[] cursorFiles;
@@ -99,7 +100,8 @@ public class DrawingSurface extends PApplet {
 		timeBox = new GTextArea(this, 650, 90, 100, 50);
 		tickerInstructions = new GTextField(this, 650, 0, 100, 20);
 		timeInstructions = new GTextField(this, 650, 70, 100, 20);
-		tickerDisplay = new GTextField(this, 325, 100, 100, 20);
+		tickerDisplay = new GTextField(this, 325, 100, 120, 20);
+		hoveredVal = new GTextField(this, 200, 0, 100, 50);
 
 	}
 	
@@ -108,7 +110,6 @@ public class DrawingSurface extends PApplet {
 			System.out.println("ENABLED");
 		} else {
 		}
-		// getData();
 	}
 	
 	/**
@@ -148,7 +149,14 @@ public class DrawingSurface extends PApplet {
 	 * Saves the coordinate that was clicked by the mouse
 	 */
 	public void mousePressed() {
-
+		if (50 < mouseX && mouseX < 650 && 50 < mouseY && mouseY < 525) {
+			int dataPoints = chart.getNumDataPoints();
+			int dataPointActual = (int)(chart.getFrame().getWidth()/chart.getNumDataPoints());
+			int pointClicked = (mouseX+50)/chart.getNumDataPoints();
+			System.out.println(pointClicked);
+			hoveredVal.setText("date: " + chart.getStockData().get(pointClicked).getDate()
+					+ "val: " + chart.getStockData().get(pointClicked).getClose());
+		}
 	}
 	
 	/**

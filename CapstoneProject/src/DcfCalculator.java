@@ -29,7 +29,8 @@ public class DcfCalculator {
 		private double capitalExpenditures;
 	
 	public DcfCalculator() {
-		ticker.setTicker("AAPL");
+			ticker = new Ticker();
+			ticker.setTicker("AAPL");
 		
 			getBSData();
 			getISData();

@@ -131,4 +131,9 @@ public class StockChart {
 		}
 		return -1;
 	}
+	
+	public Rectangle getFrame() {
+		return frame;
+	}
+	
 }
