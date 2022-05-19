@@ -77,7 +77,7 @@ public class DrawingSurface extends PApplet {
 	
 	public void configure() {
 		Config cfg = Config.builder()
-			    .key("K3GVRKJIDYNUZPZM")
+			    .key("A780A0EPRA30GKU4") //K3GVRKJIDYNUZPZM
 			    .timeOut(10)
 			    .build();
 		AlphaVantage.api().init(cfg);
