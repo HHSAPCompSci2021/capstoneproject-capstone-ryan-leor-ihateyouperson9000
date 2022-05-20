@@ -159,5 +159,13 @@ public class Rectangle extends Shape {
 		width+=10;
 		height+=10;
 	}
+	
+	/**
+	 * Sets the next shape to be transparent
+	 * @param p the PApplet affected
+	 */
+	public void setTransparent(PApplet p) {
+		p.noFill();
+	}
 }
 

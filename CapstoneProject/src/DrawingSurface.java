@@ -26,9 +26,9 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import rxu770.shapes.Line;
-import rxu770.shapes.Rectangle;
-import rxu770.shapes.Shape;
+import shapes.Line;
+import shapes.Rectangle;
+import shapes.Shape;
 
 
 
@@ -150,19 +150,28 @@ public class DrawingSurface extends PApplet {
 	
 	public void handleButtonEvents(GImageButton button, GEvent event) {
 		if (button.getY() == 125) { // ERASER BUTTON
+			shapes.get(shapes.size()-1).setStrokeColors(0,  0,  0);
+			shapes.get(shapes.size()-1).draw(this);
+			shapes.remove(shapes.size()-1);
 			System.out.println("ERASER CLICKED");
-		} else if (button.getY() == (float)(125+131.25)) { // LINE BUTTON
-			if (!rectActive) {
+		} else if (button.getY() == (float)(125+(chart.getFrame().getHeight()/4.0))) { // LINE BUTTON
+			if (!lineActive) {
 				lineActive = true;
+			} else {
+				lineActive = false;
 			}
 			System.out.println("LINE BUTTON CLICKED");
 		} else if (button.getY() == (float)(125+(2.0*(chart.getFrame().getHeight()/4.0)))) { // CURSOR BUTTON
 			System.out.println("CURSOR BUTTON CLICKED");
 		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) { // RECTANGLE BUTTON
-			if (!lineActive) {
+			if (!rectActive) {
 				rectActive = true;
+				
+			} else {
+				rectActive = false;
 			}
-			System.out.println("RECTANGLE BUTTON CLICKED");
+			System.out.println("RECTACTIVE: " + rectActive);
+			// System.out.println("RECTANGLE BUTTON CLICKED");
 		}
 	}
 	
@@ -216,14 +225,39 @@ public class DrawingSurface extends PApplet {
 			this.stroke(255);
 			Line l = new Line(xCoord, 125, xCoord, (double)650);
 			l.draw(this);
-		} else if (rectActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650) {
+		} else if (rectActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !lineActive) {
 			if (pointCount == 0) {
 				pointOne = new Point(mouseX, mouseY);
+				System.out.println("MOUSE X POINT 1: " + mouseX + " MOUSE Y POINT 1: " + mouseY);
 				pointCount++;
 			} else if (pointCount == 1) {
 				pointTwo = new Point(mouseX, mouseY);
+				System.out.println("MOUSE X POINT 1: " + pointOne.x + " MOUSE Y POINT 1: " + pointOne.y
+						+ " MOUSE X POINT 2: " + pointTwo.x + " MOUSE Y POINT 2: " + pointTwo.y);
 				Rectangle rect = new Rectangle(pointOne.x, pointOne.y, Math.abs(pointTwo.x-pointOne.x), Math.abs(pointTwo.y-pointOne.y));
+				rect.setStrokeColors(255,  255,  255);
+				rect.setTransparent(this);
 				rect.draw(this);
+				pointCount = 0;
+				pointOne = null;
+				pointTwo = null;
+			}
+		} else if (lineActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectActive) {
+			if (pointCount == 0) {
+				pointOne = new Point(mouseX, mouseY);
+				System.out.println("MOUSE X POINT 1: " + mouseX + " MOUSE Y POINT 1: " + mouseY);
+				pointCount++;
+			} else if (pointCount == 1) {
+				pointTwo = new Point(mouseX, mouseY);
+				System.out.println("MOUSE X POINT 1: " + pointOne.x + " MOUSE Y POINT 1: " + pointOne.y
+						+ " MOUSE X POINT 2: " + pointTwo.x + " MOUSE Y POINT 2: " + pointTwo.y);
+				Line l = new Line(pointOne.x, pointOne.y, pointTwo.x, (double)pointTwo.y);
+				l.setStrokeColors(255,  255,  255);
+				l.draw(this);
+				shapes.add(l);
+				pointCount = 0;
+				pointOne = null;
+				pointTwo = null;
 			}
 		}
 	}
