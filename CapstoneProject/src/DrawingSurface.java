@@ -123,24 +123,6 @@ public class DrawingSurface extends PApplet {
 
 	}
 	
-	public void handleButtonEvents(GImageButton button, GEvent event) {
-		if (button.getY() == 125) { // ERASER BUTTON
-			System.out.println("ERASER CLICKED");
-		} else if (button.getY() == (float)(125+131.25)) { // LINE BUTTON
-			if (!rectActive) {
-				lineActive = true;
-			}
-			System.out.println("LINE BUTTON CLICKED");
-		} else if (button.getY() == (float)(125+(2.0*(chart.getFrame().getHeight()/4.0)))) { // CURSOR BUTTON
-			System.out.println("CURSOR BUTTON CLICKED");
-		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) { // RECTANGLE BUTTON
-			if (!lineActive) {
-				rectActive = true;
-			}
-			System.out.println("RECTANGLE BUTTON CLICKED");
-		}
-	}
-	
 	/**
 	 * Executed repetitively until the program is stopped.
 	 */
@@ -164,6 +146,74 @@ public class DrawingSurface extends PApplet {
 		
 	}
 	
+	public void handleButtonEvents(GImageButton button, GEvent event) {
+		if (button.getY() == 125) { // ERASER BUTTON
+			System.out.println("ERASER CLICKED");
+		} else if (button.getY() == (float)(125+131.25)) { // LINE BUTTON
+			if (!rectActive) {
+				lineActive = true;
+			}
+			System.out.println("LINE BUTTON CLICKED");
+		} else if (button.getY() == (float)(125+(2.0*(chart.getFrame().getHeight()/4.0)))) { // CURSOR BUTTON
+			System.out.println("CURSOR BUTTON CLICKED");
+		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) { // RECTANGLE BUTTON
+			if (!lineActive) {
+				rectActive = true;
+			}
+			System.out.println("RECTANGLE BUTTON CLICKED");
+		}
+	}
+	
+
+	public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
+		if (event == GEvent.ENTERED) {
+			try {
+				int intCheck = Integer.parseInt(textcontrol.getText());
+				chart.setNumDataPoints(intCheck);
+				chart.update(this);
+			} catch (NumberFormatException e) {
+				chart.setTicker(textcontrol.getText());
+				tickerSet = true;
+				chart.getData();
+				chart.update(this);
+			} finally {
+				// textcontrol.
+			}
+		}
+	}
+	
+	/**
+	 * Saves the coordinate that was clicked by the mouse
+	 */
+	public void mousePressed() {
+		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectLineActive) {
+			int xDif = mouseX-150;
+			// 750-(double)e*(frame.getWidth()/numDataPoints);
+			int xCoord = 150+xDif/chart.getNumDataPoints();
+			this.stroke(255);
+			Line l = new Line(xCoord, 125, xCoord, (double)650);
+			l.draw(this);
+		} else if (rectActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650) {
+			if (pointCount == 0) {
+				Point pointOne = new Point(mouseX, mouseY);
+				pointCount++;
+			} else if (pointCount == 1) {
+				Point pointTwo = new Point(mouseX, mouseY); 
+			}
+		}
+	}
+	
+
+	public void mouseWheel(MouseEvent event) {
+		if (50 < mouseX && mouseX < 650 && 50 < mouseY && mouseY < 525 && chart.getNumDataPoints() >= 1) {
+			float e = event.getCount();
+			int sizeAmount = (int)e;
+			chart.setNumDataPoints(chart.getNumDataPoints()+sizeAmount);
+			chart.update(this);
+		}
+	}
+	
+
 	/**
 	 * Returns the date and close price corresponding to the point clicked
 	 * 
@@ -184,60 +234,10 @@ public class DrawingSurface extends PApplet {
 	}
 	
 	/**
-	 * Saves the coordinate that was clicked by the mouse
-	 */
-	
-	public void mousePressed() {
-		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectLineActive) {
-			int xDif = mouseX-150;
-			// 750-(double)e*(frame.getWidth()/numDataPoints);
-			int xCoord = 150+xDif/chart.getNumDataPoints();
-			this.stroke(255);
-			Line l = new Line(xCoord, 125, xCoord, (double)650);
-			l.draw(this);
-		} else if (rectActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650) {
-			if (pointCount == 0) {
-				Point pointOne = new Point(mouseX, mouseY);
-				pointCount++;
-			} else if (pointCount == 1) {
-				Point pointTwo = new Point(mouseX, mouseY);
-				Rectangle 
-			}
-		}
-	}
-	
-
-	public void mouseWheel(MouseEvent event) {
-		if (50 < mouseX && mouseX < 650 && 50 < mouseY && mouseY < 525 && chart.getNumDataPoints() >= 1) {
-			float e = event.getCount();
-			int sizeAmount = (int)e;
-			chart.setNumDataPoints(chart.getNumDataPoints()+sizeAmount);
-			chart.update(this);
-		}
-	}
-	
-	/**
 	 * Runs if a key is pressed
 	 */
 	public void keyPressed() {
 		
-	}
-	
-	public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
-		if (event == GEvent.ENTERED) {
-			try {
-				int intCheck = Integer.parseInt(textcontrol.getText());
-				chart.setNumDataPoints(intCheck);
-				chart.update(this);
-			} catch (NumberFormatException e) {
-				chart.setTicker(textcontrol.getText());
-				tickerSet = true;
-				chart.getData();
-				chart.update(this);
-			} finally {
-				// textcontrol.
-			}
-		}
 	}
 	
 	/**
