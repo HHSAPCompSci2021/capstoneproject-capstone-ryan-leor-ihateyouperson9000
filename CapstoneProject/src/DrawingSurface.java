@@ -175,9 +175,11 @@ public class DrawingSurface extends PApplet {
 	 */
 	public void mousePressed() {
 		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650) {
-			int xDif = 750-150;
-			int xCoord = 0;
-			Line l = new Line(xCoord, 125, xCoord, 650);
+			int xDif = mouseX-150;
+			int xCoord = 150+xDif/chart.getNumDataPoints();
+			this.stroke(255);
+			Line l = new Line(xCoord, 125, xCoord, (double)650);
+			l.draw(this);
 		}
 	}
 	
