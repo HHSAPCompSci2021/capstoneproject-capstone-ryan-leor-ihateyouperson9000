@@ -31,6 +31,10 @@ public class DcfCalculator {
 		
 	private double discountRate;
 	
+		//OptimizedDCF
+		private double cash;
+		private double debt;
+	
 	public DcfCalculator() {
 			ticker = new Ticker();
 			ticker.setTicker("AAPL");
@@ -122,6 +126,9 @@ public class DcfCalculator {
 		workingCap1 = (a-b) - (c-d);
 		workingCap2 = (f-g) - (h-i); 
 		deltWorkingCapital_optimized = workingCap1 - workingCap2;
+		
+		cash = b;
+		debt = d;
 	}
 	
 	/**
@@ -161,12 +168,12 @@ public class DcfCalculator {
 		return calcOptimizedUnleveredCashFlow()/(1+Math.pow(discountRate, 2));
 	}
 	
-	public double calcEquityValuePerShare() {
+	public double calcEstSharePrice() {
 		return calcDCF()/sharePrice;
 	}
 	
-	public double calcOptimizedEquityValuePerShare() {
-		
+	public double calcOptimizedEstSharePrice() {
+		return (calcOptimizedDCF()+cash-debt)/sharePrice;
 	}
 	
 	
