@@ -4,7 +4,7 @@
  * Author: Leor Porat, Ryan Xu
  * Version: 5/6/22
  */
-import java.awt.Point;
+import java.awt.Point; 
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -97,7 +97,7 @@ public class DrawingSurface extends PApplet {
 	 */
 	public void configure() {
 		Config cfg = Config.builder()
-			    .key("A780A0EPRA30GKU4")
+			    .key("K3GVRKJIDYNUZPZM") //A780A0EPRA30GKU4
 			    .timeOut(10)
 			    .build();
 		AlphaVantage.api().init(cfg);
@@ -143,7 +143,7 @@ public class DrawingSurface extends PApplet {
 			outerFrame.draw(this);
 			tickerDisplay.setText("CHOOSE TICKER");
 		} else {
-			tickerDisplay.setText(chart.getTicker() + " for " + chart.getNumDataPoints() + " days");
+			tickerDisplay.setText(chart.getTicker() + " for " + chart.getTimeSpan() + " days");
 		}
 		
 		tickerInstructions.setText("Set ticker");
@@ -202,7 +202,7 @@ public class DrawingSurface extends PApplet {
 		if (event == GEvent.ENTERED) {
 			try {
 				int intCheck = Integer.parseInt(textcontrol.getText());
-				chart.setNumDataPoints(intCheck);
+				chart.setTimeSpan(intCheck);
 				chart.update(this);
 			} catch (NumberFormatException e) {
 				chart.setTicker(textcontrol.getText());

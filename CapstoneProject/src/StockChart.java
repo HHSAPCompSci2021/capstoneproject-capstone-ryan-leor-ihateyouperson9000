@@ -138,7 +138,7 @@ public class StockChart {
 	}
 	
 	/**
-	 * Gets number of data points shown on the StockChart
+	 * Gets number of trading days (5 days/week) shown on the StockChart
 	 * @return number of data points
 	 */
 	public int getNumDataPoints() {
@@ -152,6 +152,24 @@ public class StockChart {
 	public void setNumDataPoints(int n) {
 		if (n > 0) {
 			numDataPoints = n;
+		}
+	}
+	
+	/**
+	 * Gets the timespan displayed by the StockChart
+	 * @return the timespan of the StockChart
+	 */
+	public int getTimeSpan() {
+		return (int)((double)numDataPoints/261.0*365.0);
+	}
+	
+	/**
+	 * Sets the timespan of the StockChart
+	 * @param n days
+	 */
+	public void setTimeSpan(int n) {
+		if (n > 0) {
+			numDataPoints = (int)((double)n /365.0*261.0);
 		}
 	}
 	

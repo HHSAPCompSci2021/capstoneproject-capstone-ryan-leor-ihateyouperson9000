@@ -151,6 +151,11 @@ public class DcfCalculator {
 	}
 	
 	private double calcUnleveredCashFlow() {
+
+		System.out.println("Net Income: " + netIncome);
+		System.out.println("Depr/Amort: " + depreciationOrAmortization);
+		System.out.println("Working Capital: " + deltWorkingCapital);
+		System.out.println("Capital Expenditures: " + capitalExpenditures);
 		return netIncome + depreciationOrAmortization - deltWorkingCapital - capitalExpenditures;
 	}
 	
