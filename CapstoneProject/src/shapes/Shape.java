@@ -207,10 +207,16 @@ public abstract class Shape {
 		}
 	}
 	
+	/**
+	 * Disables filling Geometry in processing
+	 */
 	public void removeFill() {
 		fill = false;
 	}
 	
+	/**
+	 * Enables filling Geometry in processing
+	 */
 	public void addFill() {
 		fill = true;
 	}

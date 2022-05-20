@@ -92,6 +92,9 @@ public class DrawingSurface extends PApplet {
 		
 	}
 	
+	/**
+	 * Configures the API
+	 */
 	public void configure() {
 		Config cfg = Config.builder()
 			    .key("A780A0EPRA30GKU4")
@@ -152,7 +155,11 @@ public class DrawingSurface extends PApplet {
 		}
 	}
 	
-	
+	/**
+	 * Called if a button is pressed
+	 * @param button the button that is pressed
+	 * @param event what is done to the button
+	 */
 	public void handleButtonEvents(GImageButton button, GEvent event) {
 		if (button.getY() == 125) { // ERASER BUTTON
 			shapes.get(shapes.size()-1).setStrokeColors(0,  0,  0);
@@ -173,7 +180,8 @@ public class DrawingSurface extends PApplet {
 		} else if (button.getY() == (float)(125+(2.0*(chart.getFrame().getHeight()/4.0)))) { // CURSOR BUTTON
 			rectActive = false;
 			lineActive = false;
-			System.out.println("CURSOR BUTTON CLICKED");
+			System.out.println("LINEACTIVE: " + lineActive);
+			System.out.println("RECTACZTIVE: " + rectActive);
 		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) { // RECTANGLE BUTTON
 			if (!rectActive) {
 				rectActive = true;
@@ -182,11 +190,14 @@ public class DrawingSurface extends PApplet {
 				rectActive = false;
 			}
 			System.out.println("RECTACTIVE: " + rectActive);
-			// System.out.println("RECTANGLE BUTTON CLICKED");
 		}
 	}
 	
-
+	/**
+	 * Called if a textbox is interacted with
+	 * @param textcontrol the text in the box
+	 * @param event what is done to the text in the box
+	 */
 	public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
 		if (event == GEvent.ENTERED) {
 			try {
@@ -225,9 +236,8 @@ public class DrawingSurface extends PApplet {
 	}
 	
 	/**
-	 * Saves the coordinate that was clicked by the mouse
+	 * Called if the mouse is pressed
 	 */
-	
 	public void mousePressed() {
 		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectActive && !lineActive) {
 			int xDif = mouseX-150;
@@ -282,7 +292,9 @@ public class DrawingSurface extends PApplet {
 		}
 	}
 	
-
+	/**
+	 * Called if the mouse wheel is moved
+	 */
 	public void mouseWheel(MouseEvent event) {
 		if (50 < mouseX && mouseX < 650 && 50 < mouseY && mouseY < 525 && chart.getNumDataPoints() >= 1) {
 			float e = event.getCount();
@@ -293,28 +305,11 @@ public class DrawingSurface extends PApplet {
 	}
 	
 	/**
-	 * Runs if a key is pressed
+	 * Called if a key is pressed
 	 */
 	public void keyPressed() {
 		
 	}
-	
-	/**
-	 * Runs if user's mouse is held and dragged across the screen
-	 */
-	public void mouseDragged() {
-		/*
-		if (eraserButton.isPressed()) {
-			this.stroke(255);
-			this.circle(mouseX, mouseY, 5);
-		} else if (lineButton.isPressed()) {
-			Point first = new Point(mouseX, mouseY);
-			
-		}
-		*/
-	}
-
-	
 }
 
 
