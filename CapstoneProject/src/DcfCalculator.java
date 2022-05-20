@@ -20,7 +20,7 @@ public class DcfCalculator {
 	
 	private Ticker ticker;
 	private boolean dataGood;
-	private double sharePrice;
+	private double shares;
 	
 		//Unlevered free cash flow
 		private double netIncome;
@@ -37,17 +37,13 @@ public class DcfCalculator {
 	
 	public DcfCalculator() {
 			ticker = new Ticker();
-			ticker.setTicker("AAPL");
+			ticker.setTicker("IBM");
 		
 			discountRate = 0.1;
 			
 			getBSData();
 			getISData();
 			getCFData(); 
-	}
-	
-	public void setPrice(Double d) {
-		sharePrice = d;
 	}
 	
 	/**
@@ -129,6 +125,8 @@ public class DcfCalculator {
 		
 		cash = b;
 		debt = d;
+		
+		shares = bs.get(0).getCommonStockSharesOutstanding();
 	}
 	
 	/**
@@ -160,22 +158,25 @@ public class DcfCalculator {
 		return netIncome + depreciationOrAmortization - deltWorkingCapital_optimized - capitalExpenditures;
 	}
 	
-	private double calcDCF() {
+	public double calcDCF() {
 		return calcUnleveredCashFlow()/(1+Math.pow(discountRate, 2));
 	}
 	
-	private double calcOptimizedDCF() {
+	public double calcOptimizedDCF() {
 		return calcOptimizedUnleveredCashFlow()/(1+Math.pow(discountRate, 2));
 	}
 	
 	public double calcEstSharePrice() {
-		return calcDCF()/sharePrice;
+		return calcDCF()/shares;
 	}
 	
 	public double calcOptimizedEstSharePrice() {
-		return (calcOptimizedDCF()+cash-debt)/sharePrice;
+		return (calcOptimizedDCF()+cash-debt)/shares;
 	}
 	
 	
 
+	public double getNetWorkingCapital() {
+		return deltWorkingCapital;
+	}
 }

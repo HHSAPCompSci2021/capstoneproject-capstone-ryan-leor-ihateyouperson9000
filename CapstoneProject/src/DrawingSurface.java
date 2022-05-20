@@ -145,8 +145,8 @@ public class DrawingSurface extends PApplet {
 		
 		tickerInstructions.setText("Set ticker");
 		timeInstructions.setText("Set time");
-		
 	}
+	
 	
 	public void handleButtonEvents(GImageButton button, GEvent event) {
 		if (button.getY() == 125) { // ERASER BUTTON
