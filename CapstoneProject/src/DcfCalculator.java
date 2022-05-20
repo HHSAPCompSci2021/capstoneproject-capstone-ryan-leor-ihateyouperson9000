@@ -37,7 +37,7 @@ public class DcfCalculator {
 	
 	public DcfCalculator() {
 			ticker = new Ticker();
-			ticker.setTicker("IBM");
+			ticker.setTicker("AAPL");
 		
 			discountRate = 0.1;
 			
@@ -180,8 +180,4 @@ public class DcfCalculator {
 	}
 	
 	
-
-	public double getNetWorkingCapital() {
-		return deltWorkingCapital;
-	}
 }

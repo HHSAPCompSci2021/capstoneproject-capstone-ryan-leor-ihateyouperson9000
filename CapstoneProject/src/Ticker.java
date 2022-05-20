@@ -9,7 +9,7 @@ import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 
 public class Ticker {
 	
-	public String ticker;
+	public static String ticker;
 	
 	public Ticker() {
 		ticker = "";

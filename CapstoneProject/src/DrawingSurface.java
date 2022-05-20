@@ -48,7 +48,7 @@ public class DrawingSurface extends PApplet {
 	private GTextField tickerDisplay;
 	private GTextField tickerInstructions;
 	private GTextField timeInstructions;
-	private GTextField hoveredVal;
+	private GTextField dcfCalculate;
 	private String[] eraserFiles;
 	private String[] lineFiles;
 	private String[] cursorFiles;
@@ -123,7 +123,7 @@ public class DrawingSurface extends PApplet {
 		tickerInstructions = new GTextField(this, 0, 0, 75, 20);
 		timeInstructions = new GTextField(this, 75, 0, 75, 20);
 		tickerDisplay = new GTextField(this, 150, 125, 120, 20);
-		// hoveredVal = new GTextField(this, 200, 0, 100, 50);
+		dcfCalculate = new GTextField(this, 225, 0, 250, 50);
 		
 
 	}
@@ -135,6 +135,7 @@ public class DrawingSurface extends PApplet {
 		
 		tickerBox.setPromptText("choose ticker");
 		timeBox.setPromptText("choose time");
+		dcfCalculate.setPromptText("Estimated Share Price: " + dcf.calcEstSharePrice());
 		fill(0);
 		textAlign(LEFT);
 		textSize(12);
@@ -153,6 +154,8 @@ public class DrawingSurface extends PApplet {
 		} else {
 			this.fill(0);
 		}
+		
+		
 	}
 	
 	/**
