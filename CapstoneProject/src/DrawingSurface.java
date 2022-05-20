@@ -28,6 +28,7 @@ import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import rxu770.shapes.Line;
 import rxu770.shapes.Rectangle;
+import rxu770.shapes.Shape;
 
 
 
@@ -53,6 +54,8 @@ public class DrawingSurface extends PApplet {
 	private String[] cursorFiles;
 	private String[] rectangleFiles;
 	private StockChart chart;
+	private Rectangle outerFrame;
+	private ArrayList<Shape> shapes;
 	private boolean tickerSet;
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
 	
@@ -63,7 +66,9 @@ public class DrawingSurface extends PApplet {
 		
 		configure();
 		
-		chart = new StockChart();
+		shapes = new ArrayList<Shape>();
+		chart = new StockChart(150, 125, 600, 525);
+		outerFrame = new Rectangle(150, 125, 600, 525);
 		dcf = new DcfCalculator();
 		tickerSet = false;
 		
@@ -74,6 +79,7 @@ public class DrawingSurface extends PApplet {
 		ONE_M = 0; //one data point per 30min
 		FIVE_D = 0; //one data point per 5min
 		ONE_D = 0; //one data point per 1min	
+		
 		
 	}
 	
@@ -93,32 +99,48 @@ public class DrawingSurface extends PApplet {
 		lineFiles = new String[]{"line.png"};
 		cursorFiles = new String[]{"cursor.png"};
 		rectangleFiles = new String[]{"rectangle.png"};
-		eraserButton = new GImageButton(this, 0, 0, 50, 50, eraserFiles);
-		lineButton = new GImageButton(this, 0, 50, 50, 50, lineFiles);
-		cursorButton = new GImageButton(this, 0, 100, 50, 50, cursorFiles);
-		rectangleButton = new GImageButton(this, 0, 150, 50, 50, rectangleFiles);
+		eraserButton = new GImageButton(this, 0, 125, 150, (float)(chart.getFrame().getHeight()/4.0), eraserFiles);
+		lineButton = new GImageButton(this, 0, (float)(125+131.25), 150, (float)(chart.getFrame().getHeight()/4.0), lineFiles);
+		cursorButton = new GImageButton(this, 0, (float)(125+(2.0*(chart.getFrame().getHeight()/4.0))), 150, (float)(chart.getFrame().getHeight()/4.0), cursorFiles);
+		rectangleButton = new GImageButton(this, 0, (float)(125+(3.0*(chart.getFrame().getHeight()/4.0))), 150, (float)(chart.getFrame().getHeight()/4.0), rectangleFiles);
 		
-		tickerBox = new GTextArea(this, 650, 20, 100, 50);
-		timeBox = new GTextArea(this, 650, 90, 100, 50);
-		tickerInstructions = new GTextField(this, 650, 0, 100, 20);
-		timeInstructions = new GTextField(this, 650, 70, 100, 20);
-		tickerDisplay = new GTextField(this, 325, 100, 120, 20);
-		hoveredVal = new GTextField(this, 200, 0, 100, 50);
+		
+		
+		tickerBox = new GTextArea(this, 0, 20, 75, 105);
+		timeBox = new GTextArea(this, 75, 20, 75, 105);
+		tickerInstructions = new GTextField(this, 0, 0, 75, 20);
+		timeInstructions = new GTextField(this, 75, 0, 75, 20);
+		tickerDisplay = new GTextField(this, 150, 125, 120, 20);
+		// hoveredVal = new GTextField(this, 200, 0, 100, 50);
 		
 
 	}
 	
 	public void handleButtonEvents(GImageButton button, GEvent event) {
+		if (button.getY() == 125) {
+			System.out.println("ERASER CLICKED");
+		} else if (button.getY() == (float)(125+131.25)) {
+			System.out.println("LINE BUTTON CLICKED");
+		} else if (button.getY() == (float)(125+(2.0*(chart.getFrame().getHeight()/4.0)))) {
+			System.out.println("CURSOR BUTTON CLICKED");
+		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) {
+			System.out.println("RECTANGLE BUTTON CLICKED");
+		}
 	}
 	
 	/**
 	 * Executed repetitively until the program is stopped.
 	 */
-	public void draw() { 
+	public void draw() {
+		
+		tickerBox.setPromptText("choose ticker");
+		timeBox.setPromptText("choose time");
 		fill(0);
 		textAlign(LEFT);
 		textSize(12);
+		// tickerDisplay.setWrapWidth(tickerDisplay.getWrapWidth());
 		if (!tickerSet) {
+			outerFrame.draw(this);
 			tickerDisplay.setText("CHOOSE TICKER");
 		} else {
 			tickerDisplay.setText(chart.getTicker() + " for " + chart.getNumDataPoints() + " days");
@@ -152,13 +174,10 @@ public class DrawingSurface extends PApplet {
 	 * Saves the coordinate that was clicked by the mouse
 	 */
 	public void mousePressed() {
-		if (50 < mouseX && mouseX < 650 && 50 < mouseY && mouseY < 525) {
-			int dataPoints = chart.getNumDataPoints();
-			int dataPointActual = (int)(chart.getFrame().getWidth()/chart.getNumDataPoints());
-			int pointClicked = chart.getNumDataPoints()-(int)((mouseX-50)*(chart.getNumDataPoints()/chart.getFrame().getWidth()));
-			System.out.println(pointClicked);
-			hoveredVal.setText("date: " + chart.getStockData().get(pointClicked).getDate()
-					+ "\n" + "val: " + chart.getStockData().get(pointClicked).getClose());
+		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650) {
+			int xDif = 750-150;
+			int xCoord = 0;
+			Line l = new Line(xCoord, 125, xCoord, 650);
 		}
 	}
 	
@@ -190,9 +209,10 @@ public class DrawingSurface extends PApplet {
 				tickerSet = true;
 				chart.getData();
 				chart.update(this);
+			} finally {
+				// textcontrol.
 			}
-			
-		} 
+		}
 	}
 	
 	/**

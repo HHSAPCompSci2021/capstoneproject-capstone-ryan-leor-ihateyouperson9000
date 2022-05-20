@@ -27,12 +27,12 @@ public class StockChart {
 	private double minY, maxY;
 	private boolean dataGood;
 	
-	public StockChart() {
+	public StockChart(double x, double y, double width, double height) {
 		ticker = new Ticker();
 		ticker.setTicker("AAPL");
 		dataGood = false;
 		numDataPoints = 261;
-		frame = new Rectangle(50, 50, 600, 525);
+		frame = new Rectangle(x, y, width, height); //50 50 600 525
 		getData();
 	}
 	
@@ -81,10 +81,10 @@ public class StockChart {
 			System.out.println("DATA GOOD");
 			findMinMax();
 			for (int e = numDataPoints; e > 0; e--) { //261 days of stock trading per year
-				
-				double x1 = 650-(double)e*(frame.getWidth()/numDataPoints); //300 to give space for buttons on left side
+				// 150, 125, 600, 525
+				double x1 = 750-(double)e*(frame.getWidth()/numDataPoints); //300 to give space for buttons on left side
 				double y1 = frame.getHeight()-(data.get(e).getClose()-minY)/(maxY-minY)*300; //575 is the max y val of the jframe
-				double x2 = 650-(double)e*(frame.getWidth()/numDataPoints)+(frame.getWidth()/numDataPoints);
+				double x2 = 750-(double)e*(frame.getWidth()/numDataPoints)+(frame.getWidth()/numDataPoints);
 				double y2 = frame.getHeight()-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
 				
 				Line l = new Line(x1, y1, x2, y2);
