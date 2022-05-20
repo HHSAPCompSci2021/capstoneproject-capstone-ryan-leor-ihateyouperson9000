@@ -85,7 +85,7 @@ public class DrawingSurface extends PApplet {
 	
 	public void configure() {
 		Config cfg = Config.builder()
-			    .key("A780A0EPRA30GKU4") //K3GVRKJIDYNUZPZM
+			    .key("A780A0EPRA30GKU4")
 			    .timeOut(10)
 			    .build();
 		AlphaVantage.api().init(cfg);
@@ -117,13 +117,13 @@ public class DrawingSurface extends PApplet {
 	}
 	
 	public void handleButtonEvents(GImageButton button, GEvent event) {
-		if (button.getY() == 125) {
+		if (button.getY() == 125) { // ERASER BUTTON
 			System.out.println("ERASER CLICKED");
-		} else if (button.getY() == (float)(125+131.25)) {
+		} else if (button.getY() == (float)(125+131.25)) { // LINE BUTTON
 			System.out.println("LINE BUTTON CLICKED");
-		} else if (button.getY() == (float)(125+(2.0*(chart.getFrame().getHeight()/4.0)))) {
+		} else if (button.getY() == (float)(125+(2.0*(chart.getFrame().getHeight()/4.0)))) { // CURSOR BUTTON
 			System.out.println("CURSOR BUTTON CLICKED");
-		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) {
+		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) { // RECTANGLE BUTTON
 			System.out.println("RECTANGLE BUTTON CLICKED");
 		}
 	}
