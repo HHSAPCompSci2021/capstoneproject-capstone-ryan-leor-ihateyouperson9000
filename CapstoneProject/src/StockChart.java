@@ -1,5 +1,5 @@
 /**
- * Draws the stock chart
+ * Creates a new StockChart, which takes data from an API and uses it to draw a Line Graph of stock data based on which Ticker is selected
  * 
  * Author: Leor Porat
  * Version: 5/19/22
@@ -20,7 +20,6 @@ import rxu770.shapes.Rectangle;
 public class StockChart {
 
 	private Ticker ticker;
-	private Config cfg;
 	private Rectangle frame;
 	private ArrayList<StockUnit> data;
 	private ArrayList<Line> lines;
