@@ -54,6 +54,7 @@ public class DrawingSurface extends PApplet {
 	private String[] cursorFiles;
 	private String[] rectangleFiles;
 	private StockChart chart;
+	private Point pointOne, pointTwo;
 	private Rectangle outerFrame;
 	private ArrayList<Shape> shapes;
 	private boolean tickerSet;
@@ -69,7 +70,8 @@ public class DrawingSurface extends PApplet {
 	public DrawingSurface() {
 		
 		configure();
-		
+		pointOne = null;
+		pointTwo = null;
 		shapes = new ArrayList<Shape>();
 		chart = new StockChart(150, 125, 600, 525);
 		outerFrame = new Rectangle(150, 125, 600, 525);
@@ -123,24 +125,6 @@ public class DrawingSurface extends PApplet {
 
 	}
 	
-	public void handleButtonEvents(GImageButton button, GEvent event) {
-		if (button.getY() == 125) { // ERASER BUTTON
-			System.out.println("ERASER CLICKED");
-		} else if (button.getY() == (float)(125+131.25)) { // LINE BUTTON
-			if (!rectActive) {
-				lineActive = true;
-			}
-			System.out.println("LINE BUTTON CLICKED");
-		} else if (button.getY() == (float)(125+(2.0*(chart.getFrame().getHeight()/4.0)))) { // CURSOR BUTTON
-			System.out.println("CURSOR BUTTON CLICKED");
-		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) { // RECTANGLE BUTTON
-			if (!lineActive) {
-				rectActive = true;
-			}
-			System.out.println("RECTANGLE BUTTON CLICKED");
-		}
-	}
-	
 	/**
 	 * Executed repetitively until the program is stopped.
 	 */
@@ -164,6 +148,43 @@ public class DrawingSurface extends PApplet {
 		
 	}
 	
+	public void handleButtonEvents(GImageButton button, GEvent event) {
+		if (button.getY() == 125) { // ERASER BUTTON
+			System.out.println("ERASER CLICKED");
+		} else if (button.getY() == (float)(125+131.25)) { // LINE BUTTON
+			if (!rectActive) {
+				lineActive = true;
+			}
+			System.out.println("LINE BUTTON CLICKED");
+		} else if (button.getY() == (float)(125+(2.0*(chart.getFrame().getHeight()/4.0)))) { // CURSOR BUTTON
+			System.out.println("CURSOR BUTTON CLICKED");
+		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) { // RECTANGLE BUTTON
+			if (!lineActive) {
+				rectActive = true;
+			}
+			System.out.println("RECTANGLE BUTTON CLICKED");
+		}
+	}
+	
+
+	public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
+		if (event == GEvent.ENTERED) {
+			try {
+				int intCheck = Integer.parseInt(textcontrol.getText());
+				chart.setNumDataPoints(intCheck);
+				chart.update(this);
+			} catch (NumberFormatException e) {
+				chart.setTicker(textcontrol.getText());
+				tickerSet = true;
+				chart.getData();
+				chart.update(this);
+			} finally {
+				// textcontrol.
+			}
+		}
+	}
+	
+
 	/**
 	 * Returns the date and close price corresponding to the point clicked
 	 * 
@@ -196,14 +217,13 @@ public class DrawingSurface extends PApplet {
 			Line l = new Line(xCoord, 125, xCoord, (double)650);
 			l.draw(this);
 		} else if (rectActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650) {
-			Point pointOne;
-			Point pointTwo;
 			if (pointCount == 0) {
 				pointOne = new Point(mouseX, mouseY);
 				pointCount++;
 			} else if (pointCount == 1) {
 				pointTwo = new Point(mouseX, mouseY);
 				Rectangle rect = new Rectangle(pointOne.x, pointOne.y, Math.abs(pointTwo.x-pointOne.x), Math.abs(pointTwo.y-pointOne.y));
+				rect.draw(this);
 			}
 		}
 	}
@@ -223,23 +243,6 @@ public class DrawingSurface extends PApplet {
 	 */
 	public void keyPressed() {
 		
-	}
-	
-	public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
-		if (event == GEvent.ENTERED) {
-			try {
-				int intCheck = Integer.parseInt(textcontrol.getText());
-				chart.setNumDataPoints(intCheck);
-				chart.update(this);
-			} catch (NumberFormatException e) {
-				chart.setTicker(textcontrol.getText());
-				tickerSet = true;
-				chart.getData();
-				chart.update(this);
-			} finally {
-				// textcontrol.
-			}
-		}
 	}
 	
 	/**
