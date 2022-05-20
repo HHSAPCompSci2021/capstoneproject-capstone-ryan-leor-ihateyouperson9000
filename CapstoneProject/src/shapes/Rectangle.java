@@ -40,6 +40,14 @@ public class Rectangle extends Shape {
 		this.height = Math.abs(height);
 	}
 	
+	/*
+	public Rectangle(double x, double y, double x2, float y2) {
+		super(x, y);
+		this.width = x2-x;
+		this.height = y2-y;
+	}
+	*/
+	
 	//METHODS
 	/**
 	 * Gets width of a rectangle 

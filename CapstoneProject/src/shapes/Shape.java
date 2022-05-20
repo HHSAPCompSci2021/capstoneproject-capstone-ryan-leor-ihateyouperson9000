@@ -16,6 +16,7 @@ public abstract class Shape {
 	private int fillcolor1, fillcolor2, fillcolor3,
 		strokecolor1, strokecolor2, strokecolor3,
 		strokeweight;
+	private boolean fill;
 	
 	//CONSTRUCTORS
 	public Shape(double x, double y) {
@@ -28,6 +29,7 @@ public abstract class Shape {
 		strokecolor2 = 0;
 		strokecolor3 = 0;
 		strokeweight = 1;
+		fill = true;
 	}
 	
 	//METHODS
@@ -197,8 +199,20 @@ public abstract class Shape {
 	 */
 	public void draw(PApplet app) {
 		app.stroke(getStrokeColor1(), getStrokeColor2(), getStrokeColor3());
-		app.fill(getFillColor1(), getFillColor2(), getFillColor3());
 		app.strokeWeight(getStrokeWeight());
+		if (!fill) {
+			app.noFill();
+		} else {
+			app.fill(getFillColor1(), getFillColor2(), getFillColor3());
+		}
+	}
+	
+	public void removeFill() {
+		fill = false;
+	}
+	
+	public void addFill() {
+		fill = true;
 	}
 
 	/**
