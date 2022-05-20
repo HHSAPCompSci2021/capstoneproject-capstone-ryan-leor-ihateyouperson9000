@@ -42,6 +42,10 @@ public class DcfCalculator {
 			getCFData(); 
 	}
 	
+	public void setPrice(Double d) {
+		sharePrice = d;
+	}
+	
 	/**
 	 * Sets up parameters for Balance Sheet API call
 	 */
@@ -158,7 +162,7 @@ public class DcfCalculator {
 	}
 	
 	public double calcEquityValuePerShare() {
-		return calcDCF()/
+		return calcDCF()/sharePrice;
 	}
 	
 	public double calcOptimizedEquityValuePerShare() {
