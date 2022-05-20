@@ -57,6 +57,10 @@ public class DrawingSurface extends PApplet {
 	private Rectangle outerFrame;
 	private ArrayList<Shape> shapes;
 	private boolean tickerSet;
+	private boolean rectActive;
+	private boolean lineActive;
+	private int pointCount;
+	
 	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
 	
 	/**
@@ -71,6 +75,9 @@ public class DrawingSurface extends PApplet {
 		outerFrame = new Rectangle(150, 125, 600, 525);
 		dcf = new DcfCalculator();
 		tickerSet = false;
+		rectActive = false;
+		lineActive = false;
+		pointCount = 0;
 		
 		FIVE_Y = 0; //one data point per week
 		ONE_Y = 365; //one data point per day
@@ -120,10 +127,16 @@ public class DrawingSurface extends PApplet {
 		if (button.getY() == 125) { // ERASER BUTTON
 			System.out.println("ERASER CLICKED");
 		} else if (button.getY() == (float)(125+131.25)) { // LINE BUTTON
+			if (!rectActive) {
+				lineActive = true;
+			}
 			System.out.println("LINE BUTTON CLICKED");
 		} else if (button.getY() == (float)(125+(2.0*(chart.getFrame().getHeight()/4.0)))) { // CURSOR BUTTON
 			System.out.println("CURSOR BUTTON CLICKED");
 		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) { // RECTANGLE BUTTON
+			if (!lineActive) {
+				rectActive = true;
+			}
 			System.out.println("RECTANGLE BUTTON CLICKED");
 		}
 	}
@@ -173,13 +186,23 @@ public class DrawingSurface extends PApplet {
 	/**
 	 * Saves the coordinate that was clicked by the mouse
 	 */
+	
 	public void mousePressed() {
-		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650) {
+		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectLineActive) {
 			int xDif = mouseX-150;
+			// 750-(double)e*(frame.getWidth()/numDataPoints);
 			int xCoord = 150+xDif/chart.getNumDataPoints();
 			this.stroke(255);
 			Line l = new Line(xCoord, 125, xCoord, (double)650);
 			l.draw(this);
+		} else if (rectActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650) {
+			if (pointCount == 0) {
+				Point pointOne = new Point(mouseX, mouseY);
+				pointCount++;
+			} else if (pointCount == 1) {
+				Point pointTwo = new Point(mouseX, mouseY);
+				Rectangle 
+			}
 		}
 	}
 	

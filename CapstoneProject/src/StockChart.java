@@ -147,6 +147,10 @@ public class StockChart {
 		return -1;
 	}
 	
+	public double getSpecificVal(int n) {
+		return data.get(n).getClose();
+	}
+	
 	public Rectangle getFrame() {
 		return frame;
 	}
