@@ -188,7 +188,7 @@ public class DrawingSurface extends PApplet {
 	 */
 	
 	public void mousePressed() {
-		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectLineActive) {
+		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectActive && !lineActive) {
 			int xDif = mouseX-150;
 			// 750-(double)e*(frame.getWidth()/numDataPoints);
 			int xCoord = 150+xDif/chart.getNumDataPoints();
@@ -196,12 +196,14 @@ public class DrawingSurface extends PApplet {
 			Line l = new Line(xCoord, 125, xCoord, (double)650);
 			l.draw(this);
 		} else if (rectActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650) {
+			Point pointOne;
+			Point pointTwo;
 			if (pointCount == 0) {
-				Point pointOne = new Point(mouseX, mouseY);
+				pointOne = new Point(mouseX, mouseY);
 				pointCount++;
 			} else if (pointCount == 1) {
-				Point pointTwo = new Point(mouseX, mouseY);
-				Rectangle 
+				pointTwo = new Point(mouseX, mouseY);
+				Rectangle rect = new Rectangle(pointOne.x, pointOne.y, Math.abs(pointTwo.x-pointOne.x), Math.abs(pointTwo.y-pointOne.y));
 			}
 		}
 	}
