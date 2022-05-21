@@ -41,7 +41,7 @@ public class DrawingSurface extends PApplet {
 	private DcfCalculator dcf;
 	private GImageButton eraserButton;
 	private GImageButton lineButton;
-	private GImageButton cursorButton;
+	private GImageButton pointerButton;
 	private GImageButton rectangleButton;
 	private GTextArea tickerBox;
 	private GTextArea timeBox;
@@ -113,7 +113,7 @@ public class DrawingSurface extends PApplet {
 		rectangleFiles = new String[]{"rectangle.png"};
 		eraserButton = new GImageButton(this, 0, 125, 150, (float)(chart.getFrame().getHeight()/4.0), eraserFiles);
 		lineButton = new GImageButton(this, 0, (float)(125+131.25), 150, (float)(chart.getFrame().getHeight()/4.0), lineFiles);
-		cursorButton = new GImageButton(this, 0, (float)(125+(2.0*(chart.getFrame().getHeight()/4.0))), 150, (float)(chart.getFrame().getHeight()/4.0), cursorFiles);
+		pointerButton = new GImageButton(this, 0, (float)(125+(2.0*(chart.getFrame().getHeight()/4.0))), 150, (float)(chart.getFrame().getHeight()/4.0), cursorFiles);
 		rectangleButton = new GImageButton(this, 0, (float)(125+(3.0*(chart.getFrame().getHeight()/4.0))), 150, (float)(chart.getFrame().getHeight()/4.0), rectangleFiles);
 		
 		
