@@ -19,7 +19,6 @@ import com.crazzyghost.alphavantage.fundamentaldata.response.IncomeStatementResp
 public class DcfCalculator {
 	
 	private Ticker ticker;
-	private boolean dataGood;
 	private double shares;
 	
 		//Unlevered free cash flow
@@ -37,19 +36,20 @@ public class DcfCalculator {
 	
 	public DcfCalculator() {
 			ticker = new Ticker();
-			ticker.setTicker("AAPL");
 		
-			discountRate = 0.1;
-			
-			getBSData();
-			getISData();
-			getCFData(); 
+			discountRate = 0.1; 
+	}
+	
+	public void getData() {
+		getBSData();
+		getISData();
+		getCFData();
 	}
 	
 	/**
 	 * Sets up parameters for Balance Sheet API call
 	 */
-	public void getBSData() {
+	private void getBSData() {
 		AlphaVantage.api()
 		    .fundamentalData()
 		    .balanceSheet()
@@ -57,13 +57,12 @@ public class DcfCalculator {
 		    .onSuccess(e->handleBSSuccess(e))
 		    .onFailure(e->handleFailure(e))
 		    .fetch();
-		dataGood = true;
 	}
 	
 	/**
 	 * Sets up parameters for Income Statement API call
 	 */
-	public void getISData() {
+	private void getISData() {
 		AlphaVantage.api()
 	    .fundamentalData()
 	    .incomeStatement()
@@ -71,13 +70,12 @@ public class DcfCalculator {
 	    .onSuccess(e->handleISSuccess(e))
 	    .onFailure(e->handleFailure(e))
 	    .fetch();
-		dataGood = true;
 	}
 	
 	/**
 	 * Sets up parameters for Cash Flow API call
 	 */
-	public void getCFData() {
+	private void getCFData() {
 		AlphaVantage.api()
 	    .fundamentalData()
 	    .cashFlow()
@@ -85,7 +83,6 @@ public class DcfCalculator {
 	    .onSuccess(e->handleCFSuccess(e))
 	    .onFailure(e->handleFailure(e))
 	    .fetch();
-		dataGood = true;
 	}
 	
 	/**

@@ -18,6 +18,10 @@ public class Ticker {
 		ticker = "";
 	}
 	
+	public Ticker(String s) {
+		ticker = s;
+	}
+	
 	/**
 	 * Returns the ticker
 	 * @return ticker of the stock
@@ -34,8 +38,7 @@ public class Ticker {
 		System.out.println("set");
 		ticker = s;
 	}
-	
-	
+
 
 	
 	

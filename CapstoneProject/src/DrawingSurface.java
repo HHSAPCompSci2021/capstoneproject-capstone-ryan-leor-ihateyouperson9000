@@ -38,6 +38,7 @@ import shapes.Shape;
  *
  */
 public class DrawingSurface extends PApplet {
+	private Ticker ticker;
 	private DcfCalculator dcf;
 	private GImageButton eraserButton;
 	private GImageButton lineButton;
@@ -68,14 +69,15 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface object
 	 */
 	public DrawingSurface() {
-		
 		configure();
+		
+		ticker = new Ticker();
+		dcf = new DcfCalculator();
 		pointOne = null;
 		pointTwo = null;
 		shapes = new ArrayList<Shape>();
 		chart = new StockChart(150, 125, 600, 525);
 		outerFrame = new Rectangle(150, 125, 600, 525);
-		dcf = new DcfCalculator();
 		tickerSet = false;
 		rectActive = false;
 		lineActive = false;
@@ -91,6 +93,7 @@ public class DrawingSurface extends PApplet {
 		
 		
 	}
+	
 	
 	/**
 	 * Configures the API
@@ -135,7 +138,6 @@ public class DrawingSurface extends PApplet {
 		
 		tickerBox.setPromptText("choose ticker");
 		timeBox.setPromptText("choose time");
-		dcfCalculate.setPromptText("Estimated Share Price: " + dcf.calcEstSharePrice());
 		fill(0);
 		textAlign(LEFT);
 		textSize(12);
@@ -144,7 +146,9 @@ public class DrawingSurface extends PApplet {
 			outerFrame.draw(this);
 			tickerDisplay.setText("CHOOSE TICKER");
 		} else {
+			System.out.println(ticker.getTicker());
 			tickerDisplay.setText(chart.getTicker() + " for " + chart.getTimeSpan() + " days");
+			dcfCalculate.setPromptText("Estimated Share Price: " + dcf.calcEstSharePrice());
 		}
 		
 		tickerInstructions.setText("Set ticker");
@@ -157,7 +161,7 @@ public class DrawingSurface extends PApplet {
 		
 		
 	}
-	
+
 	/**
 	 * Called if a button is pressed
 	 * @param button the button that is pressed
@@ -184,7 +188,7 @@ public class DrawingSurface extends PApplet {
 			rectActive = false;
 			lineActive = false;
 			System.out.println("LINEACTIVE: " + lineActive);
-			System.out.println("RECTACZTIVE: " + rectActive);
+			System.out.println("RECTACTIVE: " + rectActive);
 		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) { // RECTANGLE BUTTON
 			if (!rectActive) {
 				rectActive = true;
@@ -210,6 +214,7 @@ public class DrawingSurface extends PApplet {
 			} catch (NumberFormatException e) {
 				chart.setTicker(textcontrol.getText());
 				tickerSet = true;
+				dcf.getData();
 				chart.getData();
 				chart.update(this);
 			} finally {

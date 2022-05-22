@@ -36,12 +36,11 @@ public class StockChart {
 	 */
 	public StockChart(double x, double y, double width, double height) {
 		ticker = new Ticker();
-		ticker.setTicker("AAPL");
+//		ticker.setTicker("AAPL");
 		dataGood = false;
 		lines = new ArrayList<Line>();
-		numDataPoints = 261;
+		numDataPoints = 261; //default 1 yr timespan
 		frame = new Rectangle(x, y, width, height); //50 50 600 525
-		getData();
 	}
 	
 	/**
