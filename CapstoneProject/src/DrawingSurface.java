@@ -243,18 +243,26 @@ public class DrawingSurface extends PApplet {
 	 */
 	public void mousePressed() {
 		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectActive && !lineActive) {
+			boolean intersected = false;
 			System.out.println("RECT NOR LINE ACTIVE");
-			Line l = new Line(mouseX, 125, mouseX, 650);
+			Line l = new Line(mouseX, 125, mouseX, (double)650); // WORKS
 			Line intersecting = null;
-			for (int i = 0; i < chart.getLines().size(); i++) {
-				if (l.intersects(chart.getLines().get(i))) {
-					intersecting = chart.getLines().get(i);
+			if (!intersected) {
+				for (int i = 0; i < chart.getLines().size(); i++) {
+					if (l.intersects(chart.getLines().get(i))) {
+						intersected = true;
+					//	System.out.println(i);
+						intersecting = chart.getLines().get(i);
+					}
 				}
 			}
-			Line drawn = new Line(intersecting.getX(), 125, intersecting.getX(), 650);
+			if (intersecting != null) {
+				System.out.println("LINES INTERSECTED");
+			}
+			System.out.println(intersecting.getX());
+		 	Line drawn = new Line(intersecting.getX(), 125, intersecting.getX(), (double)650);
+			drawn.setStrokeColors(255, 255, 255);
 			drawn.draw(this);
-			this.stroke(255);
-// 			l.draw(this);
 			
 			
 		} else if (rectActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !lineActive) {
