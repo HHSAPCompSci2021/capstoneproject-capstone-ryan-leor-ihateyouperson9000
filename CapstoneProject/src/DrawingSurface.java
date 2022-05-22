@@ -243,12 +243,18 @@ public class DrawingSurface extends PApplet {
 	 */
 	public void mousePressed() {
 		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectActive && !lineActive) {
-			int xDif = mouseX-150;
-			// 750-(double)e*(frame.getWidth()/numDataPoints);
-			int xCoord = 150+xDif/chart.getNumDataPoints();
+			System.out.println("RECT NOR LINE ACTIVE");
+			Line l = new Line(mouseX, 125, mouseX, 650);
+			Line intersecting = null;
+			for (int i = 0; i < chart.getLines().size(); i++) {
+				if (l.intersects(chart.getLines().get(i))) {
+					intersecting = chart.getLines().get(i);
+				}
+			}
+			Line drawn = new Line(intersecting.getX(), 125, intersecting.getX(), 650);
+			drawn.draw(this);
 			this.stroke(255);
-			Line l = new Line(xCoord, 125, xCoord, (double)650);
-			l.draw(this);
+// 			l.draw(this);
 			
 			
 		} else if (rectActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !lineActive) {

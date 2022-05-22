@@ -14,8 +14,8 @@ import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
 import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
 
 import processing.core.PApplet;
-import rxu770.shapes.Line;
-import rxu770.shapes.Rectangle;
+import shapes.Line;
+import shapes.Rectangle;
 
 public class StockChart {
 
@@ -80,6 +80,7 @@ public class StockChart {
 	 * @param drawer the PApplet the StockChart should be drawn to
 	 */
 	public void update(PApplet drawer) {
+		lines.clear();
 		if (drawer == null) {
 			System.out.println("DRAWER NULL");
 		} else {
@@ -223,6 +224,10 @@ public class StockChart {
 	 */
 	public Rectangle getFrame() {
 		return frame;
+	}
+	
+	public ArrayList<Line> getLines() {
+		return lines;
 	}
 	
 }
