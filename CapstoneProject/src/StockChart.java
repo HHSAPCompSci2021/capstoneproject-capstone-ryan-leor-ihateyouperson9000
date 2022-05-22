@@ -113,7 +113,7 @@ public class StockChart {
 	/**
 	 * Finds and sets maximum and minimum y of the StockChart
 	 */
-	public void findMinMax() { //only for 1 year
+	public void findMinMax() { 
 		
 		minY = data.get(0).getClose();
 		maxY = 0;
