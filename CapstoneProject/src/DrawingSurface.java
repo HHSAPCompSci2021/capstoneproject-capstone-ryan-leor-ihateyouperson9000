@@ -146,7 +146,6 @@ public class DrawingSurface extends PApplet {
 			outerFrame.draw(this);
 			tickerDisplay.setText("CHOOSE TICKER");
 		} else {
-			System.out.println(ticker.getTicker());
 			tickerDisplay.setText(chart.getTicker() + " for " + chart.getTimeSpan() + " days");
 			dcfCalculate.setPromptText("Estimated Share Price: " + dcf.calcEstSharePrice());
 		}
