@@ -35,7 +35,7 @@ public class Ticker {
 	 * @param s string to set ticker to
 	 */
 	public void setTicker(String s) {
-		System.out.println("set");
+		// System.out.println("set");
 		ticker = s;
 	}
 

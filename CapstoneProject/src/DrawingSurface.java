@@ -77,7 +77,7 @@ public class DrawingSurface extends PApplet {
 		pointTwo = null;
 		shapes = new ArrayList<Shape>();
 		chart = new StockChart(150, 125, 600, 525);
-		outerFrame = new Rectangle(150, 125, 600, 525);
+		// outerFrame = new Rectangle(150, 125, 600, 525);
 		tickerSet = false;
 		rectActive = false;
 		lineActive = false;
