@@ -150,20 +150,19 @@ public class DrawingSurface extends PApplet {
 		chart.drawGraph(this);
 		
 		if (!tickerSet) {
-			outerFrame.draw(this);
+			// outerFrame.draw(this);
 			tickerDisplay.setText("CHOOSE TICKER");
 		} else {
 			tickerDisplay.setText(chart.getTicker() + " for " + chart.getTimeSpan() + " days");
 			dcfCalculate.setPromptText("Estimated Share Price: " + dcf.calcEstSharePrice());
 		}
-		
 		//not sure if this does anything, no visible effect
 //		if (rectActive) {
 //			this.noFill();
 //		} else {
 //			this.fill(0);
 //		}
-		
+		drawShapes();
 		
 	}
 
@@ -337,6 +336,12 @@ public class DrawingSurface extends PApplet {
 	 */
 	public void keyPressed() {
 		
+	}
+	
+	public void drawShapes() {
+		for (int i = 0; i < shapes.size(); i++) {
+			shapes.get(i).draw(this);
+		}
 	}
 }
 
