@@ -78,8 +78,6 @@ public class StockChart {
 	 */
 	public void update() {
 		lines.clear();
-		System.out.println(getValAtTime("2020", "09", "18"));
-		System.out.println(getValAtTime("2020", "09", "21"));
 		
 		findMinMax();
 		for (int e = numDataPoints; e > 0; e--) { 
