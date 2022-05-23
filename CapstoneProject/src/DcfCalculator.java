@@ -1,5 +1,5 @@
 /**
- * Represents a calculator implementing discounted cash flow analysis to give a price target
+ * Represents a calculator implementing discounted cash flow analysis based on the past 1 year to give a fair share value
  * 
  * Author: Ryan Xu
  * Version: 5/5/22
@@ -25,21 +25,22 @@ public class DcfCalculator {
 		private double netIncome;
 		private double depreciationOrAmortization;
 		private double deltWorkingCapital;
-		private double deltWorkingCapital_optimized;
 		private double capitalExpenditures;
 		
 	private double discountRate;
 	
-		//OptimizedDCF
-		private double cash;
-		private double debt;
-	
+	/**
+	 * Creates a DcfCalculator 
+	 */
 	public DcfCalculator() {
 			ticker = new Ticker();
 		
 			discountRate = 0.1; 
 	}
 	
+	/**
+	 * Calls the methods to get necessary financial data
+	 */
 	public void getData() {
 		getBSData();
 		getISData();
@@ -117,12 +118,6 @@ public class DcfCalculator {
 		workingCap1 = a-c;
 		workingCap2 = f-h; 
 		deltWorkingCapital = workingCap1 - workingCap2;
-		workingCap1 = (a-b) - (c-d);
-		workingCap2 = (f-g) - (h-i); 
-		deltWorkingCapital_optimized = workingCap1 - workingCap2;
-		
-		cash = b;
-		debt = d;
 		
 		shares = bs1.getCommonStockSharesOutstanding();
 	}
@@ -148,6 +143,10 @@ public class DcfCalculator {
 		capitalExpenditures = cf.getCapitalExpenditures();
 	}
 	
+	/**
+	 * Calculates the unlevered cash flow of the stock
+	 * @return the unlevered cash flow of the stock
+	 */
 	private double calcUnleveredCashFlow() {
 
 //		System.out.println("Net Income: " + netIncome);
@@ -157,24 +156,20 @@ public class DcfCalculator {
 		return netIncome + depreciationOrAmortization - deltWorkingCapital - capitalExpenditures;
 	}
 	
-	private double calcOptimizedUnleveredCashFlow() { 
-		return netIncome + depreciationOrAmortization - deltWorkingCapital_optimized - capitalExpenditures;
-	}
-	
+	/**
+	 * Calculates the estimated fair value for the company
+	 * @return the estimated fair value for the company
+	 */
 	public double calcDCF() {
 		return calcUnleveredCashFlow()/(1+Math.pow(discountRate, 2));
 	}
 	
-	public double calcOptimizedDCF() {
-		return calcOptimizedUnleveredCashFlow()/(1+Math.pow(discountRate, 2));
-	}
-	
+	/**
+	 * Calculates the estimated fair price per share for the stock
+	 * @return the estimated fair price per share for the stock
+	 */
 	public double calcEstSharePrice() {
 		return calcDCF()/shares;
-	}
-	
-	public double calcOptimizedEstSharePrice() {
-		return (calcOptimizedDCF()+cash-debt)/shares;
 	}
 	
 	
