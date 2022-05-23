@@ -25,7 +25,6 @@ public class StockChart {
 	private ArrayList<Line> lines;
 	private int numDataPoints;
 	private double minY, maxY;
-	private boolean dataGood;
 	
 	/**
 	 * Creates a new StockChart
@@ -36,7 +35,6 @@ public class StockChart {
 	 */
 	public StockChart(double x, double y, double width, double height) {
 		ticker = new Ticker();
-		dataGood = false;
 		lines = new ArrayList<Line>();
 		numDataPoints = 261; //default 1 yr timespan
 		frame = new Rectangle(x, y, width, height); //50 50 600 525
@@ -78,29 +76,17 @@ public class StockChart {
 	 */
 	public void update() {
 		lines.clear();
-//		if (drawer == null) {
-//			System.out.println("DRAWER NULL");
-//		} else {
-//			System.out.println("DRAWER NOT NULL");
-//		}
-//		drawer.background(255);
-//		drawer.stroke(0);
-//		frame.draw(drawer);
-//		drawer.stroke(255);
-//		if (!dataGood)
-//			System.out.println("DATA NOT GOOD YET");
-//		else {
-//			System.out.println("DATA GOOD");
-			findMinMax();
-			for (int e = numDataPoints; e > 0; e--) { 
-				// 150, 125, 600, 525
-				double x1 = 750-(double)e*(frame.getWidth()/numDataPoints);
-				double y1 = frame.getHeight()-(data.get(e).getClose()-minY)/(maxY-minY)*300;
-				double x2 = 750-(double)e*(frame.getWidth()/numDataPoints)+(frame.getWidth()/numDataPoints);
-				double y2 = frame.getHeight()-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
-				Line l = new Line(x1, y1, x2, y2);
-				lines.add(l);
-//			}
+		
+		findMinMax();
+		for (int e = numDataPoints; e > 0; e--) { 
+			
+			// 150, 125, 600, 525
+			double x1 = 750-(double)e*(frame.getWidth()/numDataPoints);
+			double y1 = frame.getHeight()-(data.get(e).getClose()-minY)/(maxY-minY)*300;
+			double x2 = 750-(double)e*(frame.getWidth()/numDataPoints)+(frame.getWidth()/numDataPoints);
+			double y2 = frame.getHeight()-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
+			Line l = new Line(x1, y1, x2, y2);
+			lines.add(l);
 			
 		}
 		
@@ -207,11 +193,9 @@ public class StockChart {
 	 */
 	public double getValAtTime(int year, int month, int day) {
 		String s = year+"-"+month+"-"+day;
-		if (dataGood) {
-			for (int e = numDataPoints; e > 0; e--) {
-				if (data.get(e).getDate().equals(s)) {
-					return data.get(e).getClose();
-				}
+		for (int e = numDataPoints; e > 0; e--) {
+			if (data.get(e).getDate().equals(s)) {
+				return data.get(e).getClose();
 			}
 		}
 		return -1;
