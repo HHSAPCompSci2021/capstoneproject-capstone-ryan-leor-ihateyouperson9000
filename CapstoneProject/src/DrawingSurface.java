@@ -38,7 +38,6 @@ import shapes.Shape;
  *
  */
 public class DrawingSurface extends PApplet {
-	private Ticker ticker;
 	private DcfCalculator dcf;
 	private GImageButton eraserButton;
 	private GImageButton lineButton;
@@ -70,8 +69,6 @@ public class DrawingSurface extends PApplet {
 	 */
 	public DrawingSurface() {
 		configure();
-		
-		ticker = new Ticker();
 		dcf = new DcfCalculator();
 		pointOne = null;
 		pointTwo = null;
@@ -100,7 +97,8 @@ public class DrawingSurface extends PApplet {
 	 */
 	public void configure() {
 		Config cfg = Config.builder()
-			    .key("K3GVRKJIDYNUZPZM") //A780A0EPRA30GKU4
+//			    .key("K3GVRKJIDYNUZPZM") 
+			    .key("A780A0EPRA30GKU4")
 			    .timeOut(10)
 			    .build();
 		AlphaVantage.api().init(cfg);
@@ -135,13 +133,23 @@ public class DrawingSurface extends PApplet {
 	 * Executed repetitively until the program is stopped.
 	 */
 	public void draw() {
+		System.out.println(chart.getTicker());
 		
 		tickerBox.setPromptText("choose ticker");
 		timeBox.setPromptText("choose time");
+		tickerInstructions.setText("Set ticker");
+		timeInstructions.setText("Set time");
+		
+		background(255);
 		fill(0);
 		textAlign(LEFT);
 		textSize(12);
+		stroke(255);
+		strokeWeight(8);
 		// tickerDisplay.setWrapWidth(tickerDisplay.getWrapWidth());
+		chart.drawFrame(this);
+		chart.drawGraph(this);
+		
 		if (!tickerSet) {
 			outerFrame.draw(this);
 			tickerDisplay.setText("CHOOSE TICKER");
@@ -150,13 +158,11 @@ public class DrawingSurface extends PApplet {
 			dcfCalculate.setPromptText("Estimated Share Price: " + dcf.calcEstSharePrice());
 		}
 		
-		tickerInstructions.setText("Set ticker");
-		timeInstructions.setText("Set time");
-		if (rectActive) {
-			this.noFill();
-		} else {
-			this.fill(0);
-		}
+//		if (rectActive) {
+//			this.noFill();
+//		} else {
+//			this.fill(0);
+//		}
 		
 		
 	}
@@ -171,7 +177,8 @@ public class DrawingSurface extends PApplet {
 			shapes.get(shapes.size()-1).setStrokeColors(0,  0,  0);
 			shapes.get(shapes.size()-1).draw(this);
 			shapes.remove(shapes.size()-1);
-			chart.update(this);
+			chart.drawFrame(this);
+			chart.update();
 			for (int i = 0; i < shapes.size(); i++) {
 				shapes.get(i).draw(this);
 			}
@@ -209,13 +216,14 @@ public class DrawingSurface extends PApplet {
 			try {
 				int intCheck = Integer.parseInt(textcontrol.getText());
 				chart.setTimeSpan(intCheck);
-				chart.update(this);
+				chart.drawFrame(this);
+				chart.update();
 			} catch (NumberFormatException e) {
 				chart.setTicker(textcontrol.getText());
 				tickerSet = true;
-				dcf.getData();
+//				dcf.getData();
+				chart.drawFrame(this);
 				chart.getData();
-				chart.update(this);
 			} finally {
 				// textcontrol.
 			}
@@ -321,7 +329,8 @@ public class DrawingSurface extends PApplet {
 			float e = event.getCount();
 			int sizeAmount = (int)e;
 			chart.setNumDataPoints(chart.getNumDataPoints()+sizeAmount);
-			chart.update(this);
+			chart.drawFrame(this);
+			chart.update();
 		}
 	}
 	

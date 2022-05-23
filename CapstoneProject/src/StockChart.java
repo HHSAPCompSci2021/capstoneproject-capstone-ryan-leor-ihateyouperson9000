@@ -36,7 +36,6 @@ public class StockChart {
 	 */
 	public StockChart(double x, double y, double width, double height) {
 		ticker = new Ticker();
-//		ticker.setTicker("AAPL");
 		dataGood = false;
 		lines = new ArrayList<Line>();
 		numDataPoints = 261; //default 1 yr timespan
@@ -63,7 +62,7 @@ public class StockChart {
 	 */
 	private void handleSuccess(Object e) {
 	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
-	    dataGood = true;
+	    update();
 	}
 	
 	/**
@@ -76,34 +75,32 @@ public class StockChart {
 	
 	/**
 	 * Draws the StockChart based on the current ticker and numDataPoints
-	 * @param drawer the PApplet the StockChart should be drawn to
 	 */
-	public void update(PApplet drawer) {
+	public void update() {
 		lines.clear();
-		if (drawer == null) {
-			System.out.println("DRAWER NULL");
-		} else {
-			System.out.println("DRAWER NOT NULL");
-		}
-		drawer.background(255);
-		drawer.stroke(0);
-		frame.draw(drawer);
-		drawer.stroke(255);
-		System.out.println("DATA NOT GOOD YET");
-		if (dataGood) {
-			System.out.println("DATA GOOD");
+//		if (drawer == null) {
+//			System.out.println("DRAWER NULL");
+//		} else {
+//			System.out.println("DRAWER NOT NULL");
+//		}
+//		drawer.background(255);
+//		drawer.stroke(0);
+//		frame.draw(drawer);
+//		drawer.stroke(255);
+//		if (!dataGood)
+//			System.out.println("DATA NOT GOOD YET");
+//		else {
+//			System.out.println("DATA GOOD");
 			findMinMax();
-			for (int e = numDataPoints; e > 0; e--) { //261 days of stock trading per year
+			for (int e = numDataPoints; e > 0; e--) { 
 				// 150, 125, 600, 525
-				double x1 = 750-(double)e*(frame.getWidth()/numDataPoints); //300 to give space for buttons on left side
-				double y1 = frame.getHeight()-(data.get(e).getClose()-minY)/(maxY-minY)*300; //575 is the max y val of the jframe
+				double x1 = 750-(double)e*(frame.getWidth()/numDataPoints);
+				double y1 = frame.getHeight()-(data.get(e).getClose()-minY)/(maxY-minY)*300;
 				double x2 = 750-(double)e*(frame.getWidth()/numDataPoints)+(frame.getWidth()/numDataPoints);
 				double y2 = frame.getHeight()-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
 				Line l = new Line(x1, y1, x2, y2);
 				lines.add(l);
-				l.setStrokeColors(255,255,255);
-				l.draw(drawer);
-			}
+//			}
 			
 		}
 		
@@ -127,6 +124,18 @@ public class StockChart {
 			}
 		}
 		
+	}
+	
+	public void drawGraph(PApplet app) {
+		for (Line l : lines) {
+			l.setStrokeColors(255,255,255);
+			l.draw(app);
+		}
+	}
+	
+	public void drawFrame(PApplet app) {
+		app.stroke(0);
+		frame.draw(app);
 	}
 	
 	/**
