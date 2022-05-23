@@ -109,10 +109,10 @@ public class DrawingSurface extends PApplet {
 	 * Executes when the program begins
 	 */
 	public void setup() {
-		eraserFiles = new String[]{"eraser.png"};
-		lineFiles = new String[]{"line.png"};
-		cursorFiles = new String[]{"cursor.png"};
-		rectangleFiles = new String[]{"rectangle.png"};
+		eraserFiles = new String[]{"eraser.png", "eraser_HOVER.png"};
+		lineFiles = new String[]{"line.png", "line_HOVER.png"};
+		cursorFiles = new String[]{"cursor.png", "cursor_HOVER.png"};
+		rectangleFiles = new String[]{"rectangle.png", "rectangle_HOVER.png"};
 		eraserButton = new GImageButton(this, 0, 125, 150, (float)(chart.getFrame().getHeight()/4.0), eraserFiles);
 		lineButton = new GImageButton(this, 0, (float)(125+131.25), 150, (float)(chart.getFrame().getHeight()/4.0), lineFiles);
 		pointerButton = new GImageButton(this, 0, (float)(125+(2.0*(chart.getFrame().getHeight()/4.0))), 150, (float)(chart.getFrame().getHeight()/4.0), cursorFiles);
@@ -158,12 +158,6 @@ public class DrawingSurface extends PApplet {
 			tickerDisplay.setText(chart.getTicker() + " for " + chart.getTimeSpan() + " days");
 			dcfCalculate.setPromptText("Estimated Share Price: " + dcf.calcEstSharePrice());
 		}
-		//not sure if this does anything, no visible effect
-//		if (rectActive) {
-//			this.noFill();
-//		} else {
-//			this.fill(0);
-//		}
 		drawShapes();
 
 		
@@ -176,17 +170,21 @@ public class DrawingSurface extends PApplet {
 	 */
 	public void handleButtonEvents(GImageButton button, GEvent event) {
 		if (button.getY() == 125) { // ERASER BUTTON
-			shapes.get(shapes.size()-1).setStrokeColors(0,  0,  0);
-			shapes.get(shapes.size()-1).draw(this);
-			shapes.remove(shapes.size()-1);
-			chart.update();
-			for (int i = 0; i < shapes.size(); i++) {
-				shapes.get(i).draw(this);
+			if (shapes.size() > 0) {
+				shapes.get(shapes.size()-1).setStrokeColors(0,  0,  0);
+				shapes.get(shapes.size()-1).draw(this);
+				shapes.remove(shapes.size()-1);
+				chart.update();
+				for (int i = 0; i < shapes.size(); i++) {
+					shapes.get(i).draw(this);
+				}
+			} else {
+				System.out.println("NOTHING TO ERASE");
 			}
-			System.out.println("ERASER CLICKED");
 		} else if (button.getY() == (float)(125+(chart.getFrame().getHeight()/4.0))) { // LINE BUTTON
 			if (!lineActive) {
 				lineActive = true;
+				rectActive = false;
 			} else {
 				lineActive = false;
 			}
@@ -199,7 +197,7 @@ public class DrawingSurface extends PApplet {
 		} else if (button.getY() == (float)(125+(3.0*(chart.getFrame().getHeight()/4.0)))) { // RECTANGLE BUTTON
 			if (!rectActive) {
 				rectActive = true;
-				
+				lineActive = false;
 			} else {
 				rectActive = false;
 			}
@@ -230,32 +228,11 @@ public class DrawingSurface extends PApplet {
 		}
 	}
 	
-
-	/**
-	 * Returns the date and close price corresponding to the point clicked
-	 * 
-	 * @param p A Point object containing a graphical pixel coordinate.
-	 * @param x The x pixel coordinate of the upper left corner of the frame.
-	 * @param y The y pixel coordinate of the upper left corner of the grid frame.
-	 * @param width The pixel width of the frame.
-	 * @param height The pixel height of the frame.
-	 * @return the date and close price corresponding to the point clicked
-	 */
-	public Point clickToDate(Point p, float x, float y, float width, float height) {
-
-		int j = 0;
-		int i = 0;
-		
-		Point result = new Point(i, j);
-		return result;
-	}
-	
 	/**
 	 * Called if the mouse is pressed
 	 */
 	public void mousePressed() {
 		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectActive && !lineActive) {
-			boolean intersected = false;
 			System.out.println("RECT NOR LINE ACTIVE");
 			Line l = new Line(mouseX, 125, mouseX, (double)650); // WORKS
 			l.setStrokeColors(255, 255, 255);
@@ -266,7 +243,6 @@ public class DrawingSurface extends PApplet {
 			double xDif = Math.abs(chart.getLines().get(0).getX2()-chart.getLines().get(0).getX());
 				for (int i = 0; i < chart.getLines().size(); i++) {
 					if (l.intersects(chart.getLines().get(i)) && Math.abs(l.getX()-chart.getLines().get(i).getX()) < xDif) {
-						intersected = true;
 						System.out.println(i);
 						intersecting = chart.getLines().get(i);
 						date = chart.getStockData().get(chart.getNumDataPoints()-i).getDate();
@@ -280,7 +256,7 @@ public class DrawingSurface extends PApplet {
 		 	Line drawn = new Line(intersecting.getX(), 125, intersecting.getX(), (double)650);
 			drawn.setStrokeColors(255, 255, 255);
 			drawn.draw(this);
-			clickToDateVals.setText("DATE SELECTED: " + date + " VALUE: " + val);
+			clickToDateVals.setText("DATE SELECTED: " + date + " VALUE: $" + val);
 			
 			
 		} else if (rectActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !lineActive) {
@@ -308,7 +284,6 @@ public class DrawingSurface extends PApplet {
 				pointOne = null;
 				pointTwo = null;
 			}
-			
 			
 		} else if (lineActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectActive) {
 			if (pointCount == 0) {
