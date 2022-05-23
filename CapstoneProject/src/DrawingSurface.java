@@ -72,6 +72,7 @@ public class DrawingSurface extends PApplet {
 		chart = new StockChart(150, 125, 600, 525);
 		// outerFrame = new Rectangle(150, 125, 600, 525);
 		dcf = new DcfCalculator();
+		dcf.getApi().configure();
 		pointOne = null;
 		pointTwo = null;
 		shapes = new ArrayList<Shape>();
@@ -113,15 +114,13 @@ public class DrawingSurface extends PApplet {
 		timeInstructions = new GTextField(this, 75, 0, 75, 20);
 		tickerDisplay = new GTextField(this, 150, 125, 120, 20);
 		dcfCalculate = new GTextField(this, 500, 0, 250, 50);
-		
-
 	}
 	
 	/**
 	 * Executed repetitively until the program is stopped.
 	 */
 	public void draw() {
-		System.out.println(chart.getApi().getCurrentKey());
+		System.out.println(dcf.getApi().getIndex());
 		
 		tickerBox.setPromptText("choose ticker");
 		timeBox.setPromptText("choose time");
@@ -206,8 +205,10 @@ public class DrawingSurface extends PApplet {
 			} catch (NumberFormatException e) {
 				chart.setTicker(textcontrol.getText());
 				tickerSet = true;
-//				dcf.getData();
 				chart.getData();
+//				dcf.getApi().incrementKey();
+//				dcf.getData();
+				
 			} finally {
 				// textcontrol.
 			}

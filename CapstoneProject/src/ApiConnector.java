@@ -10,9 +10,9 @@ import com.crazzyghost.alphavantage.Config;
 
 public class ApiConnector {
 
-	private String[] keys;
-	private String currentKey;
-	private int index;
+	private static String[] keys;
+	private static String currentKey;
+	private static int index;
 
 	public ApiConnector() {
 		try {
@@ -23,7 +23,22 @@ public class ApiConnector {
 		index = -1;
 	}
 
-
+	public String getCurrentKey() {
+		return currentKey;
+	}
+	
+	public int getIndex() {
+		return index;
+	}
+	
+	public String printKeys() {
+		String s = "";
+		for(int i=0; i<keys.length; i++) {
+			s += keys[i] + ", ";
+		}
+		return s;
+	}
+	
 	/**
 	 * Configures the API
 	 */
@@ -52,14 +67,9 @@ public class ApiConnector {
 			System.out.println(e);
 		} finally {
 			keys = keylist.get(0);
-			System.out.println(keys.toString());
 		}
 	}
-
-	public String getCurrentKey() {
-		return currentKey;
-	}
-
+	
 	public void incrementKey() {
 		if (index == keys.length-1) {
 			index = 0;

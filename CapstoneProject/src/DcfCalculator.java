@@ -43,6 +43,10 @@ public class DcfCalculator {
 		discountRate = 0.1; 
 	}
 	
+	public ApiConnector getApi() {
+		return api;
+	}
+	
 	/**
 	 * Calls the methods to get necessary financial data
 	 */
@@ -50,6 +54,17 @@ public class DcfCalculator {
 		getBSData();
 		getISData();
 		getCFData();
+	}
+	
+	/**
+	 * Instructions for what to do if the data was unsuccessfully fetched
+	 * 
+	 * @param error the error that occurred
+	 */
+	private void handleFailure(AlphaVantageException error) {
+	    System.out.println("DCF: " + error.toString());
+	    api.incrementKey();
+	    getData();
 	}
 	
 	/**
@@ -89,15 +104,6 @@ public class DcfCalculator {
 	    .onSuccess(e->handleCFSuccess(e))
 	    .onFailure(e->handleFailure(e))
 	    .fetch();
-	}
-	
-	/**
-	 * Instructions for what to do if the data was unsuccessfully fetched
-	 * 
-	 * @param error the error that occurred
-	 */
-	private void handleFailure(AlphaVantageException error) {
-	    System.out.println(error.toString());
 	}
 	
 	/**

@@ -37,7 +37,6 @@ public class StockChart {
 	 */
 	public StockChart(double x, double y, double width, double height) {
 		api = new ApiConnector();
-		api.incrementKey();
 		api.configure();
 		ticker = new Ticker();
 		lines = new ArrayList<Line>();
@@ -75,7 +74,9 @@ public class StockChart {
 	 * @param error the error that occurred
 	 */
 	private void handleFailure(AlphaVantageException error) {
-	    System.out.println(error.toString());
+	    System.out.println("CHART: " + error.toString());
+	    api.incrementKey();
+	    getData();
 	}
 	
 	/**
