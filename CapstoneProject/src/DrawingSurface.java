@@ -49,6 +49,7 @@ public class DrawingSurface extends PApplet {
 	private GTextField tickerInstructions;
 	private GTextField timeInstructions;
 	private GTextField dcfCalculate;
+	private GTextField clickToDateVals;
 	private String[] eraserFiles;
 	private String[] lineFiles;
 	private String[] cursorFiles;
@@ -121,10 +122,11 @@ public class DrawingSurface extends PApplet {
 		
 		tickerBox = new GTextArea(this, 0, 20, 75, 105);
 		timeBox = new GTextArea(this, 75, 20, 75, 105);
+		clickToDateVals = new GTextField(this, 150, 0, 350, 125);
 		tickerInstructions = new GTextField(this, 0, 0, 75, 20);
 		timeInstructions = new GTextField(this, 75, 0, 75, 20);
 		tickerDisplay = new GTextField(this, 150, 125, 120, 20);
-		dcfCalculate = new GTextField(this, 225, 0, 250, 50);
+		dcfCalculate = new GTextField(this, 500, 0, 250, 50);
 		
 
 	}
@@ -163,6 +165,7 @@ public class DrawingSurface extends PApplet {
 //			this.fill(0);
 //		}
 		drawShapes();
+
 		
 	}
 
@@ -255,16 +258,21 @@ public class DrawingSurface extends PApplet {
 			boolean intersected = false;
 			System.out.println("RECT NOR LINE ACTIVE");
 			Line l = new Line(mouseX, 125, mouseX, (double)650); // WORKS
+			l.setStrokeColors(255, 255, 255);
+			//l.draw(this);
 			Line intersecting = null;
-			if (!intersected) {
+			String date = "";
+			double val = 0;
+			double xDif = Math.abs(chart.getLines().get(0).getX2()-chart.getLines().get(0).getX());
 				for (int i = 0; i < chart.getLines().size(); i++) {
-					if (l.intersects(chart.getLines().get(i))) {
+					if (l.intersects(chart.getLines().get(i)) && Math.abs(l.getX()-chart.getLines().get(i).getX()) < xDif) {
 						intersected = true;
-					//	System.out.println(i);
+						System.out.println(i);
 						intersecting = chart.getLines().get(i);
+						date = chart.getStockData().get(chart.getNumDataPoints()-i).getDate();
+						val = chart.getStockData().get(chart.getNumDataPoints()-i).getClose();
 					}
 				}
-			}
 			if (intersecting != null) {
 				System.out.println("LINES INTERSECTED");
 			}
@@ -272,6 +280,7 @@ public class DrawingSurface extends PApplet {
 		 	Line drawn = new Line(intersecting.getX(), 125, intersecting.getX(), (double)650);
 			drawn.setStrokeColors(255, 255, 255);
 			drawn.draw(this);
+			clickToDateVals.setText("DATE SELECTED: " + date + " VALUE: " + val);
 			
 			
 		} else if (rectActive && 150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !lineActive) {
