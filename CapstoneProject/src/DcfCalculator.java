@@ -1,5 +1,5 @@
 /**
- * Represents a calculator implementing discounted cash flow analysis to give a price target
+ * Represents a calculator implementing discounted cash flow analysis based on the past 1 year to give a fair share value
  * 
  * Author: Ryan Xu
  * Version: 5/5/22
@@ -25,21 +25,22 @@ public class DcfCalculator {
 		private double netIncome;
 		private double depreciationOrAmortization;
 		private double deltWorkingCapital;
-		private double deltWorkingCapital_optimized;
 		private double capitalExpenditures;
 		
 	private double discountRate;
 	
-		//OptimizedDCF
-		private double cash;
-		private double debt;
-	
+	/**
+	 * Creates a DcfCalculator 
+	 */
 	public DcfCalculator() {
 			ticker = new Ticker();
 		
 			discountRate = 0.1; 
 	}
 	
+	/**
+	 * Calls the methods to get necessary financial data
+	 */
 	public void getData() {
 		getBSData();
 		getISData();
@@ -101,29 +102,24 @@ public class DcfCalculator {
 	 */
 	private void handleBSSuccess(Object e) {
 		double workingCap1, workingCap2;
-		ArrayList<BalanceSheet> bs = (ArrayList<BalanceSheet>) ((BalanceSheetResponse) e).getAnnualReports();
+		BalanceSheet bs1 = ((ArrayList<BalanceSheet>) ((BalanceSheetResponse) e).getAnnualReports()).get(0);
+		BalanceSheet bs2 = ((ArrayList<BalanceSheet>) ((BalanceSheetResponse) e).getAnnualReports()).get(1);
 		
-		double a = bs.get(0).getTotalCurrentAssets();
-		double b = bs.get(0).getCashAndCashEquivalentsAtCarryingValue();
-		double c = bs.get(0).getTotalCurrentLiabilities();
-		double d = bs.get(0).getCurrentDebt();
+		double a = bs1.getTotalCurrentAssets();
+		double b = bs1.getCashAndCashEquivalentsAtCarryingValue();
+		double c = bs1.getTotalCurrentLiabilities();
+		double d = bs1.getCurrentDebt();
 		
-		double f = bs.get(1).getTotalCurrentAssets();
-		double g = bs.get(1).getCashAndCashEquivalentsAtCarryingValue();
-		double h = bs.get(1).getTotalCurrentLiabilities();
-		double i = bs.get(1).getCurrentDebt();
+		double f = bs2.getTotalCurrentAssets();
+		double g = bs2.getCashAndCashEquivalentsAtCarryingValue();
+		double h = bs2.getTotalCurrentLiabilities();
+		double i = bs2.getCurrentDebt();
 	
 		workingCap1 = a-c;
 		workingCap2 = f-h; 
 		deltWorkingCapital = workingCap1 - workingCap2;
-		workingCap1 = (a-b) - (c-d);
-		workingCap2 = (f-g) - (h-i); 
-		deltWorkingCapital_optimized = workingCap1 - workingCap2;
 		
-		cash = b;
-		debt = d;
-		
-		shares = bs.get(0).getCommonStockSharesOutstanding();
+		shares = bs1.getCommonStockSharesOutstanding();
 	}
 	
 	/**
@@ -132,9 +128,9 @@ public class DcfCalculator {
 	 * @param e the object passed from onSuccess() in the api
 	 */
 	private void handleISSuccess(Object e) {
-		ArrayList<IncomeStatement> is = (ArrayList<IncomeStatement>) ((IncomeStatementResponse) e).getAnnualReports();
-		netIncome = is.get(0).getNetIncome();
-		depreciationOrAmortization = is.get(0).getDepreciationAndAmortization();
+		IncomeStatement is = ((ArrayList<IncomeStatement>) ((IncomeStatementResponse) e).getAnnualReports()).get(0);
+		netIncome = is.getNetIncome();
+		depreciationOrAmortization = is.getDepreciationAndAmortization();
 	}
 	
 	/**
@@ -143,37 +139,37 @@ public class DcfCalculator {
 	 * @param e the object passed from onSuccess() in the api
 	 */
 	private void handleCFSuccess(Object e) {
-		ArrayList<CashFlow> cf = (ArrayList<CashFlow>) ((CashFlowResponse) e).getAnnualReports();
-		capitalExpenditures = cf.get(0).getCapitalExpenditures();
+		CashFlow cf = ((ArrayList<CashFlow>) ((CashFlowResponse) e).getAnnualReports()).get(0);
+		capitalExpenditures = cf.getCapitalExpenditures();
 	}
 	
+	/**
+	 * Calculates the unlevered cash flow of the stock
+	 * @return the unlevered cash flow of the stock
+	 */
 	private double calcUnleveredCashFlow() {
 
-		//System.out.println("Net Income: " + netIncome);
-		//System.out.println("Depr/Amort: " + depreciationOrAmortization);
-		//System.out.println("Working Capital: " + deltWorkingCapital);
-		// System.out.println("Capital Expenditures: " + capitalExpenditures);
+//		System.out.println("Net Income: " + netIncome);
+//		System.out.println("Depr/Amort: " + depreciationOrAmortization);
+//		System.out.println("Working Capital: " + deltWorkingCapital);
+//		System.out.println("Capital Expenditures: " + capitalExpenditures);
 		return netIncome + depreciationOrAmortization - deltWorkingCapital - capitalExpenditures;
 	}
 	
-	private double calcOptimizedUnleveredCashFlow() { 
-		return netIncome + depreciationOrAmortization - deltWorkingCapital_optimized - capitalExpenditures;
-	}
-	
+	/**
+	 * Calculates the estimated fair value for the company
+	 * @return the estimated fair value for the company
+	 */
 	public double calcDCF() {
 		return calcUnleveredCashFlow()/(1+Math.pow(discountRate, 2));
 	}
 	
-	public double calcOptimizedDCF() {
-		return calcOptimizedUnleveredCashFlow()/(1+Math.pow(discountRate, 2));
-	}
-	
+	/**
+	 * Calculates the estimated fair price per share for the stock
+	 * @return the estimated fair price per share for the stock
+	 */
 	public double calcEstSharePrice() {
 		return calcDCF()/shares;
-	}
-	
-	public double calcOptimizedEstSharePrice() {
-		return (calcOptimizedDCF()+cash-debt)/shares;
 	}
 	
 	

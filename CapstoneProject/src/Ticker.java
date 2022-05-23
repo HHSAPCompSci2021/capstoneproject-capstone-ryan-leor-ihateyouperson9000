@@ -15,7 +15,6 @@ public class Ticker {
 	 * Creates a blank ticker
 	 */
 	public Ticker() {
-		ticker = "";
 	}
 	
 	public Ticker(String s) {

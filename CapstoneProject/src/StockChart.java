@@ -25,7 +25,7 @@ public class StockChart {
 	private ArrayList<Line> lines;
 	private int numDataPoints;
 	private double minY, maxY;
-	private boolean dataGood;
+	private int timespan;
 	
 	/**
 	 * Creates a new StockChart
@@ -36,11 +36,10 @@ public class StockChart {
 	 */
 	public StockChart(double x, double y, double width, double height) {
 		ticker = new Ticker();
-//		ticker.setTicker("AAPL");
-		dataGood = false;
 		lines = new ArrayList<Line>();
 		numDataPoints = 261; //default 1 yr timespan
 		frame = new Rectangle(x, y, width, height); //50 50 600 525
+		timespan = 365;
 	}
 	
 	/**
@@ -63,7 +62,7 @@ public class StockChart {
 	 */
 	private void handleSuccess(Object e) {
 	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
-	    dataGood = true;
+	    update();
 	}
 	
 	/**
@@ -76,33 +75,21 @@ public class StockChart {
 	
 	/**
 	 * Draws the StockChart based on the current ticker and numDataPoints
-	 * @param drawer the PApplet the StockChart should be drawn to
 	 */
-	public void update(PApplet drawer) {
+	public void update() {
 		lines.clear();
-		if (drawer == null) {
-			System.out.println("DRAWER NULL");
-		} else {
-			System.out.println("DRAWER NOT NULL");
-		}
-		drawer.background(255);
-		drawer.stroke(0);
-		frame.draw(drawer);
-		drawer.stroke(255);
-		System.out.println("DATA NOT GOOD YET");
-		if (dataGood) {
-			System.out.println("DATA GOOD");
-			findMinMax();
-			for (int e = numDataPoints; e > 0; e--) { //261 days of stock trading per year
+		
+		findMinMax();
+		for (int e = numDataPoints; e > 0; e--) { 
+			
+			if (data.get(e).getClose() >= 0) {
 				// 150, 125, 600, 525
-				double x1 = 750-(double)e*(frame.getWidth()/numDataPoints); //300 to give space for buttons on left side
-				double y1 = frame.getHeight()-(data.get(e).getClose()-minY)/(maxY-minY)*300; //575 is the max y val of the jframe
+				double x1 = 750-(double)e*(frame.getWidth()/numDataPoints);
+				double y1 = frame.getHeight()-(data.get(e).getClose()-minY)/(maxY-minY)*300;
 				double x2 = 750-(double)e*(frame.getWidth()/numDataPoints)+(frame.getWidth()/numDataPoints);
 				double y2 = frame.getHeight()-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
 				Line l = new Line(x1, y1, x2, y2);
 				lines.add(l);
-				l.setStrokeColors(255,255,255);
-				l.draw(drawer);
 			}
 			
 		}
@@ -127,6 +114,18 @@ public class StockChart {
 			}
 		}
 		
+	}
+	
+	public void drawGraph(PApplet app) {
+		for (Line l : lines) {
+			l.setStrokeColors(255,255,255);
+			l.draw(app);
+		}
+	}
+	
+	public void drawFrame(PApplet app) {
+		app.stroke(0);
+		frame.draw(app);
 	}
 	
 	/**
@@ -160,7 +159,7 @@ public class StockChart {
 	 * @return the timespan of the StockChart
 	 */
 	public int getTimeSpan() {
-		return (int)((double)numDataPoints/261.0*365.0);
+		return timespan;
 	}
 	
 	/**
@@ -169,6 +168,7 @@ public class StockChart {
 	 */
 	public void setTimeSpan(int n) {
 		if (n > 0) {
+			timespan = n;
 			numDataPoints = (int)((double)n /365.0*261.0);
 		}
 	}
@@ -196,13 +196,12 @@ public class StockChart {
 	 * @param day the day of the date
 	 * @return closing value of the stock at the inputed date
 	 */
-	public double getValAtTime(int year, int month, int day) {
+	public double getValAtTime(String year, String month, String day) {
+		
 		String s = year+"-"+month+"-"+day;
-		if (dataGood) {
-			for (int e = numDataPoints; e > 0; e--) {
-				if (data.get(e).getDate().equals(s)) {
-					return data.get(e).getClose();
-				}
+		for (int e = numDataPoints; e > 0; e--) {
+			if (data.get(e).getDate().equals(s)) {
+				return data.get(e).getClose();
 			}
 		}
 		return -1;
