@@ -133,7 +133,6 @@ public class DrawingSurface extends PApplet {
 	 * Executed repetitively until the program is stopped.
 	 */
 	public void draw() {
-		System.out.println(chart.getTicker());
 		
 		tickerBox.setPromptText("choose ticker");
 		timeBox.setPromptText("choose time");
@@ -214,8 +213,9 @@ public class DrawingSurface extends PApplet {
 	public void handleTextEvents(GEditableTextControl textcontrol, GEvent event) {
 		if (event == GEvent.ENTERED) {
 			try {
-				int intCheck = Integer.parseInt(textcontrol.getText());
-				chart.setTimeSpan(intCheck);
+				int input = Integer.parseInt(textcontrol.getText());
+				System.out.println(input);
+				chart.setTimeSpan(input);
 				chart.update();
 			} catch (NumberFormatException e) {
 				chart.setTicker(textcontrol.getText());
@@ -327,6 +327,7 @@ public class DrawingSurface extends PApplet {
 			float e = event.getCount();
 			int sizeAmount = (int)e;
 			chart.setNumDataPoints(chart.getNumDataPoints()+sizeAmount);
+			chart.setTimeSpan(chart.getTimeSpan()+sizeAmount);
 			chart.update();
 		}
 	}

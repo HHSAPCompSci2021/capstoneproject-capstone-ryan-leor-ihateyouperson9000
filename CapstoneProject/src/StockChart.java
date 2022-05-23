@@ -25,6 +25,7 @@ public class StockChart {
 	private ArrayList<Line> lines;
 	private int numDataPoints;
 	private double minY, maxY;
+	private int timespan;
 	
 	/**
 	 * Creates a new StockChart
@@ -38,6 +39,7 @@ public class StockChart {
 		lines = new ArrayList<Line>();
 		numDataPoints = 261; //default 1 yr timespan
 		frame = new Rectangle(x, y, width, height); //50 50 600 525
+		timespan = 365;
 	}
 	
 	/**
@@ -76,17 +78,21 @@ public class StockChart {
 	 */
 	public void update() {
 		lines.clear();
+		System.out.println(getValAtTime("2020", "09", "18"));
+		System.out.println(getValAtTime("2020", "09", "21"));
 		
 		findMinMax();
 		for (int e = numDataPoints; e > 0; e--) { 
 			
-			// 150, 125, 600, 525
-			double x1 = 750-(double)e*(frame.getWidth()/numDataPoints);
-			double y1 = frame.getHeight()-(data.get(e).getClose()-minY)/(maxY-minY)*300;
-			double x2 = 750-(double)e*(frame.getWidth()/numDataPoints)+(frame.getWidth()/numDataPoints);
-			double y2 = frame.getHeight()-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
-			Line l = new Line(x1, y1, x2, y2);
-			lines.add(l);
+			if (data.get(e).getClose() >= 0) {
+				// 150, 125, 600, 525
+				double x1 = 750-(double)e*(frame.getWidth()/numDataPoints);
+				double y1 = frame.getHeight()-(data.get(e).getClose()-minY)/(maxY-minY)*300;
+				double x2 = 750-(double)e*(frame.getWidth()/numDataPoints)+(frame.getWidth()/numDataPoints);
+				double y2 = frame.getHeight()-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
+				Line l = new Line(x1, y1, x2, y2);
+				lines.add(l);
+			}
 			
 		}
 		
@@ -155,7 +161,7 @@ public class StockChart {
 	 * @return the timespan of the StockChart
 	 */
 	public int getTimeSpan() {
-		return (int)((double)numDataPoints/261.0*365.0);
+		return timespan;
 	}
 	
 	/**
@@ -164,6 +170,7 @@ public class StockChart {
 	 */
 	public void setTimeSpan(int n) {
 		if (n > 0) {
+			timespan = n;
 			numDataPoints = (int)((double)n /365.0*261.0);
 		}
 	}
@@ -191,7 +198,8 @@ public class StockChart {
 	 * @param day the day of the date
 	 * @return closing value of the stock at the inputed date
 	 */
-	public double getValAtTime(int year, int month, int day) {
+	public double getValAtTime(String year, String month, String day) {
+		
 		String s = year+"-"+month+"-"+day;
 		for (int e = numDataPoints; e > 0; e--) {
 			if (data.get(e).getDate().equals(s)) {
