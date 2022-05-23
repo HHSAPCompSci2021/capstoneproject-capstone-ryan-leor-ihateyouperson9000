@@ -158,6 +158,7 @@ public class DrawingSurface extends PApplet {
 			dcfCalculate.setPromptText("Estimated Share Price: " + dcf.calcEstSharePrice());
 		}
 		
+		//not sure if this does anything, no visible effect
 //		if (rectActive) {
 //			this.noFill();
 //		} else {
@@ -177,7 +178,6 @@ public class DrawingSurface extends PApplet {
 			shapes.get(shapes.size()-1).setStrokeColors(0,  0,  0);
 			shapes.get(shapes.size()-1).draw(this);
 			shapes.remove(shapes.size()-1);
-			chart.drawFrame(this);
 			chart.update();
 			for (int i = 0; i < shapes.size(); i++) {
 				shapes.get(i).draw(this);
@@ -216,13 +216,11 @@ public class DrawingSurface extends PApplet {
 			try {
 				int intCheck = Integer.parseInt(textcontrol.getText());
 				chart.setTimeSpan(intCheck);
-				chart.drawFrame(this);
 				chart.update();
 			} catch (NumberFormatException e) {
 				chart.setTicker(textcontrol.getText());
 				tickerSet = true;
 //				dcf.getData();
-				chart.drawFrame(this);
 				chart.getData();
 			} finally {
 				// textcontrol.
@@ -329,7 +327,6 @@ public class DrawingSurface extends PApplet {
 			float e = event.getCount();
 			int sizeAmount = (int)e;
 			chart.setNumDataPoints(chart.getNumDataPoints()+sizeAmount);
-			chart.drawFrame(this);
 			chart.update();
 		}
 	}
