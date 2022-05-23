@@ -69,13 +69,12 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface object
 	 */
 	public DrawingSurface() {
-		configure();
+		chart = new StockChart(150, 125, 600, 525);
+		// outerFrame = new Rectangle(150, 125, 600, 525);
 		dcf = new DcfCalculator();
 		pointOne = null;
 		pointTwo = null;
 		shapes = new ArrayList<Shape>();
-		chart = new StockChart(150, 125, 600, 525);
-		// outerFrame = new Rectangle(150, 125, 600, 525);
 		tickerSet = false;
 		rectActive = false;
 		lineActive = false;
@@ -90,19 +89,6 @@ public class DrawingSurface extends PApplet {
 		ONE_D = 0; //one data point per 1min	
 		
 		
-	}
-	
-	
-	/**
-	 * Configures the API
-	 */
-	public void configure() {
-		Config cfg = Config.builder()
-//			    .key("K3GVRKJIDYNUZPZM") 
-			    .key("A780A0EPRA30GKU4")
-			    .timeOut(10)
-			    .build();
-		AlphaVantage.api().init(cfg);
 	}
 	
 	/**
@@ -135,6 +121,7 @@ public class DrawingSurface extends PApplet {
 	 * Executed repetitively until the program is stopped.
 	 */
 	public void draw() {
+		System.out.println(chart.getApi().getCurrentKey());
 		
 		tickerBox.setPromptText("choose ticker");
 		timeBox.setPromptText("choose time");
@@ -146,7 +133,6 @@ public class DrawingSurface extends PApplet {
 		textAlign(LEFT);
 		textSize(12);
 		stroke(255);
-		strokeWeight(8);
 		// tickerDisplay.setWrapWidth(tickerDisplay.getWrapWidth());
 		chart.drawFrame(this);
 		chart.drawGraph(this);
@@ -156,7 +142,7 @@ public class DrawingSurface extends PApplet {
 			tickerDisplay.setText("CHOOSE TICKER");
 		} else {
 			tickerDisplay.setText(chart.getTicker() + " for " + chart.getTimeSpan() + " days");
-			dcfCalculate.setPromptText("Estimated Share Price: " + dcf.calcEstSharePrice());
+			dcfCalculate.setPromptText("Estimated Share Price: " + String.format("%.2f", dcf.calcEstSharePrice()));
 		}
 		drawShapes();
 

@@ -26,6 +26,7 @@ public class StockChart {
 	private int numDataPoints;
 	private double minY, maxY;
 	private int timespan;
+	private ApiConnector api;
 	
 	/**
 	 * Creates a new StockChart
@@ -35,6 +36,9 @@ public class StockChart {
 	 * @param height the height of the StockChart
 	 */
 	public StockChart(double x, double y, double width, double height) {
+		api = new ApiConnector();
+		api.incrementKey();
+		api.configure();
 		ticker = new Ticker();
 		lines = new ArrayList<Line>();
 		numDataPoints = 261; //default 1 yr timespan
@@ -48,7 +52,7 @@ public class StockChart {
 	public void getData() {
 			 AlphaVantage.api()
 			    .timeSeries()
-			    .daily() //change based on timespan
+			    .daily()
 			    .forSymbol(ticker.getTicker())
 			    .outputSize(OutputSize.FULL)
 			    .onSuccess(e->handleSuccess(e))
@@ -62,7 +66,8 @@ public class StockChart {
 	 */
 	private void handleSuccess(Object e) {
 	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
-	    update();
+	    if (data.size() > 0)
+	    	update();
 	}
 	
 	/**
@@ -228,4 +233,7 @@ public class StockChart {
 		return lines;
 	}
 	
+	public ApiConnector getApi() {
+		return api;
+	}
 }

@@ -18,6 +18,8 @@ import com.crazzyghost.alphavantage.fundamentaldata.response.IncomeStatementResp
 
 public class DcfCalculator {
 	
+	private ApiConnector api;
+	
 	private Ticker ticker;
 	private double shares;
 	
@@ -33,9 +35,12 @@ public class DcfCalculator {
 	 * Creates a DcfCalculator 
 	 */
 	public DcfCalculator() {
-			ticker = new Ticker();
+		api = new ApiConnector();
+		api.incrementKey();
 		
-			discountRate = 0.1; 
+		ticker = new Ticker();
+		
+		discountRate = 0.1; 
 	}
 	
 	/**
