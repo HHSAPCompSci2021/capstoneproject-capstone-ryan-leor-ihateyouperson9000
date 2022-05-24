@@ -27,7 +27,7 @@ public class StockChart {
 	private double minY, maxY;
 	private int timespan;
 	private ApiConnector api;
-	
+
 	/**
 	 * Creates a new StockChart
 	 * @param x the x of the top left corner of the StockChart
@@ -38,57 +38,58 @@ public class StockChart {
 	public StockChart(double x, double y, double width, double height) {
 		api = new ApiConnector();
 		api.incrementKey();
+		api.configure();
 		ticker = new Ticker();
 		lines = new ArrayList<Line>();
 		numDataPoints = 261; //default 1 yr timespan
 		frame = new Rectangle(x, y, width, height); //50 50 600 525
 		timespan = 365;
 	}
-	
+
 	/**
 	 * Gets data from the API based on which Ticker is selected
 	 */
 	public void getData() {
 		System.out.println("getData()");
-			api.getAlpha()
-			    .timeSeries()
-			    .daily()
-			    .forSymbol(ticker.getTicker())
-			    .outputSize(OutputSize.FULL)
-			    .onSuccess(e->handleSuccess(e))
-			    .onFailure(e->handleFailure(e))
-			    .fetch();
+		api.getAlpha()
+		.timeSeries()
+		.daily()
+		.forSymbol(ticker.getTicker())
+		.outputSize(OutputSize.FULL)
+		.onSuccess(e->handleSuccess(e))
+		.onFailure(e->handleFailure(e))
+		.fetch();
 	}
-	
+
 	/**
 	 * Instructions for what to do if the API was successfully fetched
 	 * @param e the object passed from onSuccess() in the api
 	 */
 	private void handleSuccess(Object e) {
-	    data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
-	    if (data.size() > 0)
-	    	update();
+		data = (ArrayList<StockUnit>) ((TimeSeriesResponse) e).getStockUnits();
+		if (data.size() > 0)
+			update();
 	}
-	
+
 	/**
 	 * Instructions for what to do if the API was unsuccessfully fetched
 	 * @param error the error that occurred
 	 */
 	private void handleFailure(AlphaVantageException error) {
-	    System.out.println("CHART: " + error.toString());
-	    api.incrementKey();
-	    getData();
+		System.out.println("CHART: " + error.toString());
+		api.incrementKey();
+		getData();
 	}
-	
+
 	/**
 	 * Draws the StockChart based on the current ticker and numDataPoints
 	 */
 	public void update() {
 		lines.clear();
-		
+
 		findMinMax();
 		for (int e = numDataPoints; e > 0; e--) { 
-			
+
 			if (data.get(e).getClose() >= 0) {
 				// 150, 125, 600, 525
 				double x1 = 750-(double)e*(frame.getWidth()/numDataPoints);
@@ -98,23 +99,23 @@ public class StockChart {
 				Line l = new Line(x1, y1, x2, y2);
 				lines.add(l);
 			}
-			
+
 		}
 		
 		// drawAxes();
-		
+
 	}
-	
+
 	/**
 	 * Finds and sets maximum and minimum y of the StockChart
 	 */
 	public void findMinMax() { 
-		
+
 		minY = data.get(0).getClose();
 		maxY = 0;
-		
+
 		for (int e = numDataPoints; e > 0; e--) { 
-			
+
 			if (data.get(e).getClose() < minY) {
 				minY = data.get(e).getClose();
 			}
@@ -122,21 +123,21 @@ public class StockChart {
 				maxY = data.get(e).getClose();
 			}
 		}
-		
+
 	}
-	
+
 	public void drawGraph(PApplet app) {
 		for (int i=0; i<lines.size(); i++) {
 			lines.get(i).setStrokeColors(255,255,255);
 			lines.get(i).draw(app);
 		}
 	}
-	
+
 	public void drawFrame(PApplet app) {
 		app.stroke(0);
 		frame.draw(app);
 	}
-	
+
 	/**
 	 * Gets ArrayList of data from the API
 	 * @return ArrayList of StockUnits containing the stock data from the API
@@ -144,7 +145,7 @@ public class StockChart {
 	public ArrayList<StockUnit> getStockData() {
 		return data;
 	}
-	
+
 	/**
 	 * Gets number of trading days (5 days/week) shown on the StockChart
 	 * @return number of data points
@@ -152,7 +153,7 @@ public class StockChart {
 	public int getNumDataPoints() {
 		return numDataPoints;
 	}
-	
+
 	/**
 	 * Sets the number of data points that will be shown on the StockChart
 	 * @param n number of data points to be set
@@ -162,7 +163,7 @@ public class StockChart {
 			numDataPoints = n;
 		}
 	}
-	
+
 	/**
 	 * Gets the timespan displayed by the StockChart
 	 * @return the timespan of the StockChart
@@ -170,7 +171,7 @@ public class StockChart {
 	public int getTimeSpan() {
 		return timespan;
 	}
-	
+
 	/**
 	 * Sets the timespan of the StockChart
 	 * @param n days
@@ -181,7 +182,7 @@ public class StockChart {
 			numDataPoints = (int)((double)n /365.0*261.0);
 		}
 	}
-	
+
 	/**
 	 * Sets the Ticker to extract data from
 	 * @param s name of Ticker to set
@@ -189,7 +190,7 @@ public class StockChart {
 	public void setTicker(String s) {
 		ticker.setTicker(s);
 	}
-	
+
 	/**
 	 * Gets the Ticker that is extracting data
 	 * @return name of the Ticker
@@ -197,7 +198,7 @@ public class StockChart {
 	public String getTicker() {
 		return ticker.getTicker();
 	}
-	
+
 	/**
 	 * Returns the closing value of the current Ticker at the inputed date
 	 * @param year the year of the date
@@ -206,7 +207,7 @@ public class StockChart {
 	 * @return closing value of the stock at the inputed date
 	 */
 	public double getValAtTime(String year, String month, String day) {
-		
+
 		String s = year+"-"+month+"-"+day;
 		for (int e = numDataPoints; e > 0; e--) {
 			if (data.get(e).getDate().equals(s)) {
@@ -215,7 +216,7 @@ public class StockChart {
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * Gets closing value from an inputed element of the data ArrayList
 	 * @param n the element of the ArrayList to get data from
@@ -224,7 +225,7 @@ public class StockChart {
 	public double getSpecificVal(int n) {
 		return data.get(n).getClose();
 	}
-	
+
 	/**
 	 * Returns the Rectangle that the StockChart is confined to
 	 * @return Rectangle around StockChart
@@ -232,11 +233,11 @@ public class StockChart {
 	public Rectangle getFrame() {
 		return frame;
 	}
-	
+
 	public ArrayList<Line> getLines() {
 		return lines;
 	}
-	
+
 	public ApiConnector getApi() {
 		return api;
 	}

@@ -207,7 +207,6 @@ public class DrawingSurface extends PApplet {
 				chart.setTicker(textcontrol.getText());
 				tickerSet = true;
 				chart.getData();
-//				dcf.getApi().incrementKey();
 //				dcf.getData();
 				
 			} finally {
