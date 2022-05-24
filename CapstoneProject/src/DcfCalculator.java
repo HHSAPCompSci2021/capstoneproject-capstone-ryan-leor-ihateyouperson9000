@@ -62,8 +62,8 @@ public class DcfCalculator {
 	 */
 	private void handleFailure(AlphaVantageException error) {
 	    System.out.println("DCF: " + error.toString());
-	    api.incrementKey();
-	    getData();
+//	    api.incrementKey();
+//	    getData();
 	}
 	
 	/**
