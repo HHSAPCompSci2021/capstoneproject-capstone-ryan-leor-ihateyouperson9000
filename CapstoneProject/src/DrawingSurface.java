@@ -320,11 +320,12 @@ public class DrawingSurface extends PApplet {
 		valDisplays.clear();
 		int yDiff = (int) (chart.getMaxYDrawn()-chart.getMinYDrawn());
 		int yValDiff = (int)(chart.getMaxY()-chart.getMinY());
-		double valIncrement = yValDiff/5.0;
+		double valIncrement = yValDiff/4.0;
 		double increment = yDiff/4.0;
 		for (int i = 0; i < 5; i++) {
 			Line l = new Line(150, chart.getMinYDrawn()+(i*increment), 750, chart.getMinYDrawn()+(i*increment));
-
+			valDisplays.add(new GTextArea(this, 150, (float)(chart.getMinYDrawn()+(i*increment)), 50, 25));
+			valDisplays.get(i).setText(chart.getMinY()+((4-i)*valIncrement)+"");
 			l.setStrokeColors(100, 100, 100);
 			l.draw(this);
 			//l2.draw(this);

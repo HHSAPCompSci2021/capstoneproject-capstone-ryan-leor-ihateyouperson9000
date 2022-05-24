@@ -104,7 +104,6 @@ public class StockChart {
 				double y2 = frame.getHeight()-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
 				if (y2 < minYDrawn) {
 					minYDrawn = (int)y2;
-					System.out.println("MIN Y SET!");
 				}
 				if (y2 > maxYDrawn) {
 					maxYDrawn = (int)y2;
