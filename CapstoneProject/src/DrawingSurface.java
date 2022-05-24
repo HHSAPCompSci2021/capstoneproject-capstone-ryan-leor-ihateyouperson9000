@@ -47,7 +47,7 @@ public class DrawingSurface extends PApplet {
 	private GTextArea tickerBox;
 	private GTextArea timeBox;
 	private ArrayList<GTextArea> valDisplays;
-	private GTextField apiInstructions;
+	// private GTextField apiInstructions;
 	private GTextField tickerDisplay;
 	private GTextField tickerInstructions;
 	private GTextField timeInstructions;
@@ -120,7 +120,7 @@ public class DrawingSurface extends PApplet {
 		timeInstructions = new GTextField(this, 75, 0, 75, 20);
 		tickerDisplay = new GTextField(this, 150, 125, 120, 20);
 		dcfCalculate = new GTextField(this, 500, 0, 250, 50);
-		apiInstructions = new GTextField(this, 275, 0, 100, 20);
+		// apiInstructions = new GTextField(this, 275, 0, 100, 20);
 	}
 	
 	/**
@@ -129,7 +129,7 @@ public class DrawingSurface extends PApplet {
 	public void draw() {
 //		System.out.println(dcf.getApi().getIndex());
 		
-		apiInstructions.setPromptText("set api key");
+		// apiInstructions.setPromptText("set api key");
 		tickerBox.setPromptText("choose ticker");
 		timeBox.setPromptText("choose time");
 		tickerInstructions.setText("Set ticker");
@@ -354,11 +354,10 @@ public class DrawingSurface extends PApplet {
 		double increment = yDiff/4.0;
 		for (int i = 0; i < 5; i++) {
 			Line l = new Line(150, chart.getMinYDrawn()+(i*increment), 750, chart.getMinYDrawn()+(i*increment));
-			valDisplays.add(new GTextArea(this, 150, (float)(chart.getMinYDrawn()+(i*increment)), 50, 25));
+			valDisplays.add(new GTextArea(this, 700, (float)(chart.getMinYDrawn()+(i*increment)), 50, 25));
 			valDisplays.get(i).setText(chart.getMinY()+((4-i)*valIncrement)+"");
 			l.setStrokeColors(100, 100, 100);
 			l.draw(this);
-			//l2.draw(this);
 		}
 	}
 }
