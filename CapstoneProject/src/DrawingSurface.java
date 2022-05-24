@@ -114,9 +114,6 @@ public class DrawingSurface extends PApplet {
 	 * Executed repetitively until the program is stopped.
 	 */
 	public void draw() {
-//		System.out.println(dcf.getApi().getIndex());
-		
-		// apiInstructions.setPromptText("set api key");
 		tickerBox.setPromptText("choose ticker");
 		timeBox.setPromptText("choose time");
 		tickerInstructions.setText("Set ticker");
@@ -138,8 +135,6 @@ public class DrawingSurface extends PApplet {
 			dcfCalculate.setPromptText("Estimated Share Price: " + String.format("%.2f", dcf.calcEstSharePrice()));
 		}
 		drawShapes();
-		
-
 		
 	}
 
@@ -182,8 +177,11 @@ public class DrawingSurface extends PApplet {
 				rectActive = false;
 			}
 			System.out.println("RECTACTIVE: " + rectActive);
+			
 		}
-		}  
+		
+	}
+
 	
 	/**
 	 * Called if a textbox is interacted with
@@ -194,7 +192,6 @@ public class DrawingSurface extends PApplet {
 		if (event == GEvent.ENTERED) {
 			try {
 				int input = Integer.parseInt(textcontrol.getText());
-				System.out.println(input);
 				chart.setTimeSpan(input);
 				chart.update();
 			} catch (NumberFormatException e) {
@@ -205,20 +202,29 @@ public class DrawingSurface extends PApplet {
 				} catch (AlphaVantageException f) {
 					System.out.println("NOT A VALID TICKER");
 				}
+				chart.setTicker(textcontrol.getText());
+				tickerSet = true;
+				chart.getData();
+				
+			} finally {
+				if (textcontrol.getPromptText().equals("set api key")) {
+					System.out.println("BEFORE: " + textcontrol.getText());
+					chart.getApi().setKey(textcontrol.getText());
+					System.out.println("AFTER: " + chart.getApi().getCurrentKey());
+				}
 			} 
 		}
 	}
 	
 	
 	/**
-	 * Called if the mouse is pressed
+	 * Called each time the mouse is pressed
 	 */
 	public void mousePressed() {
 		if (150 < mouseX && mouseX < 750 && 125 < mouseY && mouseY < 650 && !rectActive && !lineActive) {
 			System.out.println("RECT NOR LINE ACTIVE");
-			Line l = new Line(mouseX, 125, mouseX, (double)650); // WORKS
+			Line l = new Line(mouseX, 125, mouseX, (double)650);
 			l.setStrokeColors(255, 255, 255);
-			//l.draw(this);
 			Line intersecting = null;
 			String date = "";
 			double val = 0;
