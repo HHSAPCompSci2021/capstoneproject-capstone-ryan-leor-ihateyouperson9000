@@ -14,7 +14,7 @@ public class ApiConnector {
 	private static String currentKey;
 	private static int index;
 	private static AlphaVantage alpha;
-
+	
 	public ApiConnector() {
 		alpha = AlphaVantage.api();
 		try {
@@ -44,6 +44,7 @@ public class ApiConnector {
 	public AlphaVantage getAlpha() {
 		return alpha;
 	}
+
 	
 	/**
 	 * Configures the API
@@ -86,7 +87,6 @@ public class ApiConnector {
 			index++;
 		}
 		currentKey = keys[index];
-		configure();
 	}
 
 }

@@ -70,7 +70,7 @@ public class DcfCalculator {
 	 * Sets up parameters for Balance Sheet API call
 	 */
 	private void getBSData() {
-		AlphaVantage.api()
+		api.getAlpha()
 		    .fundamentalData()
 		    .balanceSheet()
 		    .forSymbol(ticker.getTicker())
