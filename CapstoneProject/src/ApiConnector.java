@@ -11,7 +11,7 @@ import com.crazzyghost.alphavantage.Config;
 public class ApiConnector {
 
 	private static String[] keys;
-	private static String currentKey;
+	private static String key;
 	private static int index;
 	private static AlphaVantage alpha;
 	
@@ -26,7 +26,7 @@ public class ApiConnector {
 	}
 
 	public String getCurrentKey() {
-		return currentKey;
+		return key;
 	}
 	
 	public int getIndex() {
@@ -45,14 +45,17 @@ public class ApiConnector {
 		return alpha;
 	}
 
+	public void setKey(String s) {
+		key = s;
+		configure();
+	}
 	
 	/**
 	 * Configures the API
 	 */
 	public void configure() {
-		System.out.println(currentKey);
 		Config cfg = Config.builder()
-				.key(currentKey) 
+				.key(key) 
 				.timeOut(10)
 				.build();
 		alpha.init(cfg);
@@ -86,7 +89,7 @@ public class ApiConnector {
 		else {
 			index++;
 		}
-		currentKey = keys[index];
+		key = keys[index];
 	}
 
 }
