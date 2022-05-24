@@ -56,7 +56,8 @@ public class ApiConnector {
 	public void configure() {
 		
 		Config cfg = Config.builder()
-				.key(key) 
+//				.key(key) 
+				.key("FBVR2OER1R5D5NHF")
 				.timeOut(10)
 				.build();
 		alpha.init(cfg);
