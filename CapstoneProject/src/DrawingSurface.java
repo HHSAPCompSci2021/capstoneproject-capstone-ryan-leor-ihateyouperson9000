@@ -2,7 +2,7 @@
  * Represents a PApplet that draws the stock chart and UI
  * 
  * Author: Leor Porat, Ryan Xu
- * Version: 5/6/22
+ * Version: 5/22/22
  */
 import java.awt.Point; 
 import java.util.ArrayList;
@@ -60,14 +60,11 @@ public class DrawingSurface extends PApplet {
 	private String[] dcfFiles;
 	private StockChart chart;
 	private Point pointOne, pointTwo;
-	private Rectangle outerFrame;
 	private ArrayList<Shape> shapes;
 	private boolean tickerSet;
 	private boolean rectActive;
 	private boolean lineActive;
 	private int pointCount;
-	
-	private final int FIVE_Y, ONE_Y, SIX_M, THREE_M, ONE_M, FIVE_D, ONE_D; //might be able to use interval.java instead
 	
 	/**
 	 * Creates a DrawingSurface object
@@ -83,14 +80,6 @@ public class DrawingSurface extends PApplet {
 		rectActive = false;
 		lineActive = false;
 		pointCount = 0;
-		
-		FIVE_Y = 0; //one data point per week
-		ONE_Y = 365; //one data point per day
-		SIX_M = 0; //one data point per 2hr
-		THREE_M = 0; //one data point per 1hr
-		ONE_M = 0; //one data point per 30min
-		FIVE_D = 0; //one data point per 5min
-		ONE_D = 0; //one data point per 1min	
 		
 		
 	}

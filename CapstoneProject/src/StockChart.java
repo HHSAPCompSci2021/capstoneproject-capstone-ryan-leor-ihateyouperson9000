@@ -2,7 +2,7 @@
  * Creates a new StockChart, which takes data from an API and uses it to draw a Line Graph of stock data based on which Ticker is selected
  * 
  * Author: Leor Porat
- * Version: 5/19/22
+ * Version: 5/22/22
  */
 import java.util.ArrayList;
 
