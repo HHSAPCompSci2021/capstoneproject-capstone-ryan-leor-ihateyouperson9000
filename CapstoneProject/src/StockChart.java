@@ -37,7 +37,7 @@ public class StockChart {
 	 */
 	public StockChart(double x, double y, double width, double height) {
 		api = new ApiConnector();
-		api.configure();
+		api.incrementKey();
 		ticker = new Ticker();
 		lines = new ArrayList<Line>();
 		numDataPoints = 261; //default 1 yr timespan
@@ -123,9 +123,9 @@ public class StockChart {
 	}
 	
 	public void drawGraph(PApplet app) {
-		for (Line l : lines) {
-			l.setStrokeColors(255,255,255);
-			l.draw(app);
+		for (int i=0; i<lines.size(); i++) {
+			lines.get(i).setStrokeColors(255,255,255);
+			lines.get(i).draw(app);
 		}
 	}
 	

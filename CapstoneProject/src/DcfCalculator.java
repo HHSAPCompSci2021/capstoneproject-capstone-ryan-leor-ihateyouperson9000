@@ -36,7 +36,6 @@ public class DcfCalculator {
 	 */
 	public DcfCalculator() {
 		api = new ApiConnector();
-		api.incrementKey();
 		
 		ticker = new Ticker();
 		

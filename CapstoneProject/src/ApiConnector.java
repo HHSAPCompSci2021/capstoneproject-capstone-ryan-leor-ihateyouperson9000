@@ -43,6 +43,7 @@ public class ApiConnector {
 	 * Configures the API
 	 */
 	public void configure() {
+		System.out.println(currentKey);
 		Config cfg = Config.builder()
 				.key(currentKey) 
 				.timeOut(10)
@@ -78,6 +79,7 @@ public class ApiConnector {
 			index++;
 		}
 		currentKey = keys[index];
+		configure();
 	}
 
 }

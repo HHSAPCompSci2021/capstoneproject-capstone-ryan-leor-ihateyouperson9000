@@ -69,10 +69,9 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface object
 	 */
 	public DrawingSurface() {
+		dcf = new DcfCalculator(); //dcf needs to be instantiated before chart
 		chart = new StockChart(150, 125, 600, 525);
 		// outerFrame = new Rectangle(150, 125, 600, 525);
-		dcf = new DcfCalculator();
-		dcf.getApi().configure();
 		pointOne = null;
 		pointTwo = null;
 		shapes = new ArrayList<Shape>();
@@ -120,7 +119,7 @@ public class DrawingSurface extends PApplet {
 	 * Executed repetitively until the program is stopped.
 	 */
 	public void draw() {
-		System.out.println(dcf.getApi().getIndex());
+//		System.out.println(dcf.getApi().getIndex());
 		
 		tickerBox.setPromptText("choose ticker");
 		timeBox.setPromptText("choose time");
