@@ -81,8 +81,8 @@ public class StockChart {
 	 */
 	private void handleFailure(AlphaVantageException error) {
 		System.out.println("CHART: " + error.toString());
-		api.incrementKey();
-		getData();
+//		api.incrementKey();
+//		getData();
 	}
 
 	/**
