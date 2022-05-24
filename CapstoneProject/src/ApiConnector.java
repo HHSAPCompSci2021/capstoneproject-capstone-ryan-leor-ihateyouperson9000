@@ -55,14 +55,12 @@ public class ApiConnector {
 	 * Configures the API
 	 */
 	public void configure() {
-		
-		Config cfg = Config.builder()
-				.key(inputKey) 
-//				.key("JS5JXJXL7BTRL3D6")
-				.timeOut(10)
-				.build();
-		alpha.init(cfg);
-		System.out.println("configured");
+			Config cfg = Config.builder()
+					.key("JS5JXJXL7BTRL3D6")
+					.timeOut(10)
+					.build();
+			alpha.init(cfg);
+			System.out.println("configured");
 	}
 
 	
