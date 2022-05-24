@@ -47,7 +47,6 @@ public class DrawingSurface extends PApplet {
 	private GTextArea tickerBox;
 	private GTextArea timeBox;
 	private ArrayList<GTextArea> valDisplays;
-	// private GTextField apiInstructions;
 	private GTextField tickerDisplay;
 	private GTextField tickerInstructions;
 	private GTextField timeInstructions;
@@ -97,7 +96,7 @@ public class DrawingSurface extends PApplet {
 		lineButton = new GImageButton(this, 0, (float)(125+131.25), 150, (float)(chart.getFrame().getHeight()/4.0), lineFiles);
 		pointerButton = new GImageButton(this, 0, (float)(125+(2.0*(chart.getFrame().getHeight()/4.0))), 150, (float)(chart.getFrame().getHeight()/4.0), cursorFiles);
 		rectangleButton = new GImageButton(this, 0, (float)(125+(3.0*(chart.getFrame().getHeight()/4.0))), 150, (float)(chart.getFrame().getHeight()/4.0), rectangleFiles);
-		calculateDCF = new GImageButton(this, 150, 0, 125, 125, dcfFiles);
+		calculateDCF = new GImageButton(this, 500, 20, 125, 105, dcfFiles);
 		
 		
 		valDisplays = new ArrayList<GTextArea>();
@@ -109,7 +108,6 @@ public class DrawingSurface extends PApplet {
 		timeInstructions = new GTextField(this, 75, 0, 75, 20);
 		tickerDisplay = new GTextField(this, 150, 125, 120, 20);
 		dcfCalculate = new GTextField(this, 500, 0, 250, 50);
-		// apiInstructions = new GTextField(this, 275, 0, 100, 20);
 	}
 	
 	/**
@@ -129,13 +127,11 @@ public class DrawingSurface extends PApplet {
 		textAlign(LEFT);
 		textSize(12);
 		stroke(255);
-		// tickerDisplay.setWrapWidth(tickerDisplay.getWrapWidth());
 		chart.drawFrame(this);
 		chart.drawGraph(this);
 		drawAxes();
 		
 		if (!tickerSet) {
-			// outerFrame.draw(this);
 			tickerDisplay.setText("CHOOSE TICKER");
 		} else {
 			tickerDisplay.setText(chart.getTicker() + " for " + chart.getTimeSpan() + " days");
@@ -187,18 +183,7 @@ public class DrawingSurface extends PApplet {
 			}
 			System.out.println("RECTACTIVE: " + rectActive);
 		}
-		}  /*else if (button.getX() == 150) { // CALCULATE DCF BUTTON
-			System.out.println("calculate dcf clicked");
-			
-			if (chart.getTicker() != null) {
-				dcf.getData();
-				System.out.println("DATA GOTTEN");
-			}
-			
-			
-		}
-		
-	}
+		}  
 	
 	/**
 	 * Called if a textbox is interacted with
@@ -213,20 +198,17 @@ public class DrawingSurface extends PApplet {
 				chart.setTimeSpan(input);
 				chart.update();
 			} catch (NumberFormatException e) {
-				chart.setTicker(textcontrol.getText());
-				tickerSet = true;
-				chart.getData();
-//				dcf.getData();
-				
-			} finally {
-				if (textcontrol.getPromptText().equals("set api key")) {
-					System.out.println("BEFORE: " + textcontrol.getText());
-					chart.getApi().setKey(textcontrol.getText());
-					System.out.println("AFTER: " + chart.getApi().getCurrentKey());
+				try {
+					chart.setTicker(textcontrol.getText());
+					tickerSet = true;
+					chart.getData();
+				} catch (AlphaVantageException f) {
+					System.out.println("NOT A VALID TICKER");
 				}
-			}
+			} 
 		}
 	}
+	
 	
 	/**
 	 * Called if the mouse is pressed
@@ -301,10 +283,9 @@ public class DrawingSurface extends PApplet {
 			}
 		}
 		
-		if (150 < mouseX && mouseX < 275 && 0 < mouseY && mouseY < 125) {
+		if (500 < mouseX && mouseX < 625 && 20 < mouseY && mouseY < 125) {
 			if (chart.getTicker() != null) {
 				dcf.getData();
-				System.out.println("DATA GOTTEN");
 			}
 		}
 	}
@@ -313,7 +294,7 @@ public class DrawingSurface extends PApplet {
 	 * Called if the mouse wheel is moved
 	 */
 	public void mouseWheel(MouseEvent event) {
-		if (50 < mouseX && mouseX < 650 && 50 < mouseY && mouseY < 525 && chart.getNumDataPoints() >= 1) {
+		if (50 < mouseX && mouseX < 750 && 50 < mouseY && mouseY < 650 && chart.getNumDataPoints() >= 1) {
 			float e = event.getCount();
 			int sizeAmount = (int)e;
 			chart.setNumDataPoints(chart.getNumDataPoints()+sizeAmount);
@@ -323,18 +304,17 @@ public class DrawingSurface extends PApplet {
 	}
 	
 	/**
-	 * Called if a key is pressed
+	 * Draws all shapes created through the buttons
 	 */
-	public void keyPressed() {
-		
-	}
-	
 	public void drawShapes() {
 		for (int i = 0; i < shapes.size(); i++) {
 			shapes.get(i).draw(this);
 		}
 	}
 	
+	/**
+	 * Draws the axes representing minimum and maximum values on the stockchart
+	 */
 	public void drawAxes() {
 		valDisplays.clear();
 		int yDiff = (int) (chart.getMaxYDrawn()-chart.getMinYDrawn());

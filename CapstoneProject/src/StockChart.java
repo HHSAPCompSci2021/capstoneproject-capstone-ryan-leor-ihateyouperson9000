@@ -23,11 +23,12 @@ public class StockChart {
 	private Rectangle frame;
 	private ArrayList<StockUnit> data;
 	private ArrayList<Line> lines;
+	private ApiConnector api;
 	private int numDataPoints;
 	private double minY, maxY;
 	private int timespan;
 	private double minYDrawn, maxYDrawn;
-	private ApiConnector api;
+	
 
 	/**
 	 * Creates a new StockChart
@@ -81,8 +82,6 @@ public class StockChart {
 	 */
 	private void handleFailure(AlphaVantageException error) {
 		System.out.println("CHART: " + error.toString());
-//		api.incrementKey();
-//		getData();
 	}
 
 	/**
@@ -119,7 +118,7 @@ public class StockChart {
 	}
 
 	/**
-	 * Finds and sets maximum and minimum y of the StockChart
+	 * Finds and sets maximum and minimum y values (closing prices) of the StockChart
 	 */
 	public void findMinMax() { 
 
@@ -138,6 +137,10 @@ public class StockChart {
 
 	}
 
+	/**
+	 * Draws the lines representing data on the StockChart
+	 * @param app the surface the lines are drawn on
+	 */
 	public void drawGraph(PApplet app) {
 		for (int i=0; i<lines.size(); i++) {
 			lines.get(i).setStrokeColors(255,255,255);
@@ -145,6 +148,10 @@ public class StockChart {
 		}
 	}
 
+	/**
+	 * Draws the rectangle surrounding the StockChart
+	 * @param app the PApplet the frame is drawn on
+	 */
 	public void drawFrame(PApplet app) {
 		app.stroke(0);
 		frame.draw(app);
@@ -195,19 +202,34 @@ public class StockChart {
 		}
 	}
 	
+	/**
+	 * Gets the maximum Y (closing price) value of the current set of data points
+	 * @return double containing the highest closing price for the set ticker & number of data points
+	 */
 	public double getMaxY() {
 		return maxY;
 	}
 	
+	/**
+	 * Gets the minimum Y (closing price) value of the current set of data points
+	 * @return double containing the lowest closing price for the set ticker & number of data points
+	 */
 	public double getMinY() {
 		return minY;
 	}
 	
-
+	/**
+	 * Gets the largest y coordinate a point on the StockChart is drawn at
+	 * @return double containing largest y coordinate a point on the StockChart is drawn at
+	 */
 	public double getMaxYDrawn() {
 		return maxYDrawn;
 	}
 	
+	/**
+	 * Gets the smallest y coordinate a point on the StockChart is drawn at
+	 * @return double containing smallest y coordinate a point on the StockChart is drawn at
+	 */
 	public double getMinYDrawn() {
 		return minYDrawn;
 	}
@@ -263,36 +285,19 @@ public class StockChart {
 		return frame;
 	}
 
+	/**
+	 * Returns the ArrayList of lines on the StockChart
+	 * @return ArrayList containing all lines drawn on the StockChart
+	 */
 	public ArrayList<Line> getLines() {
 		return lines;
 	}
 
+	/**
+	 * Returns the ApiConnector
+	 * @return api the ApiConnector being returned
+	 */
 	public ApiConnector getApi() {
 		return api;
 	}
-	
-	/*
-	public void drawAxes(PApplet p) {
-		double maxYDrawn = 0;
-		double minYDrawn = 0;
-		for (int i = 0; i < lines.size(); i++) {
-			if (data.get(i).getClose() == maxY) {
-				maxYDrawn = lines.get(numDataPoints-i).getY2();
-			}
-			if (data.get(i).getClose() == minY) {
-				minYDrawn = lines.get(numDataPoints-i).getY2();
-			}
-		}
-		double yDrawnDiff = maxYDrawn-minYDrawn;
-		double yDiff = maxY-minY;
-		double yIncrement = yDrawnDiff/5.0;
-		double valIncrement = yDiff/5.0;
-		for (int i = 0; i < 5; i++) {
-			p.text(maxY-(i*valIncrement)+"", 150, (float)(maxYDrawn-(i*yIncrement)));
-			System.out.println((float)(maxYDrawn-(i*yIncrement)));
-		//	System.out.println(maxY-(i*valIncrement)+": " + i);
-		}
-		
-	}
-	*/
 }
