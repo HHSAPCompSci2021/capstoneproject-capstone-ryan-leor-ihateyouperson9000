@@ -2,7 +2,7 @@
  * Represents a PApplet that draws the stock chart and UI
  * 
  * Author: Leor Porat, Ryan Xu
- * Version: 5/22/22
+ * Version: 5/24/22
  */
 import java.awt.Point; 
 import java.util.ArrayList;

@@ -1,3 +1,9 @@
+/**
+ * Represents the ticker symbol of a stock
+ * 
+ * Author: Ryan Xu
+ * Revision: 5/24/22
+ */
 import java.util.ArrayList;
 
 import com.crazzyghost.alphavantage.AlphaVantage;
@@ -12,12 +18,16 @@ public class Ticker {
 	public static String ticker;
 	
 	/**
-	 * Creates a blank ticker
+	 * Creates a ticker
 	 */
 	public Ticker() {
 		
 	}
 	
+	/**
+	 * Creates a ticker with given string
+	 * @param s given string
+	 */
 	public Ticker(String s) {
 		ticker = s;
 	}

@@ -2,7 +2,7 @@
  * Represents a calculator implementing discounted cash flow analysis based on the past 1 year to give a fair share value
  * 
  * Author: Ryan Xu
- * Version: 5/5/22
+ * Version: 5/24/22
  */
 import java.util.ArrayList; 
 
@@ -42,6 +42,10 @@ public class DcfCalculator {
 		discountRate = 0.1; 
 	}
 	
+	/**
+	 * Returns the ApiConnector object
+	 * @return api 
+	 */
 	public ApiConnector getApi() {
 		return api;
 	}

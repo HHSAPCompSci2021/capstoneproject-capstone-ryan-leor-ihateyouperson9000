@@ -1,5 +1,5 @@
 /**
- * Represents a stock visualizer that includes a chart, UI, various tools, and a DCF calculator
+ * Represents a stock visualizer that includes a chart, UI, various tools, and a DCF calculator 
  * 
  * Author: Ryan Xu
  * Version: 5/5/22
@@ -16,7 +16,6 @@ import processing.core.PApplet;
 
 
 public class StockVisualizer {
-//	com.crazzyghost.alphavantage
 	public static void main(String[] args) {
 	// TODO Auto-generated method stub
 		DrawingSurface drawing = new DrawingSurface();
