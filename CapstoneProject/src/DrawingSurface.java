@@ -318,7 +318,7 @@ public class DrawingSurface extends PApplet {
 	
 	public void drawAxes() {
 		valDisplays.clear();
-		int yDiff = chart.getMaxYDrawn()-chart.getMinYDrawn();
+		int yDiff = (int) (chart.getMaxYDrawn()-chart.getMinYDrawn());
 		int yValDiff = (int)(chart.getMaxY()-chart.getMinY());
 		double valIncrement = yValDiff/5.0;
 		double increment = yDiff/4.0;

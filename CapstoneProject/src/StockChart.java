@@ -26,7 +26,7 @@ public class StockChart {
 	private int numDataPoints;
 	private double minY, maxY;
 	private int timespan;
-	private int minYDrawn, maxYDrawn;
+	private double minYDrawn, maxYDrawn;
 	private ApiConnector api;
 
 	/**
@@ -207,11 +207,12 @@ public class StockChart {
 		return minY;
 	}
 	
-	public int getMaxYDrawn() {
+
+	public double getMaxYDrawn() {
 		return maxYDrawn;
 	}
 	
-	public int getMinYDrawn() {
+	public double getMinYDrawn() {
 		return minYDrawn;
 	}
 
