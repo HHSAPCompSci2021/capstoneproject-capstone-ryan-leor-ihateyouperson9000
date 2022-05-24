@@ -1,5 +1,5 @@
 /**
- * Represents a stock visualizer that includes a chart, UI, various tools, and a DCF calculator
+ * Represents a stock visualizer that includes a chart, UI, various tools, and a DCF calculator 
  * 
  * Author: Ryan Xu
  * Version: 5/5/22
