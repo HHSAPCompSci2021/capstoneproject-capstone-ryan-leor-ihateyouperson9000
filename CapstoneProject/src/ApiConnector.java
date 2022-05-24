@@ -13,8 +13,10 @@ public class ApiConnector {
 	private static String[] keys;
 	private static String currentKey;
 	private static int index;
+	private static AlphaVantage alpha;
 
 	public ApiConnector() {
+		alpha = AlphaVantage.api();
 		try {
 			extractKeys();
 		} catch (IOException e) {
@@ -48,7 +50,7 @@ public class ApiConnector {
 				.key(currentKey) 
 				.timeOut(10)
 				.build();
-		AlphaVantage.api().init(cfg);
+		alpha.init(cfg);
 	}
 
 	private void extractKeys() throws IOException {
