@@ -47,7 +47,7 @@ public class ApiConnector {
 		return index;
 	}
 	
-	public String printKeys() {
+	public String getKeys() {
 		String s = "";
 		for(int i=0; i<keys.length; i++) {
 			s += keys[i] + ", ";
@@ -61,17 +61,10 @@ public class ApiConnector {
 
 	public void setKey(String s) {
 		inputKey = s;
-		// configure();
 	}
 
 	
 	private void extractKeys() throws IOException {
-		//		Path path = Paths.get("keys.txt");
-		//		try {
-		//			docInfo += Files.readString(path, StandardCharsets.ISO_8859_1);
-		//		} catch (IOException e) {
-		//			System.out.println(DOC_NAME + " not found");
-		//		}
 		List<String[]> keylist = new ArrayList<>();
 		try(BufferedReader br = new BufferedReader(new FileReader("keys.txt"))) {
 			String line = "";

@@ -109,16 +109,12 @@ public class DrawingSurface extends PApplet {
 		timeInstructions = new GTextField(this, 75, 0, 75, 20);
 		tickerDisplay = new GTextField(this, 150, 125, 120, 20);
 		dcfCalculate = new GTextField(this, 500, 0, 250, 50);
-		// apiInstructions = new GTextField(this, 275, 0, 100, 20);
 	}
 	
 	/**
 	 * Executed repetitively until the program is stopped.
 	 */
 	public void draw() {
-//		System.out.println(dcf.getApi().getIndex());
-		
-		// apiInstructions.setPromptText("set api key");
 		tickerBox.setPromptText("choose ticker");
 		timeBox.setPromptText("choose time");
 		tickerInstructions.setText("Set ticker");
@@ -129,21 +125,17 @@ public class DrawingSurface extends PApplet {
 		textAlign(LEFT);
 		textSize(12);
 		stroke(255);
-		// tickerDisplay.setWrapWidth(tickerDisplay.getWrapWidth());
 		chart.drawFrame(this);
 		chart.drawGraph(this);
 		drawAxes();
 		
 		if (!tickerSet) {
-			// outerFrame.draw(this);
 			tickerDisplay.setText("CHOOSE TICKER");
 		} else {
 			tickerDisplay.setText(chart.getTicker() + " for " + chart.getTimeSpan() + " days");
 			dcfCalculate.setPromptText("Estimated Share Price: " + String.format("%.2f", dcf.calcEstSharePrice()));
 		}
 		drawShapes();
-		
-
 		
 	}
 
@@ -186,15 +178,6 @@ public class DrawingSurface extends PApplet {
 				rectActive = false;
 			}
 			System.out.println("RECTACTIVE: " + rectActive);
-		}
-		}  /*else if (button.getX() == 150) { // CALCULATE DCF BUTTON
-			System.out.println("calculate dcf clicked");
-			
-			if (chart.getTicker() != null) {
-				dcf.getData();
-				System.out.println("DATA GOTTEN");
-			}
-			
 			
 		}
 		
@@ -209,14 +192,13 @@ public class DrawingSurface extends PApplet {
 		if (event == GEvent.ENTERED) {
 			try {
 				int input = Integer.parseInt(textcontrol.getText());
-				System.out.println(input);
+//				System.out.println(input);
 				chart.setTimeSpan(input);
 				chart.update();
 			} catch (NumberFormatException e) {
 				chart.setTicker(textcontrol.getText());
 				tickerSet = true;
 				chart.getData();
-//				dcf.getData();
 				
 			} finally {
 				if (textcontrol.getPromptText().equals("set api key")) {
@@ -320,13 +302,6 @@ public class DrawingSurface extends PApplet {
 			chart.setTimeSpan(chart.getTimeSpan()+sizeAmount);
 			chart.update();
 		}
-	}
-	
-	/**
-	 * Called if a key is pressed
-	 */
-	public void keyPressed() {
-		
 	}
 	
 	public void drawShapes() {
