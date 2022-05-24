@@ -49,6 +49,7 @@ public class StockChart {
 	 * Gets data from the API based on which Ticker is selected
 	 */
 	public void getData() {
+		System.out.println("getData()");
 			api.getAlpha()
 			    .timeSeries()
 			    .daily()
