@@ -332,6 +332,7 @@ public class DrawingSurface extends PApplet {
 			// System.out.println(chart.getMaxYDrawn()-(i*increment) + ": " + i);
 			l.setStrokeColors(255, 255, 255);
 			//l2.setStrokeColors(255, 255, 255);
+			l.setStrokeColors(100, 100, 100);
 			l.draw(this);
 			//l2.draw(this);
 		}
