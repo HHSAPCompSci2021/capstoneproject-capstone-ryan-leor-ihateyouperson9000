@@ -316,15 +316,15 @@ public class DrawingSurface extends PApplet {
 	}
 	
 	public void drawAxes() {
-		int yDiff = chart.getMaxYDrawn()-chart.getMinYDrawn();
+		double yDiff = chart.getMaxYDrawn()-chart.getMinYDrawn();
 		double increment = yDiff/5.0;
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 3; i++) {
 			Line l = new Line(150, chart.getMinYDrawn()+(i*increment), 750, chart.getMinYDrawn()+(i*increment));
-			// System.out.println(chart.getMaxYDrawn());
-//			System.out.println(chart.getMaxYDrawn());
-			// System.out.println(chart.getMaxYDrawn()-(i*increment) + ": " + i);
-			l.setStrokeColors(255, 255, 255);
+			Line l2 = new Line(150, chart.getMaxYDrawn()-(i*increment), 750, chart.getMaxYDrawn()-(i*increment));
+			l.setStrokeColors(211, 211, 211);
+			l2.setStrokeColors(211, 211, 211);
 			l.draw(this);
+			l2.draw(this);
 		}
 	}
 }

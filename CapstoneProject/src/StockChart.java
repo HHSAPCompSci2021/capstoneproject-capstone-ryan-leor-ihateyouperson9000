@@ -26,7 +26,7 @@ public class StockChart {
 	private int numDataPoints;
 	private double minY, maxY;
 	private int timespan;
-	private int minYDrawn, maxYDrawn;
+	private double minYDrawn, maxYDrawn;
 	private ApiConnector api;
 
 	/**
@@ -89,7 +89,7 @@ public class StockChart {
 	 */
 	public void update() {
 		maxYDrawn = 0;
-		minYDrawn = (int)(data.get(0).getClose());
+		minYDrawn = frame.getHeight()-(data.get(0).getClose()-minY)/(maxY-minY)*300;
 		lines.clear();
 
 		findMinMax();
@@ -194,11 +194,11 @@ public class StockChart {
 		}
 	}
 	
-	public int getMaxYDrawn() {
+	public double getMaxYDrawn() {
 		return maxYDrawn;
 	}
 	
-	public int getMinYDrawn() {
+	public double getMinYDrawn() {
 		return minYDrawn;
 	}
 
