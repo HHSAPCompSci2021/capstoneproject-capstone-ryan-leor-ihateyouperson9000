@@ -47,7 +47,7 @@ public class ApiConnector {
 	}
 
 	public void setKey(String s) {
-		key = s;
+		inputKey = s;
 		configure();
 	}
 	
