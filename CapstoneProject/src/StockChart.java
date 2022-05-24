@@ -90,7 +90,7 @@ public class StockChart {
 	 */
 	public void update() {
 		maxYDrawn = 0;
-		minYDrawn = (int)(data.get(0).getClose());
+		minYDrawn = 100000;
 		lines.clear();
 
 		findMinMax();
@@ -104,9 +104,11 @@ public class StockChart {
 				double y2 = frame.getHeight()-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
 				if (y2 < minYDrawn) {
 					minYDrawn = (int)y2;
+					System.out.println("MIN Y SET!");
 				}
 				if (y2 > maxYDrawn) {
 					maxYDrawn = (int)y2;
+					// System.out.println("MAX Y SET!");
 				}
 				Line l = new Line(x1, y1, x2, y2);
 				lines.add(l);

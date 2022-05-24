@@ -45,6 +45,7 @@ public class DrawingSurface extends PApplet {
 	private GImageButton rectangleButton;
 	private GTextArea tickerBox;
 	private GTextArea timeBox;
+	private ArrayList<GTextArea> valDisplays;
 	private GTextField tickerDisplay;
 	private GTextField tickerInstructions;
 	private GTextField timeInstructions;
@@ -105,7 +106,7 @@ public class DrawingSurface extends PApplet {
 		rectangleButton = new GImageButton(this, 0, (float)(125+(3.0*(chart.getFrame().getHeight()/4.0))), 150, (float)(chart.getFrame().getHeight()/4.0), rectangleFiles);
 		
 		
-		
+		valDisplays = new ArrayList<GTextArea>();
 		tickerBox = new GTextArea(this, 0, 20, 75, 105);
 		timeBox = new GTextArea(this, 75, 20, 75, 105);
 		clickToDateVals = new GTextField(this, 150, 0, 350, 125);
@@ -316,11 +317,15 @@ public class DrawingSurface extends PApplet {
 	}
 	
 	public void drawAxes() {
+		valDisplays.clear();
 		int yDiff = chart.getMaxYDrawn()-chart.getMinYDrawn();
-
+		int yValDiff = (int)(chart.getMaxY()-chart.getMinY());
+		double valIncrement = yValDiff/5.0;
 		double increment = yDiff/5.0;
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 5; i++) {
 			Line l = new Line(150, chart.getMinYDrawn()+(i*increment), 750, chart.getMinYDrawn()+(i*increment));
+
+			// valDisplays.add(new GTextArea(this, 150, (int)(chart.getMinYDrawn()+(i*increment)), 50, 20));
 			// System.out.println(chart.getMaxYDrawn());
 //			System.out.println(chart.getMaxYDrawn());
 			// System.out.println(chart.getMaxYDrawn()-(i*increment) + ": " + i);
