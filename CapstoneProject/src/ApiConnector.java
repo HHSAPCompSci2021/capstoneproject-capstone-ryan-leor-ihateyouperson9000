@@ -11,7 +11,8 @@ import com.crazzyghost.alphavantage.Config;
 public class ApiConnector {
 
 	private static String[] keys;
-	private static String key;
+	private static String key = "";
+	private static String inputKey = "";
 	private static int index;
 	private static AlphaVantage alpha;
 	
@@ -56,14 +57,15 @@ public class ApiConnector {
 	public void configure() {
 		
 		Config cfg = Config.builder()
-//				.key(key) 
-				.key("FBVR2OER1R5D5NHF")
+				.key(inputKey) 
+//				.key("JS5JXJXL7BTRL3D6")
 				.timeOut(10)
 				.build();
 		alpha.init(cfg);
 		System.out.println("configured");
 	}
 
+	
 	private void extractKeys() throws IOException {
 		//		Path path = Paths.get("keys.txt");
 		//		try {
@@ -83,6 +85,7 @@ public class ApiConnector {
 			keys = keylist.get(0);
 		}
 	}
+	
 	
 	public void incrementKey() {
 		if (index == keys.length-1) {

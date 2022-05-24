@@ -47,6 +47,7 @@ public class DrawingSurface extends PApplet {
 	private GTextArea tickerBox;
 	private GTextArea timeBox;
 	private ArrayList<GTextArea> valDisplays;
+	private GTextField apiInstructions;
 	private GTextField tickerDisplay;
 	private GTextField tickerInstructions;
 	private GTextField timeInstructions;
@@ -113,11 +114,13 @@ public class DrawingSurface extends PApplet {
 		valDisplays = new ArrayList<GTextArea>();
 		tickerBox = new GTextArea(this, 0, 20, 75, 105);
 		timeBox = new GTextArea(this, 75, 20, 75, 105);
+		
 		clickToDateVals = new GTextField(this, 150, 0, 350, 125);
 		tickerInstructions = new GTextField(this, 0, 0, 75, 20);
 		timeInstructions = new GTextField(this, 75, 0, 75, 20);
 		tickerDisplay = new GTextField(this, 150, 125, 120, 20);
 		dcfCalculate = new GTextField(this, 500, 0, 250, 50);
+		apiInstructions = new GTextField(this, 275, 0, 100, 20);
 	}
 	
 	/**
@@ -126,6 +129,7 @@ public class DrawingSurface extends PApplet {
 	public void draw() {
 //		System.out.println(dcf.getApi().getIndex());
 		
+		apiInstructions.setPromptText("set api key");
 		tickerBox.setPromptText("choose ticker");
 		timeBox.setPromptText("choose time");
 		tickerInstructions.setText("Set ticker");
@@ -193,7 +197,8 @@ public class DrawingSurface extends PApplet {
 				rectActive = false;
 			}
 			System.out.println("RECTACTIVE: " + rectActive);
-		} else if (button.getX() == 150) { // CALCULATE DCF BUTTON
+		}
+		}  /*else if (button.getX() == 150) { // CALCULATE DCF BUTTON
 			System.out.println("calculate dcf clicked");
 			
 			if (chart.getTicker() != null) {
@@ -203,6 +208,7 @@ public class DrawingSurface extends PApplet {
 			
 			
 		}
+		
 	}
 	
 	/**
@@ -224,7 +230,11 @@ public class DrawingSurface extends PApplet {
 //				dcf.getData();
 				
 			} finally {
-				// textcontrol.
+				if (textcontrol.getPromptText().equals("set api key")) {
+					System.out.println("BEFORE: " + textcontrol.getText());
+					chart.getApi().setKey(textcontrol.getText());
+					System.out.println("AFTER: " + chart.getApi().getCurrentKey());
+				}
 			}
 		}
 	}
@@ -299,6 +309,13 @@ public class DrawingSurface extends PApplet {
 				pointCount = 0;
 				pointOne = null;
 				pointTwo = null;
+			}
+		}
+		
+		if (150 < mouseX && mouseX < 275 && 0 < mouseY && mouseY < 125) {
+			if (chart.getTicker() != null) {
+				dcf.getData();
+				System.out.println("DATA GOTTEN");
 			}
 		}
 	}
