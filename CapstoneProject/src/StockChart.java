@@ -49,7 +49,7 @@ public class StockChart {
 	 * Gets data from the API based on which Ticker is selected
 	 */
 	public void getData() {
-			 AlphaVantage.api()
+			api.getAlpha()
 			    .timeSeries()
 			    .daily()
 			    .forSymbol(ticker.getTicker())

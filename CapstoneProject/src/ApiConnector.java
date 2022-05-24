@@ -41,6 +41,10 @@ public class ApiConnector {
 		return s;
 	}
 	
+	public AlphaVantage getAlpha() {
+		return alpha;
+	}
+	
 	/**
 	 * Configures the API
 	 */
@@ -51,6 +55,7 @@ public class ApiConnector {
 				.timeOut(10)
 				.build();
 		alpha.init(cfg);
+		System.out.println("configured");
 	}
 
 	private void extractKeys() throws IOException {
