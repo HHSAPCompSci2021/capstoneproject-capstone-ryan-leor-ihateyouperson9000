@@ -44,6 +44,7 @@ public class StockChart {
 		lines = new ArrayList<Line>();
 		numDataPoints = 261; //default 1 yr timespan
 		minYDrawn = 0;
+		maxYDrawn = 0;
 		
 		frame = new Rectangle(x, y, width, height); //50 50 600 525
 		timespan = 365;
@@ -112,6 +113,8 @@ public class StockChart {
 			}
 
 		}
+		
+		System.out.println("MAX Y IN UPDATE: " + maxYDrawn);
 		
 		// drawAxes();
 
@@ -192,6 +195,14 @@ public class StockChart {
 			timespan = n;
 			numDataPoints = (int)((double)n /365.0*261.0);
 		}
+	}
+	
+	public double getMaxY() {
+		return maxY;
+	}
+	
+	public double getMinY() {
+		return minY;
 	}
 	
 	public int getMaxYDrawn() {
