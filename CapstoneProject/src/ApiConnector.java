@@ -25,6 +25,19 @@ public class ApiConnector {
 		}
 		index = -1;
 	}
+	
+	/**
+	 * Configures the API
+	 */
+	public void configure() {
+		
+		Config cfg = Config.builder()
+				.key("PASTE_KEY_HERE")  //PASTE YOUR KEY HERE
+				.timeOut(10)
+				.build();
+		alpha.init(cfg);
+		System.out.println("configured");
+	}
 
 	public String getCurrentKey() {
 		return key;
@@ -48,21 +61,6 @@ public class ApiConnector {
 
 	public void setKey(String s) {
 		inputKey = s;
-		configure();
-	}
-	
-	/**
-	 * Configures the API
-	 */
-	public void configure() {
-		
-		Config cfg = Config.builder()
-				.key(inputKey) 
-//				.key("JS5JXJXL7BTRL3D6")
-				.timeOut(10)
-				.build();
-		alpha.init(cfg);
-		System.out.println("configured");
 	}
 
 	
