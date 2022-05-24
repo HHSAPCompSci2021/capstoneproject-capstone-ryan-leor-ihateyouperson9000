@@ -26,6 +26,7 @@ public class StockChart {
 	private int numDataPoints;
 	private double minY, maxY;
 	private int timespan;
+	private int minYDrawn, maxYDrawn;
 	private ApiConnector api;
 
 	/**
@@ -42,6 +43,8 @@ public class StockChart {
 		ticker = new Ticker();
 		lines = new ArrayList<Line>();
 		numDataPoints = 261; //default 1 yr timespan
+		minYDrawn = 0;
+		
 		frame = new Rectangle(x, y, width, height); //50 50 600 525
 		timespan = 365;
 	}
@@ -85,6 +88,8 @@ public class StockChart {
 	 * Draws the StockChart based on the current ticker and numDataPoints
 	 */
 	public void update() {
+		maxYDrawn = 0;
+		minYDrawn = (int)(data.get(0).getClose());
 		lines.clear();
 
 		findMinMax();
@@ -96,6 +101,12 @@ public class StockChart {
 				double y1 = frame.getHeight()-(data.get(e).getClose()-minY)/(maxY-minY)*300;
 				double x2 = 750-(double)e*(frame.getWidth()/numDataPoints)+(frame.getWidth()/numDataPoints);
 				double y2 = frame.getHeight()-(data.get(e-1).getClose()-minY)/(maxY-minY)*300;				
+				if (y2 < minYDrawn) {
+					minYDrawn = (int)y2;
+				}
+				if (y2 > maxYDrawn) {
+					maxYDrawn = (int)y2;
+				}
 				Line l = new Line(x1, y1, x2, y2);
 				lines.add(l);
 			}
@@ -182,6 +193,14 @@ public class StockChart {
 			numDataPoints = (int)((double)n /365.0*261.0);
 		}
 	}
+	
+	public int getMaxYDrawn() {
+		return maxYDrawn;
+	}
+	
+	public int getMinYDrawn() {
+		return minYDrawn;
+	}
 
 	/**
 	 * Sets the Ticker to extract data from
@@ -242,6 +261,7 @@ public class StockChart {
 		return api;
 	}
 	
+	/*
 	public void drawAxes(PApplet p) {
 		double maxYDrawn = 0;
 		double minYDrawn = 0;
@@ -264,4 +284,5 @@ public class StockChart {
 		}
 		
 	}
+	*/
 }
