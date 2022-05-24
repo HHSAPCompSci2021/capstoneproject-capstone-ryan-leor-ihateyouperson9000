@@ -107,15 +107,12 @@ public class StockChart {
 				}
 				if (y2 > maxYDrawn) {
 					maxYDrawn = (int)y2;
-					// System.out.println("MAX Y SET!");
 				}
 				Line l = new Line(x1, y1, x2, y2);
 				lines.add(l);
 			}
 
 		}
-		
-		System.out.println("MAX Y IN UPDATE: " + maxYDrawn);
 		
 		// drawAxes();
 

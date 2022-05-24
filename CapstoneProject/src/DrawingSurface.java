@@ -43,6 +43,7 @@ public class DrawingSurface extends PApplet {
 	private GImageButton lineButton;
 	private GImageButton pointerButton;
 	private GImageButton rectangleButton;
+	private GImageButton calculateDCF;
 	private GTextArea tickerBox;
 	private GTextArea timeBox;
 	private ArrayList<GTextArea> valDisplays;
@@ -55,6 +56,7 @@ public class DrawingSurface extends PApplet {
 	private String[] lineFiles;
 	private String[] cursorFiles;
 	private String[] rectangleFiles;
+	private String[] dcfFiles;
 	private StockChart chart;
 	private Point pointOne, pointTwo;
 	private Rectangle outerFrame;
@@ -100,10 +102,12 @@ public class DrawingSurface extends PApplet {
 		lineFiles = new String[]{"line.png", "line_HOVER.png"};
 		cursorFiles = new String[]{"cursor.png", "cursor_HOVER.png"};
 		rectangleFiles = new String[]{"rectangle.png", "rectangle_HOVER.png"};
+		dcfFiles = new String[] {"calculateDCF.png"};
 		eraserButton = new GImageButton(this, 0, 125, 150, (float)(chart.getFrame().getHeight()/4.0), eraserFiles);
 		lineButton = new GImageButton(this, 0, (float)(125+131.25), 150, (float)(chart.getFrame().getHeight()/4.0), lineFiles);
 		pointerButton = new GImageButton(this, 0, (float)(125+(2.0*(chart.getFrame().getHeight()/4.0))), 150, (float)(chart.getFrame().getHeight()/4.0), cursorFiles);
 		rectangleButton = new GImageButton(this, 0, (float)(125+(3.0*(chart.getFrame().getHeight()/4.0))), 150, (float)(chart.getFrame().getHeight()/4.0), rectangleFiles);
+		calculateDCF = new GImageButton(this, 150, 0, 125, 125, dcfFiles);
 		
 		
 		valDisplays = new ArrayList<GTextArea>();
@@ -189,6 +193,15 @@ public class DrawingSurface extends PApplet {
 				rectActive = false;
 			}
 			System.out.println("RECTACTIVE: " + rectActive);
+		} else if (button.getX() == 150) { // CALCULATE DCF BUTTON
+			System.out.println("calculate dcf clicked");
+			
+			if (chart.getTicker() != null) {
+				dcf.getData();
+				System.out.println("DATA GOTTEN");
+			}
+			
+			
 		}
 	}
 	
