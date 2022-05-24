@@ -1,5 +1,8 @@
 /**
  * Connects the project to the AlphaVantage API
+ * 
+ * Author: Ryan Xu
+ * Revision: 5/24/22
  */
 
 import java.io.BufferedReader;
