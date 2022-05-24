@@ -1,8 +1,8 @@
 /**
  * Represents a stock visualizer that includes a chart, UI, various tools, and a DCF calculator 
  * 
- * Author: Ryan Xu
- * Version: 5/5/22
+ * @author: Ryan Xu
+ * @version: 5/5/22
  */
 
 import java.awt.Dimension;  

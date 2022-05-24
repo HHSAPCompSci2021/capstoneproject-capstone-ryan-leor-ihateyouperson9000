@@ -2,8 +2,8 @@ package shapes;
 /**
  * Rectangle is a shape that is formed from all points that are a width and or height away from a set of coordinates
  * 
- * @author: Ryan Xu
- * @version: 10/8/21
+ * @author: Ryan Xu, Leor Porat
+ * @version: 5/24/2022
  */
 
 import processing.core.PApplet;

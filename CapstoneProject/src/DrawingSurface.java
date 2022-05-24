@@ -1,8 +1,8 @@
 /**
  * Represents a PApplet that draws the stock chart and UI
  * 
- * Author: Leor Porat, Ryan Xu
- * Version: 5/24/22
+ * @author: Leor Porat, Ryan Xu
+ * @version: 5/24/22
  */
 import java.awt.Point; 
 import java.util.ArrayList;
@@ -30,13 +30,6 @@ import shapes.Line;
 import shapes.Rectangle;
 import shapes.Shape;
 
-
-
-/**
- * Represents the surface that the Program is run on
- * @author Leor Porat, Ryan Xu
- *
- */
 public class DrawingSurface extends PApplet {
 	private DcfCalculator dcf;
 	private GImageButton eraserButton;

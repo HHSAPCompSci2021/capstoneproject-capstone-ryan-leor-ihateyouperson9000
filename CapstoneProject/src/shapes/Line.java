@@ -1,7 +1,10 @@
 package shapes;
 
-
-
+/**
+ * Represents a 2D line that has 2 points
+ * @author: Ryan Xu, Leor Porat
+ * @version: 5/24/22
+ */
 import processing.core.PApplet;
 
 public class Line extends Shape {

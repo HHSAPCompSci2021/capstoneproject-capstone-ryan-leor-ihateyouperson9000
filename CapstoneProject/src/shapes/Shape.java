@@ -230,6 +230,11 @@ public abstract class Shape {
 	 */
 	public abstract boolean isPointInside(double x, double y);
 	
+	/**
+	 * Move the shape to the inputted location
+	 * @param x the x to move the shape to
+	 * @param y the y to move the shape to
+	 */
 	public void move(double x, double y) {
 		this.x = x;
 		this.y = y;

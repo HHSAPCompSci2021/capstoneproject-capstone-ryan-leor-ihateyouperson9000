@@ -1,8 +1,8 @@
 /**
  * Represents the ticker symbol of a stock
  * 
- * Author: Ryan Xu
- * Revision: 5/24/22
+ * @author: Ryan Xu
+ * @version: 5/24/22
  */
 import java.util.ArrayList;
 
