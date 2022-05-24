@@ -101,6 +101,8 @@ public class StockChart {
 			
 		}
 		
+		// drawAxes();
+		
 	}
 	
 	/**
@@ -237,5 +239,29 @@ public class StockChart {
 	
 	public ApiConnector getApi() {
 		return api;
+	}
+	
+	public void drawAxes(PApplet p) {
+		double maxYDrawn = 0;
+		double minYDrawn = 0;
+		for (int i = 0; i < lines.size(); i++) {
+			if (data.get(i).getClose() == maxY) {
+				maxYDrawn = lines.get(numDataPoints-i).getY2();
+			}
+		}
+		for (int i = 0; i < lines.size(); i++) {
+			if (data.get(i).getClose() == minY) {
+				minYDrawn = lines.get(numDataPoints-i).getY2();
+			}
+		}
+		double yDrawnDiff = maxYDrawn-minYDrawn;
+		double yDiff = maxY-minY;
+		double yIncrement = yDrawnDiff/5.0;
+		double valIncrement = yDiff/5.0;
+		for (int i = 0; i < 5; i++) {
+			p.text(maxY-(i*valIncrement)+"", 150, (float)(maxYDrawn-(i*yIncrement)));
+			System.out.println(maxY-(i*valIncrement)+"");
+		}
+		
 	}
 }

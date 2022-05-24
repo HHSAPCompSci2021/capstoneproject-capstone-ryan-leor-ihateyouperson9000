@@ -134,6 +134,7 @@ public class DrawingSurface extends PApplet {
 		// tickerDisplay.setWrapWidth(tickerDisplay.getWrapWidth());
 		chart.drawFrame(this);
 		chart.drawGraph(this);
+		chart.drawAxes(this);
 		
 		if (!tickerSet) {
 			// outerFrame.draw(this);
@@ -143,6 +144,7 @@ public class DrawingSurface extends PApplet {
 			dcfCalculate.setPromptText("Estimated Share Price: " + String.format("%.2f", dcf.calcEstSharePrice()));
 		}
 		drawShapes();
+		
 
 		
 	}
