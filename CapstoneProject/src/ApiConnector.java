@@ -54,8 +54,10 @@ public class ApiConnector {
 	 * Configures the API
 	 */
 	public void configure() {
+		
 		Config cfg = Config.builder()
-				.key(key) 
+//				.key(key) 
+				.key("K3GVRKJIDYNUZPZM")
 				.timeOut(10)
 				.build();
 		alpha.init(cfg);
