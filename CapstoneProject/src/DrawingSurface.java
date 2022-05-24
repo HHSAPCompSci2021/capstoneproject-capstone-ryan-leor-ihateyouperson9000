@@ -321,8 +321,8 @@ public class DrawingSurface extends PApplet {
 		for (int i = 0; i < 3; i++) {
 			Line l = new Line(150, chart.getMinYDrawn()+(i*increment), 750, chart.getMinYDrawn()+(i*increment));
 			Line l2 = new Line(150, chart.getMaxYDrawn()-(i*increment), 750, chart.getMaxYDrawn()-(i*increment));
-			l.setStrokeColors(211, 211, 211);
-			l2.setStrokeColors(211, 211, 211);
+			l.setStrokeColors(100, 100, 100);
+			l2.setStrokeColors(100, 100, 100);
 			l.draw(this);
 			l2.draw(this);
 		}
