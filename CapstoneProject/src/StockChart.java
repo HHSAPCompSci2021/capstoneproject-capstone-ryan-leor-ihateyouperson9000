@@ -248,8 +248,6 @@ public class StockChart {
 			if (data.get(i).getClose() == maxY) {
 				maxYDrawn = lines.get(numDataPoints-i).getY2();
 			}
-		}
-		for (int i = 0; i < lines.size(); i++) {
 			if (data.get(i).getClose() == minY) {
 				minYDrawn = lines.get(numDataPoints-i).getY2();
 			}
@@ -260,7 +258,8 @@ public class StockChart {
 		double valIncrement = yDiff/5.0;
 		for (int i = 0; i < 5; i++) {
 			p.text(maxY-(i*valIncrement)+"", 150, (float)(maxYDrawn-(i*yIncrement)));
-			System.out.println(maxY-(i*valIncrement)+"");
+			System.out.println((float)(maxYDrawn-(i*yIncrement)));
+		//	System.out.println(maxY-(i*valIncrement)+": " + i);
 		}
 		
 	}
